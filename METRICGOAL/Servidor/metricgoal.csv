@@ -1,0 +1,964 @@
+﻿id_club;nombre;tabla_origen;id_equipo;categoria;id_cuerpo_tecnico;apellidos;email;contrasenia
+1.0;MetricGoal F.C.;CLUB;;;;;;
+2.0;Alaves;CLUB;;;;;;
+3.0;Almeria;CLUB;;;;;;
+4.0;Athletic Club;CLUB;;;;;;
+5.0;Atletico Madrid;CLUB;;;;;;
+6.0;Barcelona;CLUB;;;;;;
+7.0;Cadiz;CLUB;;;;;;
+8.0;Celta Vigo;CLUB;;;;;;
+9.0;Getafe;CLUB;;;;;;
+10.0;Girona;CLUB;;;;;;
+11.0;Granada;CLUB;;;;;;
+12.0;Las Palmas;CLUB;;;;;;
+13.0;Mallorca;CLUB;;;;;;
+14.0;Osasuna;CLUB;;;;;;
+15.0;Rayo Vallecano;CLUB;;;;;;
+16.0;Real Betis;CLUB;;;;;;
+17.0;Real Madrid;CLUB;;;;;;
+18.0;Real Sociedad;CLUB;;;;;;
+19.0;Sevilla;CLUB;;;;;;
+20.0;Valencia;CLUB;;;;;;
+21.0;Villarreal;CLUB;;;;;;
+22.0;Arsenal;CLUB;;;;;;
+23.0;Aston Villa;CLUB;;;;;;
+24.0;Bournemouth;CLUB;;;;;;
+25.0;Brentford;CLUB;;;;;;
+26.0;Brighton;CLUB;;;;;;
+27.0;Burnley;CLUB;;;;;;
+28.0;Chelsea;CLUB;;;;;;
+29.0;Crystal Palace;CLUB;;;;;;
+30.0;Everton;CLUB;;;;;;
+31.0;Fulham;CLUB;;;;;;
+32.0;Liverpool;CLUB;;;;;;
+33.0;Luton;CLUB;;;;;;
+34.0;Manchester City;CLUB;;;;;;
+35.0;Manchester United;CLUB;;;;;;
+36.0;Newcastle United;CLUB;;;;;;
+37.0;Nottingham Forest;CLUB;;;;;;
+38.0;Sheffield United;CLUB;;;;;;
+39.0;Tottenham;CLUB;;;;;;
+40.0;West Ham;CLUB;;;;;;
+41.0;Wolverhampton Wanderers;CLUB;;;;;;
+42.0;Augsburg;CLUB;;;;;;
+43.0;Bayer Leverkusen;CLUB;;;;;;
+44.0;Bayern Munich;CLUB;;;;;;
+45.0;Bochum;CLUB;;;;;;
+46.0;Borussia Dortmund;CLUB;;;;;;
+47.0;Borussia M.Gladbach;CLUB;;;;;;
+48.0;Darmstadt;CLUB;;;;;;
+49.0;Eintracht Frankfurt;CLUB;;;;;;
+50.0;FC Cologne;CLUB;;;;;;
+51.0;FC Heidenheim;CLUB;;;;;;
+52.0;Freiburg;CLUB;;;;;;
+53.0;Hoffenheim;CLUB;;;;;;
+54.0;Mainz 05;CLUB;;;;;;
+55.0;RasenBallsport Leipzig;CLUB;;;;;;
+56.0;Union Berlin;CLUB;;;;;;
+57.0;VfB Stuttgart;CLUB;;;;;;
+58.0;Werder Bremen;CLUB;;;;;;
+59.0;Wolfsburg;CLUB;;;;;;
+60.0;AC Milan;CLUB;;;;;;
+61.0;Atalanta;CLUB;;;;;;
+62.0;Bologna;CLUB;;;;;;
+63.0;Cagliari;CLUB;;;;;;
+64.0;Empoli;CLUB;;;;;;
+65.0;Fiorentina;CLUB;;;;;;
+66.0;Frosinone;CLUB;;;;;;
+67.0;Genoa;CLUB;;;;;;
+68.0;Inter;CLUB;;;;;;
+69.0;Juventus;CLUB;;;;;;
+70.0;Lazio;CLUB;;;;;;
+71.0;Lecce;CLUB;;;;;;
+72.0;Monza;CLUB;;;;;;
+73.0;Napoli;CLUB;;;;;;
+74.0;Roma;CLUB;;;;;;
+75.0;Salernitana;CLUB;;;;;;
+76.0;Sassuolo;CLUB;;;;;;
+77.0;Torino;CLUB;;;;;;
+78.0;Udinese;CLUB;;;;;;
+79.0;Verona;CLUB;;;;;;
+80.0;Brest;CLUB;;;;;;
+81.0;Clermont Foot;CLUB;;;;;;
+82.0;Le Havre;CLUB;;;;;;
+83.0;Lens;CLUB;;;;;;
+84.0;Lille;CLUB;;;;;;
+85.0;Lorient;CLUB;;;;;;
+86.0;Lyon;CLUB;;;;;;
+87.0;Marseille;CLUB;;;;;;
+88.0;Metz;CLUB;;;;;;
+89.0;Monaco;CLUB;;;;;;
+90.0;Montpellier;CLUB;;;;;;
+91.0;Nantes;CLUB;;;;;;
+92.0;Nice;CLUB;;;;;;
+93.0;Paris Saint Germain;CLUB;;;;;;
+94.0;Reims;CLUB;;;;;;
+95.0;Rennes;CLUB;;;;;;
+96.0;Strasbourg;CLUB;;;;;;
+97.0;Toulouse;CLUB;;;;;;
+1.0;;EQUIPO;1.0;Senior A;;;;
+2.0;;EQUIPO;2.0;Filial;;;;
+2.0;;EQUIPO;3.0;Juvenil A;;;;
+2.0;;EQUIPO;4.0;Juvenil B;;;;
+3.0;;EQUIPO;5.0;Filial;;;;
+3.0;;EQUIPO;6.0;Juvenil A;;;;
+3.0;;EQUIPO;7.0;Juvenil B;;;;
+4.0;;EQUIPO;8.0;Filial;;;;
+4.0;;EQUIPO;9.0;Juvenil A;;;;
+4.0;;EQUIPO;10.0;Juvenil B;;;;
+5.0;;EQUIPO;11.0;Filial;;;;
+5.0;;EQUIPO;12.0;Juvenil A;;;;
+5.0;;EQUIPO;13.0;Juvenil B;;;;
+6.0;;EQUIPO;14.0;Filial;;;;
+6.0;;EQUIPO;15.0;Juvenil A;;;;
+6.0;;EQUIPO;16.0;Juvenil B;;;;
+7.0;;EQUIPO;17.0;Filial;;;;
+7.0;;EQUIPO;18.0;Juvenil A;;;;
+7.0;;EQUIPO;19.0;Juvenil B;;;;
+8.0;;EQUIPO;20.0;Filial;;;;
+8.0;;EQUIPO;21.0;Juvenil A;;;;
+8.0;;EQUIPO;22.0;Juvenil B;;;;
+9.0;;EQUIPO;23.0;Filial;;;;
+9.0;;EQUIPO;24.0;Juvenil A;;;;
+9.0;;EQUIPO;25.0;Juvenil B;;;;
+10.0;;EQUIPO;26.0;Filial;;;;
+10.0;;EQUIPO;27.0;Juvenil A;;;;
+10.0;;EQUIPO;28.0;Juvenil B;;;;
+11.0;;EQUIPO;29.0;Filial;;;;
+11.0;;EQUIPO;30.0;Juvenil A;;;;
+11.0;;EQUIPO;31.0;Juvenil B;;;;
+12.0;;EQUIPO;32.0;Filial;;;;
+12.0;;EQUIPO;33.0;Juvenil A;;;;
+12.0;;EQUIPO;34.0;Juvenil B;;;;
+13.0;;EQUIPO;35.0;Filial;;;;
+13.0;;EQUIPO;36.0;Juvenil A;;;;
+13.0;;EQUIPO;37.0;Juvenil B;;;;
+14.0;;EQUIPO;38.0;Filial;;;;
+14.0;;EQUIPO;39.0;Juvenil A;;;;
+14.0;;EQUIPO;40.0;Juvenil B;;;;
+15.0;;EQUIPO;41.0;Filial;;;;
+15.0;;EQUIPO;42.0;Juvenil A;;;;
+15.0;;EQUIPO;43.0;Juvenil B;;;;
+16.0;;EQUIPO;44.0;Filial;;;;
+16.0;;EQUIPO;45.0;Juvenil A;;;;
+16.0;;EQUIPO;46.0;Juvenil B;;;;
+17.0;;EQUIPO;47.0;Filial;;;;
+17.0;;EQUIPO;48.0;Juvenil A;;;;
+17.0;;EQUIPO;49.0;Juvenil B;;;;
+18.0;;EQUIPO;50.0;Filial;;;;
+18.0;;EQUIPO;51.0;Juvenil A;;;;
+18.0;;EQUIPO;52.0;Juvenil B;;;;
+19.0;;EQUIPO;53.0;Filial;;;;
+19.0;;EQUIPO;54.0;Juvenil A;;;;
+19.0;;EQUIPO;55.0;Juvenil B;;;;
+20.0;;EQUIPO;56.0;Filial;;;;
+20.0;;EQUIPO;57.0;Juvenil A;;;;
+20.0;;EQUIPO;58.0;Juvenil B;;;;
+21.0;;EQUIPO;59.0;Filial;;;;
+21.0;;EQUIPO;60.0;Juvenil A;;;;
+21.0;;EQUIPO;61.0;Juvenil B;;;;
+22.0;;EQUIPO;62.0;Filial;;;;
+22.0;;EQUIPO;63.0;Juvenil A;;;;
+22.0;;EQUIPO;64.0;Juvenil B;;;;
+23.0;;EQUIPO;65.0;Filial;;;;
+23.0;;EQUIPO;66.0;Juvenil A;;;;
+23.0;;EQUIPO;67.0;Juvenil B;;;;
+24.0;;EQUIPO;68.0;Filial;;;;
+24.0;;EQUIPO;69.0;Juvenil A;;;;
+24.0;;EQUIPO;70.0;Juvenil B;;;;
+25.0;;EQUIPO;71.0;Filial;;;;
+25.0;;EQUIPO;72.0;Juvenil A;;;;
+25.0;;EQUIPO;73.0;Juvenil B;;;;
+26.0;;EQUIPO;74.0;Filial;;;;
+26.0;;EQUIPO;75.0;Juvenil A;;;;
+26.0;;EQUIPO;76.0;Juvenil B;;;;
+27.0;;EQUIPO;77.0;Filial;;;;
+27.0;;EQUIPO;78.0;Juvenil A;;;;
+27.0;;EQUIPO;79.0;Juvenil B;;;;
+28.0;;EQUIPO;80.0;Filial;;;;
+28.0;;EQUIPO;81.0;Juvenil A;;;;
+28.0;;EQUIPO;82.0;Juvenil B;;;;
+29.0;;EQUIPO;83.0;Filial;;;;
+29.0;;EQUIPO;84.0;Juvenil A;;;;
+29.0;;EQUIPO;85.0;Juvenil B;;;;
+30.0;;EQUIPO;86.0;Filial;;;;
+30.0;;EQUIPO;87.0;Juvenil A;;;;
+30.0;;EQUIPO;88.0;Juvenil B;;;;
+31.0;;EQUIPO;89.0;Filial;;;;
+31.0;;EQUIPO;90.0;Juvenil A;;;;
+31.0;;EQUIPO;91.0;Juvenil B;;;;
+32.0;;EQUIPO;92.0;Filial;;;;
+32.0;;EQUIPO;93.0;Juvenil A;;;;
+32.0;;EQUIPO;94.0;Juvenil B;;;;
+33.0;;EQUIPO;95.0;Filial;;;;
+33.0;;EQUIPO;96.0;Juvenil A;;;;
+33.0;;EQUIPO;97.0;Juvenil B;;;;
+34.0;;EQUIPO;98.0;Filial;;;;
+34.0;;EQUIPO;99.0;Juvenil A;;;;
+34.0;;EQUIPO;100.0;Juvenil B;;;;
+35.0;;EQUIPO;101.0;Filial;;;;
+35.0;;EQUIPO;102.0;Juvenil A;;;;
+35.0;;EQUIPO;103.0;Juvenil B;;;;
+36.0;;EQUIPO;104.0;Filial;;;;
+36.0;;EQUIPO;105.0;Juvenil A;;;;
+36.0;;EQUIPO;106.0;Juvenil B;;;;
+37.0;;EQUIPO;107.0;Filial;;;;
+37.0;;EQUIPO;108.0;Juvenil A;;;;
+37.0;;EQUIPO;109.0;Juvenil B;;;;
+38.0;;EQUIPO;110.0;Filial;;;;
+38.0;;EQUIPO;111.0;Juvenil A;;;;
+38.0;;EQUIPO;112.0;Juvenil B;;;;
+39.0;;EQUIPO;113.0;Filial;;;;
+39.0;;EQUIPO;114.0;Juvenil A;;;;
+39.0;;EQUIPO;115.0;Juvenil B;;;;
+40.0;;EQUIPO;116.0;Filial;;;;
+40.0;;EQUIPO;117.0;Juvenil A;;;;
+40.0;;EQUIPO;118.0;Juvenil B;;;;
+41.0;;EQUIPO;119.0;Filial;;;;
+41.0;;EQUIPO;120.0;Juvenil A;;;;
+41.0;;EQUIPO;121.0;Juvenil B;;;;
+42.0;;EQUIPO;122.0;Filial;;;;
+42.0;;EQUIPO;123.0;Juvenil A;;;;
+42.0;;EQUIPO;124.0;Juvenil B;;;;
+43.0;;EQUIPO;125.0;Filial;;;;
+43.0;;EQUIPO;126.0;Juvenil A;;;;
+43.0;;EQUIPO;127.0;Juvenil B;;;;
+44.0;;EQUIPO;128.0;Filial;;;;
+44.0;;EQUIPO;129.0;Juvenil A;;;;
+44.0;;EQUIPO;130.0;Juvenil B;;;;
+45.0;;EQUIPO;131.0;Filial;;;;
+45.0;;EQUIPO;132.0;Juvenil A;;;;
+45.0;;EQUIPO;133.0;Juvenil B;;;;
+46.0;;EQUIPO;134.0;Filial;;;;
+46.0;;EQUIPO;135.0;Juvenil A;;;;
+46.0;;EQUIPO;136.0;Juvenil B;;;;
+47.0;;EQUIPO;137.0;Filial;;;;
+47.0;;EQUIPO;138.0;Juvenil A;;;;
+47.0;;EQUIPO;139.0;Juvenil B;;;;
+48.0;;EQUIPO;140.0;Filial;;;;
+48.0;;EQUIPO;141.0;Juvenil A;;;;
+48.0;;EQUIPO;142.0;Juvenil B;;;;
+49.0;;EQUIPO;143.0;Filial;;;;
+49.0;;EQUIPO;144.0;Juvenil A;;;;
+49.0;;EQUIPO;145.0;Juvenil B;;;;
+50.0;;EQUIPO;146.0;Filial;;;;
+50.0;;EQUIPO;147.0;Juvenil A;;;;
+50.0;;EQUIPO;148.0;Juvenil B;;;;
+51.0;;EQUIPO;149.0;Filial;;;;
+51.0;;EQUIPO;150.0;Juvenil A;;;;
+51.0;;EQUIPO;151.0;Juvenil B;;;;
+52.0;;EQUIPO;152.0;Filial;;;;
+52.0;;EQUIPO;153.0;Juvenil A;;;;
+52.0;;EQUIPO;154.0;Juvenil B;;;;
+53.0;;EQUIPO;155.0;Filial;;;;
+53.0;;EQUIPO;156.0;Juvenil A;;;;
+53.0;;EQUIPO;157.0;Juvenil B;;;;
+54.0;;EQUIPO;158.0;Filial;;;;
+54.0;;EQUIPO;159.0;Juvenil A;;;;
+54.0;;EQUIPO;160.0;Juvenil B;;;;
+55.0;;EQUIPO;161.0;Filial;;;;
+55.0;;EQUIPO;162.0;Juvenil A;;;;
+55.0;;EQUIPO;163.0;Juvenil B;;;;
+56.0;;EQUIPO;164.0;Filial;;;;
+56.0;;EQUIPO;165.0;Juvenil A;;;;
+56.0;;EQUIPO;166.0;Juvenil B;;;;
+57.0;;EQUIPO;167.0;Filial;;;;
+57.0;;EQUIPO;168.0;Juvenil A;;;;
+57.0;;EQUIPO;169.0;Juvenil B;;;;
+58.0;;EQUIPO;170.0;Filial;;;;
+58.0;;EQUIPO;171.0;Juvenil A;;;;
+58.0;;EQUIPO;172.0;Juvenil B;;;;
+59.0;;EQUIPO;173.0;Filial;;;;
+59.0;;EQUIPO;174.0;Juvenil A;;;;
+59.0;;EQUIPO;175.0;Juvenil B;;;;
+60.0;;EQUIPO;176.0;Filial;;;;
+60.0;;EQUIPO;177.0;Juvenil A;;;;
+60.0;;EQUIPO;178.0;Juvenil B;;;;
+61.0;;EQUIPO;179.0;Filial;;;;
+61.0;;EQUIPO;180.0;Juvenil A;;;;
+61.0;;EQUIPO;181.0;Juvenil B;;;;
+62.0;;EQUIPO;182.0;Filial;;;;
+62.0;;EQUIPO;183.0;Juvenil A;;;;
+62.0;;EQUIPO;184.0;Juvenil B;;;;
+63.0;;EQUIPO;185.0;Filial;;;;
+63.0;;EQUIPO;186.0;Juvenil A;;;;
+63.0;;EQUIPO;187.0;Juvenil B;;;;
+64.0;;EQUIPO;188.0;Filial;;;;
+64.0;;EQUIPO;189.0;Juvenil A;;;;
+64.0;;EQUIPO;190.0;Juvenil B;;;;
+65.0;;EQUIPO;191.0;Filial;;;;
+65.0;;EQUIPO;192.0;Juvenil A;;;;
+65.0;;EQUIPO;193.0;Juvenil B;;;;
+66.0;;EQUIPO;194.0;Filial;;;;
+66.0;;EQUIPO;195.0;Juvenil A;;;;
+66.0;;EQUIPO;196.0;Juvenil B;;;;
+67.0;;EQUIPO;197.0;Filial;;;;
+67.0;;EQUIPO;198.0;Juvenil A;;;;
+67.0;;EQUIPO;199.0;Juvenil B;;;;
+68.0;;EQUIPO;200.0;Filial;;;;
+68.0;;EQUIPO;201.0;Juvenil A;;;;
+68.0;;EQUIPO;202.0;Juvenil B;;;;
+69.0;;EQUIPO;203.0;Filial;;;;
+69.0;;EQUIPO;204.0;Juvenil A;;;;
+69.0;;EQUIPO;205.0;Juvenil B;;;;
+70.0;;EQUIPO;206.0;Filial;;;;
+70.0;;EQUIPO;207.0;Juvenil A;;;;
+70.0;;EQUIPO;208.0;Juvenil B;;;;
+71.0;;EQUIPO;209.0;Filial;;;;
+71.0;;EQUIPO;210.0;Juvenil A;;;;
+71.0;;EQUIPO;211.0;Juvenil B;;;;
+72.0;;EQUIPO;212.0;Filial;;;;
+72.0;;EQUIPO;213.0;Juvenil A;;;;
+72.0;;EQUIPO;214.0;Juvenil B;;;;
+73.0;;EQUIPO;215.0;Filial;;;;
+73.0;;EQUIPO;216.0;Juvenil A;;;;
+73.0;;EQUIPO;217.0;Juvenil B;;;;
+74.0;;EQUIPO;218.0;Filial;;;;
+74.0;;EQUIPO;219.0;Juvenil A;;;;
+74.0;;EQUIPO;220.0;Juvenil B;;;;
+75.0;;EQUIPO;221.0;Filial;;;;
+75.0;;EQUIPO;222.0;Juvenil A;;;;
+75.0;;EQUIPO;223.0;Juvenil B;;;;
+76.0;;EQUIPO;224.0;Filial;;;;
+76.0;;EQUIPO;225.0;Juvenil A;;;;
+76.0;;EQUIPO;226.0;Juvenil B;;;;
+77.0;;EQUIPO;227.0;Filial;;;;
+77.0;;EQUIPO;228.0;Juvenil A;;;;
+77.0;;EQUIPO;229.0;Juvenil B;;;;
+78.0;;EQUIPO;230.0;Filial;;;;
+78.0;;EQUIPO;231.0;Juvenil A;;;;
+78.0;;EQUIPO;232.0;Juvenil B;;;;
+79.0;;EQUIPO;233.0;Filial;;;;
+79.0;;EQUIPO;234.0;Juvenil A;;;;
+79.0;;EQUIPO;235.0;Juvenil B;;;;
+80.0;;EQUIPO;236.0;Filial;;;;
+80.0;;EQUIPO;237.0;Juvenil A;;;;
+80.0;;EQUIPO;238.0;Juvenil B;;;;
+81.0;;EQUIPO;239.0;Filial;;;;
+81.0;;EQUIPO;240.0;Juvenil A;;;;
+81.0;;EQUIPO;241.0;Juvenil B;;;;
+82.0;;EQUIPO;242.0;Filial;;;;
+82.0;;EQUIPO;243.0;Juvenil A;;;;
+82.0;;EQUIPO;244.0;Juvenil B;;;;
+83.0;;EQUIPO;245.0;Filial;;;;
+83.0;;EQUIPO;246.0;Juvenil A;;;;
+83.0;;EQUIPO;247.0;Juvenil B;;;;
+84.0;;EQUIPO;248.0;Filial;;;;
+84.0;;EQUIPO;249.0;Juvenil A;;;;
+84.0;;EQUIPO;250.0;Juvenil B;;;;
+85.0;;EQUIPO;251.0;Filial;;;;
+85.0;;EQUIPO;252.0;Juvenil A;;;;
+85.0;;EQUIPO;253.0;Juvenil B;;;;
+86.0;;EQUIPO;254.0;Filial;;;;
+86.0;;EQUIPO;255.0;Juvenil A;;;;
+86.0;;EQUIPO;256.0;Juvenil B;;;;
+87.0;;EQUIPO;257.0;Filial;;;;
+87.0;;EQUIPO;258.0;Juvenil A;;;;
+87.0;;EQUIPO;259.0;Juvenil B;;;;
+88.0;;EQUIPO;260.0;Filial;;;;
+88.0;;EQUIPO;261.0;Juvenil A;;;;
+88.0;;EQUIPO;262.0;Juvenil B;;;;
+89.0;;EQUIPO;263.0;Filial;;;;
+89.0;;EQUIPO;264.0;Juvenil A;;;;
+89.0;;EQUIPO;265.0;Juvenil B;;;;
+90.0;;EQUIPO;266.0;Filial;;;;
+90.0;;EQUIPO;267.0;Juvenil A;;;;
+90.0;;EQUIPO;268.0;Juvenil B;;;;
+91.0;;EQUIPO;269.0;Filial;;;;
+91.0;;EQUIPO;270.0;Juvenil A;;;;
+91.0;;EQUIPO;271.0;Juvenil B;;;;
+92.0;;EQUIPO;272.0;Filial;;;;
+92.0;;EQUIPO;273.0;Juvenil A;;;;
+92.0;;EQUIPO;274.0;Juvenil B;;;;
+93.0;;EQUIPO;275.0;Filial;;;;
+93.0;;EQUIPO;276.0;Juvenil A;;;;
+93.0;;EQUIPO;277.0;Juvenil B;;;;
+94.0;;EQUIPO;278.0;Filial;;;;
+94.0;;EQUIPO;279.0;Juvenil A;;;;
+94.0;;EQUIPO;280.0;Juvenil B;;;;
+95.0;;EQUIPO;281.0;Filial;;;;
+95.0;;EQUIPO;282.0;Juvenil A;;;;
+95.0;;EQUIPO;283.0;Juvenil B;;;;
+96.0;;EQUIPO;284.0;Filial;;;;
+96.0;;EQUIPO;285.0;Juvenil A;;;;
+96.0;;EQUIPO;286.0;Juvenil B;;;;
+97.0;;EQUIPO;287.0;Filial;;;;
+97.0;;EQUIPO;288.0;Juvenil A;;;;
+97.0;;EQUIPO;289.0;Juvenil B;;;;
+;Gonzalo;CUERPO_TECNICO;1.0;;1.0;Admin;admin@metricgoal.com;1234
+;Mario;CUERPO_TECNICO;2.0;;2.0;Williams (Primer Entrenador);marwilliams2@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;2.0;;3.0;Dupont (Segundo Entrenador);aledupont3@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;3.0;;4.0;Rodríguez (Primer Entrenador);hanrodríguez4@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;3.0;;5.0;Moreau (Segundo Entrenador);paumoreau5@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;4.0;;6.0;Richard (Primer Entrenador);robrichard6@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;4.0;;7.0;Wagner (Segundo Entrenador);jeawagner7@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;5.0;;8.0;Davies (Primer Entrenador);stedavies8@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;5.0;;9.0;Martin (Segundo Entrenador);ricmartin9@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;6.0;;10.0;Pérez (Primer Entrenador);thopérez10@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;6.0;;11.0;Gallo (Segundo Entrenador);luigallo11@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;7.0;;12.0;Rodríguez (Primer Entrenador);thorodríguez12@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;7.0;;13.0;Petit (Segundo Entrenador);jeapetit13@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;8.0;;14.0;Wagner (Primer Entrenador);hugwagner14@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;8.0;;15.0;Moreau (Segundo Entrenador);jürmoreau15@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;9.0;;16.0;Fernández (Primer Entrenador);robfernández16@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;9.0;;17.0;Martin (Segundo Entrenador);loumartin17@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;10.0;;18.0;Romano (Primer Entrenador);danromano18@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;10.0;;19.0;Petit (Segundo Entrenador);antpetit19@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;11.0;;20.0;Moreau (Primer Entrenador);klamoreau20@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;11.0;;21.0;Gallo (Segundo Entrenador);lukgallo21@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;12.0;;22.0;Roux (Primer Entrenador);dieroux22@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;12.0;;23.0;Marino (Segundo Entrenador);felmarino23@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;13.0;;24.0;Wagner (Primer Entrenador);diewagner24@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;13.0;;25.0;Davies (Segundo Entrenador);lucdavies25@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;14.0;;26.0;Rossi (Primer Entrenador);carrossi26@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;14.0;;27.0;Richard (Segundo Entrenador);jorrichard27@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;15.0;;28.0;Müller (Primer Entrenador);alemüller28@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;15.0;;29.0;Sánchez (Segundo Entrenador);jossánchez29@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;16.0;;30.0;Dupont (Primer Entrenador);aledupont30@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;16.0;;31.0;Leroy (Segundo Entrenador);aleleroy31@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;17.0;;32.0;Becker (Primer Entrenador);carbecker32@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;17.0;;33.0;Brown (Segundo Entrenador);piebrown33@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;18.0;;34.0;López (Primer Entrenador);danlópez34@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;18.0;;35.0;Evans (Segundo Entrenador);chaevans35@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;19.0;;36.0;Rossi (Primer Entrenador);thorossi36@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;19.0;;37.0;Sánchez (Segundo Entrenador);johsánchez37@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;20.0;;38.0;Sánchez (Primer Entrenador);piesánchez38@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;20.0;;39.0;Rossi (Segundo Entrenador);migrossi39@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;21.0;;40.0;Martin (Primer Entrenador);diemartin40@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;21.0;;41.0;Rodríguez (Segundo Entrenador);hanrodríguez41@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;22.0;;42.0;Wagner (Primer Entrenador);antwagner42@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;22.0;;43.0;López (Segundo Entrenador);luclópez43@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;23.0;;44.0;Smith (Primer Entrenador);carsmith44@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;23.0;;45.0;López (Segundo Entrenador);giolópez45@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;24.0;;46.0;Martínez (Primer Entrenador);hanmartínez46@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;24.0;;47.0;Gómez (Segundo Entrenador);felgómez47@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;25.0;;48.0;Williams (Primer Entrenador);javwilliams48@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;25.0;;49.0;Bernard (Segundo Entrenador);jeabernard49@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;26.0;;50.0;Rodríguez (Primer Entrenador);jearodríguez50@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;26.0;;51.0;Evans (Segundo Entrenador);dieevans51@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;27.0;;52.0;Schmidt (Primer Entrenador);marschmidt52@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;27.0;;53.0;Bernard (Segundo Entrenador);frabernard53@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;28.0;;54.0;Marino (Primer Entrenador);marmarino54@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;28.0;;55.0;Wagner (Segundo Entrenador);hugwagner55@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;29.0;;56.0;Rossi (Primer Entrenador);wilrossi56@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;29.0;;57.0;Moreau (Segundo Entrenador);javmoreau57@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;30.0;;58.0;Schmidt (Primer Entrenador);aleschmidt58@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;30.0;;59.0;Greco (Segundo Entrenador);jeagreco59@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;31.0;;60.0;Petit (Primer Entrenador);marpetit60@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;31.0;;61.0;Leroy (Segundo Entrenador);julleroy61@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;32.0;;62.0;Weber (Primer Entrenador);jeaweber62@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;32.0;;63.0;Sánchez (Segundo Entrenador);julsánchez63@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;33.0;;64.0;Hoffmann (Primer Entrenador);jorhoffmann64@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;33.0;;65.0;Roux (Segundo Entrenador);danroux65@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;34.0;;66.0;Petit (Primer Entrenador);antpetit66@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;34.0;;67.0;Johnson (Segundo Entrenador);diejohnson67@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;35.0;;68.0;Rodríguez (Primer Entrenador);julrodríguez68@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;35.0;;69.0;Johnson (Segundo Entrenador);ricjohnson69@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;36.0;;70.0;Bianchi (Primer Entrenador);johbianchi70@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;36.0;;71.0;Romano (Segundo Entrenador);lukromano71@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;37.0;;72.0;Gómez (Primer Entrenador);jamgómez72@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;37.0;;73.0;Bernard (Segundo Entrenador);lucbernard73@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;38.0;;74.0;Evans (Primer Entrenador);javevans74@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;38.0;;75.0;Richard (Segundo Entrenador);robrichard75@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;39.0;;76.0;Leroy (Primer Entrenador);jürleroy76@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;39.0;;77.0;Becker (Segundo Entrenador);antbecker77@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;40.0;;78.0;Leroy (Primer Entrenador);dieleroy78@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;40.0;;79.0;Koch (Segundo Entrenador);piekoch79@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;41.0;;80.0;Evans (Primer Entrenador);marevans80@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;41.0;;81.0;Becker (Segundo Entrenador);jürbecker81@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;42.0;;82.0;Müller (Primer Entrenador);pabmüller82@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;42.0;;83.0;Leroy (Segundo Entrenador);micleroy83@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;43.0;;84.0;Leroy (Primer Entrenador);ricleroy84@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;43.0;;85.0;Bianchi (Segundo Entrenador);micbianchi85@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;44.0;;86.0;Jones (Primer Entrenador);jorjones86@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;44.0;;87.0;Bernard (Segundo Entrenador);diebernard87@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;45.0;;88.0;Bianchi (Primer Entrenador);carbianchi88@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;45.0;;89.0;Greco (Segundo Entrenador);dangreco89@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;46.0;;90.0;Sánchez (Primer Entrenador);thosánchez90@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;46.0;;91.0;Johnson (Segundo Entrenador);juljohnson91@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;47.0;;92.0;Ricci (Primer Entrenador);stericci92@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;47.0;;93.0;Schmidt (Segundo Entrenador);antschmidt93@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;48.0;;94.0;Richard (Primer Entrenador);johrichard94@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;48.0;;95.0;Greco (Segundo Entrenador);jeagreco95@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;49.0;;96.0;García (Primer Entrenador);josgarcía96@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;49.0;;97.0;Brown (Segundo Entrenador);migbrown97@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;50.0;;98.0;Schäfer (Primer Entrenador);louschäfer98@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;50.0;;99.0;Fernández (Segundo Entrenador);danfernández99@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;51.0;;100.0;Bernard (Primer Entrenador);artbernard100@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;51.0;;101.0;Romano (Segundo Entrenador);pauromano101@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;52.0;;102.0;Taylor (Primer Entrenador);arttaylor102@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;52.0;;103.0;Jones (Segundo Entrenador);klajones103@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;53.0;;104.0;Bianchi (Primer Entrenador);antbianchi104@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;53.0;;105.0;Petit (Segundo Entrenador);diepetit105@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;54.0;;106.0;Evans (Primer Entrenador);robevans106@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;54.0;;107.0;Williams (Segundo Entrenador);pauwilliams107@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;55.0;;108.0;Schmidt (Primer Entrenador);louschmidt108@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;55.0;;109.0;Rodríguez (Segundo Entrenador);dierodríguez109@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;56.0;;110.0;Schäfer (Primer Entrenador);josschäfer110@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;56.0;;111.0;Schmidt (Segundo Entrenador);fraschmidt111@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;57.0;;112.0;Brown (Primer Entrenador);ricbrown112@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;57.0;;113.0;Colombo (Segundo Entrenador);luccolombo113@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;58.0;;114.0;Bernard (Primer Entrenador);jorbernard114@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;58.0;;115.0;Fernández (Segundo Entrenador);jürfernández115@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;59.0;;116.0;Ricci (Primer Entrenador);micricci116@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;59.0;;117.0;Ricci (Segundo Entrenador);hugricci117@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;60.0;;118.0;Greco (Primer Entrenador);paugreco118@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;60.0;;119.0;Müller (Segundo Entrenador);johmüller119@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;61.0;;120.0;Moreau (Primer Entrenador);julmoreau120@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;61.0;;121.0;Sánchez (Segundo Entrenador);julsánchez121@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;62.0;;122.0;Schäfer (Primer Entrenador);serschäfer122@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;62.0;;123.0;Schmidt (Segundo Entrenador);jamschmidt123@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;63.0;;124.0;Romano (Primer Entrenador);pieromano124@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;63.0;;125.0;Smith (Segundo Entrenador);carsmith125@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;64.0;;126.0;Hoffmann (Primer Entrenador);richoffmann126@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;64.0;;127.0;Petit (Segundo Entrenador);migpetit127@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;65.0;;128.0;Bernard (Primer Entrenador);diebernard128@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;65.0;;129.0;Becker (Segundo Entrenador);ricbecker129@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;66.0;;130.0;Sánchez (Primer Entrenador);pabsánchez130@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;66.0;;131.0;Rossi (Segundo Entrenador);hanrossi131@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;67.0;;132.0;Moreau (Primer Entrenador);danmoreau132@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;67.0;;133.0;Gómez (Segundo Entrenador);felgómez133@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;68.0;;134.0;Johnson (Primer Entrenador);micjohnson134@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;68.0;;135.0;Richard (Segundo Entrenador);luirichard135@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;69.0;;136.0;Johnson (Primer Entrenador);diejohnson136@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;69.0;;137.0;Hoffmann (Segundo Entrenador);marhoffmann137@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;70.0;;138.0;Gallo (Primer Entrenador);giogallo138@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;70.0;;139.0;Leroy (Segundo Entrenador);aleleroy139@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;71.0;;140.0;Ricci (Primer Entrenador);jearicci140@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;71.0;;141.0;García (Segundo Entrenador);alegarcía141@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;72.0;;142.0;Martínez (Primer Entrenador);loumartínez142@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;72.0;;143.0;Schäfer (Segundo Entrenador);robschäfer143@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;73.0;;144.0;Bianchi (Primer Entrenador);robbianchi144@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;73.0;;145.0;Taylor (Segundo Entrenador);cartaylor145@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;74.0;;146.0;Martínez (Primer Entrenador);lucmartínez146@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;74.0;;147.0;Koch (Segundo Entrenador);diekoch147@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;75.0;;148.0;Fernández (Primer Entrenador);marfernández148@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;75.0;;149.0;López (Segundo Entrenador);fellópez149@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;76.0;;150.0;Leroy (Primer Entrenador);fraleroy150@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;76.0;;151.0;Weber (Segundo Entrenador);thoweber151@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;77.0;;152.0;Marino (Primer Entrenador);chamarino152@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;77.0;;153.0;Rossi (Segundo Entrenador);lucrossi153@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;78.0;;154.0;Greco (Primer Entrenador);margreco154@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;78.0;;155.0;Gómez (Segundo Entrenador);felgómez155@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;79.0;;156.0;Colombo (Primer Entrenador);luccolombo156@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;79.0;;157.0;Rossi (Segundo Entrenador);paurossi157@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;80.0;;158.0;Bianchi (Primer Entrenador);davbianchi158@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;80.0;;159.0;Bernard (Segundo Entrenador);stebernard159@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;81.0;;160.0;Taylor (Primer Entrenador);anttaylor160@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;81.0;;161.0;Richard (Segundo Entrenador);charichard161@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;82.0;;162.0;Becker (Primer Entrenador);jorbecker162@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;82.0;;163.0;Jones (Segundo Entrenador);danjones163@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;83.0;;164.0;Williams (Primer Entrenador);diewilliams164@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;83.0;;165.0;Hoffmann (Segundo Entrenador);louhoffmann165@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;84.0;;166.0;López (Primer Entrenador);luilópez166@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;84.0;;167.0;Bernard (Segundo Entrenador);diebernard167@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;85.0;;168.0;Johnson (Primer Entrenador);diejohnson168@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;85.0;;169.0;Rossi (Segundo Entrenador);josrossi169@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;86.0;;170.0;Pérez (Primer Entrenador);carpérez170@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;86.0;;171.0;Richard (Segundo Entrenador);carrichard171@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;87.0;;172.0;Martínez (Primer Entrenador);diemartínez172@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;87.0;;173.0;Greco (Segundo Entrenador);jamgreco173@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;88.0;;174.0;Leroy (Primer Entrenador);aleleroy174@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;88.0;;175.0;Petit (Segundo Entrenador);chapetit175@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;89.0;;176.0;Richard (Primer Entrenador);antrichard176@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;89.0;;177.0;Gallo (Segundo Entrenador);alegallo177@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;90.0;;178.0;Gómez (Primer Entrenador);lucgómez178@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;90.0;;179.0;Dupont (Segundo Entrenador);artdupont179@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;91.0;;180.0;Johnson (Primer Entrenador);diejohnson180@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;91.0;;181.0;Davies (Segundo Entrenador);juldavies181@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;92.0;;182.0;Martínez (Primer Entrenador);hugmartínez182@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;92.0;;183.0;Brown (Segundo Entrenador);javbrown183@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;93.0;;184.0;Rodríguez (Primer Entrenador);lukrodríguez184@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;93.0;;185.0;Greco (Segundo Entrenador);thogreco185@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;94.0;;186.0;Rodríguez (Primer Entrenador);alerodríguez186@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;94.0;;187.0;Martin (Segundo Entrenador);carmartin187@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;95.0;;188.0;Schmidt (Primer Entrenador);louschmidt188@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;95.0;;189.0;Gallo (Segundo Entrenador);stegallo189@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;96.0;;190.0;Schmidt (Primer Entrenador);marschmidt190@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;96.0;;191.0;López (Segundo Entrenador);alelópez191@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;97.0;;192.0;García (Primer Entrenador);javgarcía192@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;97.0;;193.0;Bianchi (Segundo Entrenador);serbianchi193@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;98.0;;194.0;Weber (Primer Entrenador);robweber194@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;98.0;;195.0;Smith (Segundo Entrenador);lousmith195@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;99.0;;196.0;Dupont (Primer Entrenador);jordupont196@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;99.0;;197.0;Müller (Segundo Entrenador);stemüller197@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;100.0;;198.0;Sánchez (Primer Entrenador);marsánchez198@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;100.0;;199.0;Koch (Segundo Entrenador);robkoch199@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;101.0;;200.0;Colombo (Primer Entrenador);carcolombo200@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;101.0;;201.0;Bernard (Segundo Entrenador);robbernard201@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;102.0;;202.0;Bianchi (Primer Entrenador);loubianchi202@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;102.0;;203.0;Wagner (Segundo Entrenador);alewagner203@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;103.0;;204.0;Evans (Primer Entrenador);marevans204@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;103.0;;205.0;Greco (Segundo Entrenador);giogreco205@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;104.0;;206.0;Jones (Primer Entrenador);marjones206@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;104.0;;207.0;Moreau (Segundo Entrenador);diemoreau207@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;105.0;;208.0;Schmidt (Primer Entrenador);hanschmidt208@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;105.0;;209.0;Ricci (Segundo Entrenador);robricci209@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;106.0;;210.0;Bernard (Primer Entrenador);artbernard210@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;106.0;;211.0;Pérez (Segundo Entrenador);micpérez211@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;107.0;;212.0;Brown (Primer Entrenador);luibrown212@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;107.0;;213.0;Romano (Segundo Entrenador);marromano213@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;108.0;;214.0;Greco (Primer Entrenador);robgreco214@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;108.0;;215.0;Leroy (Segundo Entrenador);micleroy215@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;109.0;;216.0;Smith (Primer Entrenador);jossmith216@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;109.0;;217.0;Koch (Segundo Entrenador);diekoch217@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;110.0;;218.0;Müller (Primer Entrenador);stemüller218@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;110.0;;219.0;Moreau (Segundo Entrenador);giomoreau219@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;111.0;;220.0;Koch (Primer Entrenador);lukkoch220@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;111.0;;221.0;Williams (Segundo Entrenador);lukwilliams221@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;112.0;;222.0;Greco (Primer Entrenador);pabgreco222@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;112.0;;223.0;Davies (Segundo Entrenador);josdavies223@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;113.0;;224.0;Roux (Primer Entrenador);steroux224@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;113.0;;225.0;Johnson (Segundo Entrenador);wiljohnson225@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;114.0;;226.0;Pérez (Primer Entrenador);pabpérez226@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;114.0;;227.0;Evans (Segundo Entrenador);hugevans227@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;115.0;;228.0;Leroy (Primer Entrenador);dieleroy228@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;115.0;;229.0;Rodríguez (Segundo Entrenador);sterodríguez229@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;116.0;;230.0;Gallo (Primer Entrenador);paugallo230@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;116.0;;231.0;Rossi (Segundo Entrenador);alerossi231@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;117.0;;232.0;Roux (Primer Entrenador);antroux232@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;117.0;;233.0;Wagner (Segundo Entrenador);antwagner233@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;118.0;;234.0;Martínez (Primer Entrenador);antmartínez234@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;118.0;;235.0;Greco (Segundo Entrenador);pabgreco235@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;119.0;;236.0;Brown (Primer Entrenador);giobrown236@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;119.0;;237.0;Marino (Segundo Entrenador);carmarino237@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;120.0;;238.0;Rossi (Primer Entrenador);antrossi238@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;120.0;;239.0;Richard (Segundo Entrenador);jamrichard239@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;121.0;;240.0;Bernard (Primer Entrenador);diebernard240@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;121.0;;241.0;García (Segundo Entrenador);margarcía241@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;122.0;;242.0;Bernard (Primer Entrenador);jürbernard242@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;122.0;;243.0;Wagner (Segundo Entrenador);lucwagner243@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;123.0;;244.0;Weber (Primer Entrenador);lukweber244@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;123.0;;245.0;Bernard (Segundo Entrenador);klabernard245@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;124.0;;246.0;Weber (Primer Entrenador);davweber246@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;124.0;;247.0;Colombo (Segundo Entrenador);joscolombo247@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;125.0;;248.0;Marino (Primer Entrenador);marmarino248@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;125.0;;249.0;Rodríguez (Segundo Entrenador);lukrodríguez249@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;126.0;;250.0;Sánchez (Primer Entrenador);luksánchez250@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;126.0;;251.0;Martínez (Segundo Entrenador);marmartínez251@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;127.0;;252.0;Petit (Primer Entrenador);robpetit252@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;127.0;;253.0;Bernard (Segundo Entrenador);jürbernard253@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;128.0;;254.0;Brown (Primer Entrenador);wilbrown254@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;128.0;;255.0;Smith (Segundo Entrenador);migsmith255@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;129.0;;256.0;Schmidt (Primer Entrenador);pabschmidt256@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;129.0;;257.0;Weber (Segundo Entrenador);dieweber257@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;130.0;;258.0;Smith (Primer Entrenador);ricsmith258@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;130.0;;259.0;Rodríguez (Segundo Entrenador);ricrodríguez259@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;131.0;;260.0;Johnson (Primer Entrenador);frajohnson260@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;131.0;;261.0;Koch (Segundo Entrenador);markoch261@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;132.0;;262.0;Richard (Primer Entrenador);migrichard262@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;132.0;;263.0;Wagner (Segundo Entrenador);diewagner263@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;133.0;;264.0;Davies (Primer Entrenador);giodavies264@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;133.0;;265.0;Martínez (Segundo Entrenador);luimartínez265@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;134.0;;266.0;Schmidt (Primer Entrenador);pabschmidt266@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;134.0;;267.0;Sánchez (Segundo Entrenador);felsánchez267@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;135.0;;268.0;Schäfer (Primer Entrenador);carschäfer268@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;135.0;;269.0;Evans (Segundo Entrenador);hanevans269@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;136.0;;270.0;Bernard (Primer Entrenador);micbernard270@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;136.0;;271.0;Petit (Segundo Entrenador);serpetit271@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;137.0;;272.0;Schäfer (Primer Entrenador);marschäfer272@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;137.0;;273.0;Petit (Segundo Entrenador);jeapetit273@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;138.0;;274.0;Greco (Primer Entrenador);robgreco274@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;138.0;;275.0;Sánchez (Segundo Entrenador);klasánchez275@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;139.0;;276.0;Taylor (Primer Entrenador);mictaylor276@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;139.0;;277.0;Greco (Segundo Entrenador);felgreco277@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;140.0;;278.0;Schmidt (Primer Entrenador);antschmidt278@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;140.0;;279.0;Gómez (Segundo Entrenador);luigómez279@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;141.0;;280.0;Bianchi (Primer Entrenador);jambianchi280@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;141.0;;281.0;Williams (Segundo Entrenador);jeawilliams281@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;142.0;;282.0;Hoffmann (Primer Entrenador);robhoffmann282@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;142.0;;283.0;López (Segundo Entrenador);loulópez283@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;143.0;;284.0;Rodríguez (Primer Entrenador);alerodríguez284@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;143.0;;285.0;Williams (Segundo Entrenador);ricwilliams285@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;144.0;;286.0;Schmidt (Primer Entrenador);lukschmidt286@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;144.0;;287.0;García (Segundo Entrenador);alegarcía287@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;145.0;;288.0;Becker (Primer Entrenador);klabecker288@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;145.0;;289.0;Sánchez (Segundo Entrenador);julsánchez289@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;146.0;;290.0;Schmidt (Primer Entrenador);serschmidt290@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;146.0;;291.0;Fernández (Segundo Entrenador);antfernández291@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;147.0;;292.0;García (Primer Entrenador);thogarcía292@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;147.0;;293.0;Becker (Segundo Entrenador);wilbecker293@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;148.0;;294.0;Schmidt (Primer Entrenador);wilschmidt294@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;148.0;;295.0;Greco (Segundo Entrenador);artgreco295@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;149.0;;296.0;Rossi (Primer Entrenador);hanrossi296@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;149.0;;297.0;Greco (Segundo Entrenador);alegreco297@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;150.0;;298.0;Smith (Primer Entrenador);marsmith298@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;150.0;;299.0;Fernández (Segundo Entrenador);antfernández299@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;151.0;;300.0;Becker (Primer Entrenador);josbecker300@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;151.0;;301.0;Müller (Segundo Entrenador);jammüller301@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;152.0;;302.0;Davies (Primer Entrenador);luidavies302@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;152.0;;303.0;Williams (Segundo Entrenador);micwilliams303@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;153.0;;304.0;Dupont (Primer Entrenador);pabdupont304@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;153.0;;305.0;Moreau (Segundo Entrenador);diemoreau305@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;154.0;;306.0;Wagner (Primer Entrenador);felwagner306@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;154.0;;307.0;López (Segundo Entrenador);huglópez307@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;155.0;;308.0;Gómez (Primer Entrenador);jeagómez308@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;155.0;;309.0;Brown (Segundo Entrenador);robbrown309@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;156.0;;310.0;Davies (Primer Entrenador);diedavies310@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;156.0;;311.0;Brown (Segundo Entrenador);julbrown311@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;157.0;;312.0;Bernard (Primer Entrenador);josbernard312@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;157.0;;313.0;Weber (Segundo Entrenador);pieweber313@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;158.0;;314.0;Evans (Primer Entrenador);robevans314@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;158.0;;315.0;Hoffmann (Segundo Entrenador);luchoffmann315@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;159.0;;316.0;Marino (Primer Entrenador);antmarino316@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;159.0;;317.0;Johnson (Segundo Entrenador);danjohnson317@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;160.0;;318.0;Martínez (Primer Entrenador);chamartínez318@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;160.0;;319.0;Koch (Segundo Entrenador);javkoch319@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;161.0;;320.0;Ricci (Primer Entrenador);johricci320@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;161.0;;321.0;Koch (Segundo Entrenador);pabkoch321@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;162.0;;322.0;Bernard (Primer Entrenador);lukbernard322@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;162.0;;323.0;Gómez (Segundo Entrenador);alegómez323@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;163.0;;324.0;Bianchi (Primer Entrenador);danbianchi324@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;163.0;;325.0;Bianchi (Segundo Entrenador);lucbianchi325@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;164.0;;326.0;Jones (Primer Entrenador);serjones326@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;164.0;;327.0;Bianchi (Segundo Entrenador);antbianchi327@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;165.0;;328.0;Bernard (Primer Entrenador);serbernard328@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;165.0;;329.0;Koch (Segundo Entrenador);hugkoch329@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;166.0;;330.0;Dupont (Primer Entrenador);micdupont330@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;166.0;;331.0;Hoffmann (Segundo Entrenador);wilhoffmann331@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;167.0;;332.0;Fernández (Primer Entrenador);lucfernández332@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;167.0;;333.0;Roux (Segundo Entrenador);aleroux333@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;168.0;;334.0;Koch (Primer Entrenador);paukoch334@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;168.0;;335.0;Pérez (Segundo Entrenador);robpérez335@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;169.0;;336.0;Dupont (Primer Entrenador);loudupont336@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;169.0;;337.0;Fernández (Segundo Entrenador);stefernández337@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;170.0;;338.0;Dupont (Primer Entrenador);jürdupont338@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;170.0;;339.0;Rossi (Segundo Entrenador);jamrossi339@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;171.0;;340.0;Marino (Primer Entrenador);diemarino340@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;171.0;;341.0;Becker (Segundo Entrenador);carbecker341@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;172.0;;342.0;Martínez (Primer Entrenador);lukmartínez342@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;172.0;;343.0;Dupont (Segundo Entrenador);chadupont343@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;173.0;;344.0;Hoffmann (Primer Entrenador);pabhoffmann344@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;173.0;;345.0;Müller (Segundo Entrenador);jürmüller345@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;174.0;;346.0;Moreau (Primer Entrenador);klamoreau346@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;174.0;;347.0;Koch (Segundo Entrenador);robkoch347@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;175.0;;348.0;Evans (Primer Entrenador);jeaevans348@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;175.0;;349.0;Wagner (Segundo Entrenador);robwagner349@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;176.0;;350.0;Becker (Primer Entrenador);johbecker350@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;176.0;;351.0;Taylor (Segundo Entrenador);jortaylor351@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;177.0;;352.0;Bianchi (Primer Entrenador);jambianchi352@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;177.0;;353.0;Greco (Segundo Entrenador);thogreco353@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;178.0;;354.0;Koch (Primer Entrenador);davkoch354@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;178.0;;355.0;Marino (Segundo Entrenador);micmarino355@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;179.0;;356.0;Richard (Primer Entrenador);johrichard356@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;179.0;;357.0;Becker (Segundo Entrenador);jorbecker357@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;180.0;;358.0;Marino (Primer Entrenador);josmarino358@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;180.0;;359.0;García (Segundo Entrenador);pabgarcía359@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;181.0;;360.0;Martínez (Primer Entrenador);jammartínez360@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;181.0;;361.0;Schmidt (Segundo Entrenador);danschmidt361@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;182.0;;362.0;Jones (Primer Entrenador);luijones362@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;182.0;;363.0;Martin (Segundo Entrenador);micmartin363@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;183.0;;364.0;Jones (Primer Entrenador);danjones364@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;183.0;;365.0;Johnson (Segundo Entrenador);stejohnson365@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;184.0;;366.0;Smith (Primer Entrenador);davsmith366@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;184.0;;367.0;Johnson (Segundo Entrenador);alejohnson367@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;185.0;;368.0;Becker (Primer Entrenador);ricbecker368@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;185.0;;369.0;Taylor (Segundo Entrenador);feltaylor369@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;186.0;;370.0;Taylor (Primer Entrenador);feltaylor370@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;186.0;;371.0;Schmidt (Segundo Entrenador);johschmidt371@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;187.0;;372.0;Becker (Primer Entrenador);migbecker372@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;187.0;;373.0;Evans (Segundo Entrenador);hugevans373@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;188.0;;374.0;Dupont (Primer Entrenador);paudupont374@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;188.0;;375.0;López (Segundo Entrenador);luilópez375@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;189.0;;376.0;Hoffmann (Primer Entrenador);carhoffmann376@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;189.0;;377.0;Pérez (Segundo Entrenador);danpérez377@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;190.0;;378.0;Bianchi (Primer Entrenador);ricbianchi378@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;190.0;;379.0;Pérez (Segundo Entrenador);migpérez379@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;191.0;;380.0;García (Primer Entrenador);giogarcía380@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;191.0;;381.0;López (Segundo Entrenador);dielópez381@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;192.0;;382.0;Fernández (Primer Entrenador);paufernández382@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;192.0;;383.0;Taylor (Segundo Entrenador);thotaylor383@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;193.0;;384.0;Smith (Primer Entrenador);pausmith384@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;193.0;;385.0;Müller (Segundo Entrenador);jeamüller385@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;194.0;;386.0;Sánchez (Primer Entrenador);pabsánchez386@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;194.0;;387.0;Gallo (Segundo Entrenador);jamgallo387@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;195.0;;388.0;Schmidt (Primer Entrenador);serschmidt388@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;195.0;;389.0;Marino (Segundo Entrenador);lukmarino389@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;196.0;;390.0;Koch (Primer Entrenador);luckoch390@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;196.0;;391.0;Martínez (Segundo Entrenador);felmartínez391@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;197.0;;392.0;Martin (Primer Entrenador);micmartin392@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;197.0;;393.0;Romano (Segundo Entrenador);hugromano393@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;198.0;;394.0;Martin (Primer Entrenador);klamartin394@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;198.0;;395.0;Roux (Segundo Entrenador);fraroux395@metricgoal.com;metricg0al.1234
+;Stefan;CUERPO_TECNICO;199.0;;396.0;Smith (Primer Entrenador);stesmith396@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;199.0;;397.0;Ricci (Segundo Entrenador);pauricci397@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;200.0;;398.0;Greco (Primer Entrenador);klagreco398@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;200.0;;399.0;Koch (Segundo Entrenador);luckoch399@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;201.0;;400.0;Bianchi (Primer Entrenador);piebianchi400@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;201.0;;401.0;Marino (Segundo Entrenador);thomarino401@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;202.0;;402.0;Brown (Primer Entrenador);diebrown402@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;202.0;;403.0;Brown (Segundo Entrenador);johbrown403@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;203.0;;404.0;Richard (Primer Entrenador);davrichard404@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;203.0;;405.0;Martin (Segundo Entrenador);migmartin405@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;204.0;;406.0;Romano (Primer Entrenador);hanromano406@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;204.0;;407.0;Schäfer (Segundo Entrenador);serschäfer407@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;205.0;;408.0;Jones (Primer Entrenador);wiljones408@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;205.0;;409.0;Hoffmann (Segundo Entrenador);anthoffmann409@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;206.0;;410.0;Marino (Primer Entrenador);alemarino410@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;206.0;;411.0;Bianchi (Segundo Entrenador);lukbianchi411@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;207.0;;412.0;Wagner (Primer Entrenador);lukwagner412@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;207.0;;413.0;Roux (Segundo Entrenador);marroux413@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;208.0;;414.0;Colombo (Primer Entrenador);luccolombo414@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;208.0;;415.0;García (Segundo Entrenador);margarcía415@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;209.0;;416.0;López (Primer Entrenador);miclópez416@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;209.0;;417.0;Marino (Segundo Entrenador);paumarino417@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;210.0;;418.0;Johnson (Primer Entrenador);chajohnson418@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;210.0;;419.0;Hoffmann (Segundo Entrenador);pauhoffmann419@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;211.0;;420.0;Becker (Primer Entrenador);marbecker420@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;211.0;;421.0;Colombo (Segundo Entrenador);migcolombo421@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;212.0;;422.0;Weber (Primer Entrenador);artweber422@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;212.0;;423.0;Bernard (Segundo Entrenador);loubernard423@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;213.0;;424.0;Johnson (Primer Entrenador);lukjohnson424@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;213.0;;425.0;Martínez (Segundo Entrenador);piemartínez425@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;214.0;;426.0;Schmidt (Primer Entrenador);micschmidt426@metricgoal.com;metricg0al.1234
+;Alessandro;CUERPO_TECNICO;214.0;;427.0;Sánchez (Segundo Entrenador);alesánchez427@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;215.0;;428.0;Moreau (Primer Entrenador);lukmoreau428@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;215.0;;429.0;Colombo (Segundo Entrenador);felcolombo429@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;216.0;;430.0;Sánchez (Primer Entrenador);robsánchez430@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;216.0;;431.0;Bernard (Segundo Entrenador);thobernard431@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;217.0;;432.0;Richard (Primer Entrenador);marrichard432@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;217.0;;433.0;Johnson (Segundo Entrenador);migjohnson433@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;218.0;;434.0;Bianchi (Primer Entrenador);robbianchi434@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;218.0;;435.0;Brown (Segundo Entrenador);frabrown435@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;219.0;;436.0;Marino (Primer Entrenador);piemarino436@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;219.0;;437.0;Johnson (Segundo Entrenador);juljohnson437@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;220.0;;438.0;Gallo (Primer Entrenador);sergallo438@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;220.0;;439.0;Bernard (Segundo Entrenador);lukbernard439@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;221.0;;440.0;Becker (Primer Entrenador);jürbecker440@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;221.0;;441.0;Sánchez (Segundo Entrenador);lucsánchez441@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;222.0;;442.0;Greco (Primer Entrenador);wilgreco442@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;222.0;;443.0;Bernard (Segundo Entrenador);chabernard443@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;223.0;;444.0;Pérez (Primer Entrenador);pabpérez444@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;223.0;;445.0;Davies (Segundo Entrenador);dandavies445@metricgoal.com;metricg0al.1234
+;Luigi;CUERPO_TECNICO;224.0;;446.0;Hoffmann (Primer Entrenador);luihoffmann446@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;224.0;;447.0;Wagner (Segundo Entrenador);chawagner447@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;225.0;;448.0;Taylor (Primer Entrenador);pabtaylor448@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;225.0;;449.0;Schäfer (Segundo Entrenador);aleschäfer449@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;226.0;;450.0;Williams (Primer Entrenador);lucwilliams450@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;226.0;;451.0;Taylor (Segundo Entrenador);hantaylor451@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;227.0;;452.0;Greco (Primer Entrenador);lougreco452@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;227.0;;453.0;Evans (Segundo Entrenador);lukevans453@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;228.0;;454.0;Fernández (Primer Entrenador);jeafernández454@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;228.0;;455.0;Müller (Segundo Entrenador);diemüller455@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;229.0;;456.0;Schäfer (Primer Entrenador);josschäfer456@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;229.0;;457.0;Müller (Segundo Entrenador);wilmüller457@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;230.0;;458.0;Petit (Primer Entrenador);artpetit458@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;230.0;;459.0;Smith (Segundo Entrenador);davsmith459@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;231.0;;460.0;Becker (Primer Entrenador);serbecker460@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;231.0;;461.0;Gómez (Segundo Entrenador);lougómez461@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;232.0;;462.0;Martínez (Primer Entrenador);julmartínez462@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;232.0;;463.0;Becker (Segundo Entrenador);hanbecker463@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;233.0;;464.0;Bianchi (Primer Entrenador);chabianchi464@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;233.0;;465.0;Davies (Segundo Entrenador);mardavies465@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;234.0;;466.0;Dupont (Primer Entrenador);paudupont466@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;234.0;;467.0;Gómez (Segundo Entrenador);dangómez467@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;235.0;;468.0;Rodríguez (Primer Entrenador);jorrodríguez468@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;235.0;;469.0;Colombo (Segundo Entrenador);loucolombo469@metricgoal.com;metricg0al.1234
+;Antoine;CUERPO_TECNICO;236.0;;470.0;Brown (Primer Entrenador);antbrown470@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;236.0;;471.0;Taylor (Segundo Entrenador);martaylor471@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;237.0;;472.0;Marino (Primer Entrenador);micmarino472@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;237.0;;473.0;Williams (Segundo Entrenador);hanwilliams473@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;238.0;;474.0;Moreau (Primer Entrenador);johmoreau474@metricgoal.com;metricg0al.1234
+;Pablo;CUERPO_TECNICO;238.0;;475.0;Schmidt (Segundo Entrenador);pabschmidt475@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;239.0;;476.0;Romano (Primer Entrenador);carromano476@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;239.0;;477.0;Greco (Segundo Entrenador);paugreco477@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;240.0;;478.0;Leroy (Primer Entrenador);felleroy478@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;240.0;;479.0;Gómez (Segundo Entrenador);hangómez479@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;241.0;;480.0;Rodríguez (Primer Entrenador);paurodríguez480@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;241.0;;481.0;García (Segundo Entrenador);klagarcía481@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;242.0;;482.0;Petit (Primer Entrenador);felpetit482@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;242.0;;483.0;Greco (Segundo Entrenador);giogreco483@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;243.0;;484.0;Greco (Primer Entrenador);cargreco484@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;243.0;;485.0;Bernard (Segundo Entrenador);robbernard485@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;244.0;;486.0;Gallo (Primer Entrenador);lucgallo486@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;244.0;;487.0;Martínez (Segundo Entrenador);carmartínez487@metricgoal.com;metricg0al.1234
+;Giovanni;CUERPO_TECNICO;245.0;;488.0;Schmidt (Primer Entrenador);gioschmidt488@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;245.0;;489.0;Moreau (Segundo Entrenador);thomoreau489@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;246.0;;490.0;Roux (Primer Entrenador);hugroux490@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;246.0;;491.0;Bianchi (Segundo Entrenador);marbianchi491@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;247.0;;492.0;Sánchez (Primer Entrenador);jürsánchez492@metricgoal.com;metricg0al.1234
+;Julien;CUERPO_TECNICO;247.0;;493.0;Schmidt (Segundo Entrenador);julschmidt493@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;248.0;;494.0;Martínez (Primer Entrenador);piemartínez494@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;248.0;;495.0;Schäfer (Segundo Entrenador);johschäfer495@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;249.0;;496.0;Taylor (Primer Entrenador);dietaylor496@metricgoal.com;metricg0al.1234
+;Francesco;CUERPO_TECNICO;249.0;;497.0;Koch (Segundo Entrenador);frakoch497@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;250.0;;498.0;Taylor (Primer Entrenador);jostaylor498@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;250.0;;499.0;Smith (Segundo Entrenador);lousmith499@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;251.0;;500.0;Davies (Primer Entrenador);diedavies500@metricgoal.com;metricg0al.1234
+;James;CUERPO_TECNICO;251.0;;501.0;Müller (Segundo Entrenador);jammüller501@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;252.0;;502.0;López (Primer Entrenador);loulópez502@metricgoal.com;metricg0al.1234
+;Luc;CUERPO_TECNICO;252.0;;503.0;Müller (Segundo Entrenador);lucmüller503@metricgoal.com;metricg0al.1234
+;Mario;CUERPO_TECNICO;253.0;;504.0;Petit (Primer Entrenador);marpetit504@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;253.0;;505.0;Greco (Segundo Entrenador);lukgreco505@metricgoal.com;metricg0al.1234
+;Miguel;CUERPO_TECNICO;254.0;;506.0;Colombo (Primer Entrenador);migcolombo506@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;254.0;;507.0;Sánchez (Segundo Entrenador);micsánchez507@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;255.0;;508.0;Colombo (Primer Entrenador);robcolombo508@metricgoal.com;metricg0al.1234
+;Jorge;CUERPO_TECNICO;255.0;;509.0;Becker (Segundo Entrenador);jorbecker509@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;256.0;;510.0;Martínez (Primer Entrenador);danmartínez510@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;256.0;;511.0;Richard (Segundo Entrenador);davrichard511@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;257.0;;512.0;Evans (Primer Entrenador);danevans512@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;257.0;;513.0;Romano (Segundo Entrenador);danromano513@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;258.0;;514.0;Williams (Primer Entrenador);pauwilliams514@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;258.0;;515.0;Davies (Segundo Entrenador);cardavies515@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;259.0;;516.0;Becker (Primer Entrenador);javbecker516@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;259.0;;517.0;Gallo (Segundo Entrenador);johgallo517@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;260.0;;518.0;Hoffmann (Primer Entrenador);carhoffmann518@metricgoal.com;metricg0al.1234
+;Robert;CUERPO_TECNICO;260.0;;519.0;Brown (Segundo Entrenador);robbrown519@metricgoal.com;metricg0al.1234
+;Hans;CUERPO_TECNICO;261.0;;520.0;Leroy (Primer Entrenador);hanleroy520@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;261.0;;521.0;Weber (Segundo Entrenador);lukweber521@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;262.0;;522.0;Martin (Primer Entrenador);micmartin522@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;262.0;;523.0;Bernard (Segundo Entrenador);klabernard523@metricgoal.com;metricg0al.1234
+;Dieter;CUERPO_TECNICO;263.0;;524.0;Johnson (Primer Entrenador);diejohnson524@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;263.0;;525.0;Marino (Segundo Entrenador);jeamarino525@metricgoal.com;metricg0al.1234
+;David;CUERPO_TECNICO;264.0;;526.0;Weber (Primer Entrenador);davweber526@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;264.0;;527.0;Marino (Segundo Entrenador);micmarino527@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;265.0;;528.0;Bernard (Primer Entrenador);piebernard528@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;265.0;;529.0;Weber (Segundo Entrenador);serweber529@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;266.0;;530.0;Dupont (Primer Entrenador);serdupont530@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;266.0;;531.0;Martin (Segundo Entrenador);robmartin531@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;267.0;;532.0;Bernard (Primer Entrenador);javbernard532@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;267.0;;533.0;Smith (Segundo Entrenador);felsmith533@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;268.0;;534.0;Jones (Primer Entrenador);javjones534@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;268.0;;535.0;Gallo (Segundo Entrenador);josgallo535@metricgoal.com;metricg0al.1234
+;Paul;CUERPO_TECNICO;269.0;;536.0;Davies (Primer Entrenador);paudavies536@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;269.0;;537.0;Davies (Segundo Entrenador);robdavies537@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;270.0;;538.0;Schäfer (Primer Entrenador);serschäfer538@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;270.0;;539.0;Schäfer (Segundo Entrenador);josschäfer539@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;271.0;;540.0;Evans (Primer Entrenador);felevans540@metricgoal.com;metricg0al.1234
+;Arthur;CUERPO_TECNICO;271.0;;541.0;Dupont (Segundo Entrenador);artdupont541@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;272.0;;542.0;Moreau (Primer Entrenador);carmoreau542@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;272.0;;543.0;Brown (Segundo Entrenador);alebrown543@metricgoal.com;metricg0al.1234
+;Jürgen;CUERPO_TECNICO;273.0;;544.0;Pérez (Primer Entrenador);jürpérez544@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;273.0;;545.0;Richard (Segundo Entrenador);johrichard545@metricgoal.com;metricg0al.1234
+;Carlos;CUERPO_TECNICO;274.0;;546.0;Fernández (Primer Entrenador);carfernández546@metricgoal.com;metricg0al.1234
+;Daniel;CUERPO_TECNICO;274.0;;547.0;Müller (Segundo Entrenador);danmüller547@metricgoal.com;metricg0al.1234
+;Jean;CUERPO_TECNICO;275.0;;548.0;Rodríguez (Primer Entrenador);jearodríguez548@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;275.0;;549.0;Brown (Segundo Entrenador);alebrown549@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;276.0;;550.0;Ricci (Primer Entrenador);javricci550@metricgoal.com;metricg0al.1234
+;Javier;CUERPO_TECNICO;276.0;;551.0;Leroy (Segundo Entrenador);javleroy551@metricgoal.com;metricg0al.1234
+;Thomas;CUERPO_TECNICO;277.0;;552.0;Dupont (Primer Entrenador);thodupont552@metricgoal.com;metricg0al.1234
+;Antonio;CUERPO_TECNICO;277.0;;553.0;Moreau (Segundo Entrenador);antmoreau553@metricgoal.com;metricg0al.1234
+;Richard;CUERPO_TECNICO;278.0;;554.0;Martínez (Primer Entrenador);ricmartínez554@metricgoal.com;metricg0al.1234
+;Michael;CUERPO_TECNICO;278.0;;555.0;Jones (Segundo Entrenador);micjones555@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;279.0;;556.0;Greco (Primer Entrenador);chagreco556@metricgoal.com;metricg0al.1234
+;William;CUERPO_TECNICO;279.0;;557.0;Brown (Segundo Entrenador);wilbrown557@metricgoal.com;metricg0al.1234
+;Lukas;CUERPO_TECNICO;280.0;;558.0;Romano (Primer Entrenador);lukromano558@metricgoal.com;metricg0al.1234
+;Hugo;CUERPO_TECNICO;280.0;;559.0;Dupont (Segundo Entrenador);hugdupont559@metricgoal.com;metricg0al.1234
+;Charles;CUERPO_TECNICO;281.0;;560.0;Roux (Primer Entrenador);charoux560@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;281.0;;561.0;Roux (Segundo Entrenador);louroux561@metricgoal.com;metricg0al.1234
+;Roberto;CUERPO_TECNICO;282.0;;562.0;Bernard (Primer Entrenador);robbernard562@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;282.0;;563.0;Williams (Segundo Entrenador);piewilliams563@metricgoal.com;metricg0al.1234
+;Felix;CUERPO_TECNICO;283.0;;564.0;Smith (Primer Entrenador);felsmith564@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;283.0;;565.0;Romano (Segundo Entrenador);josromano565@metricgoal.com;metricg0al.1234
+;Marcel;CUERPO_TECNICO;284.0;;566.0;Brown (Primer Entrenador);marbrown566@metricgoal.com;metricg0al.1234
+;Pierre;CUERPO_TECNICO;284.0;;567.0;Williams (Segundo Entrenador);piewilliams567@metricgoal.com;metricg0al.1234
+;Diego;CUERPO_TECNICO;285.0;;568.0;Gallo (Primer Entrenador);diegallo568@metricgoal.com;metricg0al.1234
+;Alejandro;CUERPO_TECNICO;285.0;;569.0;Evans (Segundo Entrenador);aleevans569@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;286.0;;570.0;Marino (Primer Entrenador);klamarino570@metricgoal.com;metricg0al.1234
+;Sergio;CUERPO_TECNICO;286.0;;571.0;Richard (Segundo Entrenador);serrichard571@metricgoal.com;metricg0al.1234
+;John;CUERPO_TECNICO;287.0;;572.0;Schmidt (Primer Entrenador);johschmidt572@metricgoal.com;metricg0al.1234
+;Joseph;CUERPO_TECNICO;287.0;;573.0;Moreau (Segundo Entrenador);josmoreau573@metricgoal.com;metricg0al.1234
+;Klaus;CUERPO_TECNICO;288.0;;574.0;Romano (Primer Entrenador);klaromano574@metricgoal.com;metricg0al.1234
+;Marco;CUERPO_TECNICO;288.0;;575.0;Bernard (Segundo Entrenador);marbernard575@metricgoal.com;metricg0al.1234
+;Louis;CUERPO_TECNICO;289.0;;576.0;Roux (Primer Entrenador);louroux576@metricgoal.com;metricg0al.1234
+;Luca;CUERPO_TECNICO;289.0;;577.0;Colombo (Segundo Entrenador);luccolombo577@metricgoal.com;metricg0al.1234

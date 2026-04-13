@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - METRICGOAL</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dashboard-page">
+
+    <header>
+        <div class="logo">MG</div>
+        <nav>
+            <a href="#" class="active">Mi Equipo</a>
+            <a href="#">Informes</a>
+            <a href="#">Comparar Jugadores</a>
+        </nav>
+        <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+    </header>
+
+    <div class="container">
+        <p class="club-label" id="clubDisplay" style="text-align: center; color: #ffd700; font-weight: bold; margin-bottom: 10px;">Cargando Club...</p>
+        
+        <h1 class="titulo-equipo" id="coachDisplay">Cargando...</h1>
+
+        <button class="btn-añadir">+ AÑADIR JUGADOR</button>
+
+        <div class="seccion">
+            <h3>Delanteros</h3>
+            <div class="fila-jugadores">
+                <div class="caja-jugador"># Jugador 9</div>
+                <div class="caja-jugador"># Jugador 10</div>
+                <div class="caja-jugador"># Jugador 11</div>
+                <div class="caja-jugador"># Jugador 12</div>
+                <div class="flecha">→</div>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h3>Mediocentros</h3>
+            <div class="fila-jugadores">
+                <div class="caja-jugador"># Jugador 1</div>
+                <div class="caja-jugador"># Jugador 2</div>
+                <div class="caja-jugador"># Jugador 3</div>
+                <div class="caja-jugador"># Jugador 4</div>
+                <div class="flecha">→</div>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h3>Defensas</h3>
+            <div class="fila-jugadores">
+                <div class="caja-jugador"># Jugador 5</div>
+                <div class="caja-jugador"># Jugador 6</div>
+                <div class="caja-jugador"># Jugador 7</div>
+                <div class="caja-jugador"># Jugador 8</div>
+                <div class="flecha">→</div>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h3>Porteros</h3>
+            <div class="fila-jugadores">
+                <div class="caja-jugador"># Portero 1</div>
+                <div class="caja-jugador"># Portero 2</div>
+                <div class="caja-jugador" style="opacity: 0.3; cursor: default;">Vacío</div>
+                <div class="caja-jugador" style="opacity: 0.3; cursor: default;">Vacío</div>
+                <div class="flecha" style="visibility: hidden;">→</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Al cargar la página, leemos los datos guardados en el navegador
+        window.onload = function() {
+            const nombre = localStorage.getItem('usuarioNombre');
+            const club = localStorage.getItem('usuarioClub');
+            const equipo = localStorage.getItem('usuarioEquipo');
+
+            if (nombre) {
+                const nombreLimpio = nombre.replace("Bienvenido, ", "");
+                
+                // Imprimimos los datos reales en la pantalla
+                document.getElementById('clubDisplay').textContent = club ? club.toUpperCase() : "CLUB NO ASIGNADO";
+                document.getElementById('coachDisplay').textContent = nombreLimpio + " - " + (equipo ? equipo : "Sin equipo");
+            } else {
+                window.location.href = 'index.html';
+            }
+        };
+
+        function logout() {
+            localStorage.clear(); // Limpiamos todo al salir
+            window.location.href = 'index.html';
+        }
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const activeLink = document.querySelector('nav a.active');
+                if (activeLink) activeLink.classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
