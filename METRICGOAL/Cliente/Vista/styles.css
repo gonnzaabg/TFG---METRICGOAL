@@ -8,7 +8,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 /* ==========================================================================
    2. ESTILOS EXCLUSIVOS DEL LOGIN (Usando body.login-page)
    ========================================================================== */
@@ -165,3 +164,137 @@ body.dashboard-page .caja-jugador:hover {
 
 body.dashboard-page .flecha { font-size: 2.5rem; color: #ffd700; cursor: pointer; transition: 0.3s; padding: 10px; }
 body.dashboard-page .flecha:hover { transform: translateX(10px); text-shadow: 0 0 15px #ffd700; }
+
+/* ==========================================================================
+   4. ESTILOS EXCLUSIVOS DE INFORMES (Usando body.informes-page)
+   ========================================================================== */
+body.informes-page {
+    background: linear-gradient(rgba(0,0,10,0.8), rgba(0,0,10,0.8)), url('fondo_limpio_redimensionado.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    min-height: 100vh;
+}
+
+/* --- CABECERA Y NAVEGACIÓN (Adaptada a la paleta del Dashboard) --- */
+body.informes-page header {
+    background: rgba(255, 255, 255, 0.98);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    position: sticky; 
+    top: 0; 
+    z-index: 1000;
+}
+
+body.informes-page .logo {
+    width: 45px; height: 45px; background: #800020; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: #ffd700; margin-right: 40px;
+    box-shadow: 0 2px 8px rgba(128,0,32,0.4);
+}
+
+body.informes-page nav { display: flex; height: 100%; }
+body.informes-page nav a {
+    text-decoration: none; color: #444; padding: 0 25px; height: 80px;
+    display: flex; align-items: center; font-weight: 600; font-size: 0.95rem;
+    border-bottom: 4px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+body.informes-page nav a:hover { color: #800020; background: #fdfdfd; border-bottom: 4px solid #ccc; }
+body.informes-page nav a.active { color: #004d98; border-bottom: 4px solid #004d98; }
+
+body.informes-page .btn-salir {
+    margin-left: auto; padding: 8px 20px; border: 2px solid #800020;
+    background: transparent; color: #800020; font-weight: bold; border-radius: 8px;
+    cursor: pointer; transition: 0.3s;
+}
+body.informes-page .btn-salir:hover { background: #800020; color: white; }
+
+/* --- CONTENEDOR PRINCIPAL --- */
+body.informes-page .container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* --- DESTACADOS (Top Scorer / Assister) --- */
+body.informes-page .destacados-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+body.informes-page .tarjeta-destacado {
+    flex: 1;
+    background: rgba(128, 0, 32, 0.15); 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+body.informes-page .tarjeta-destacado:hover {
+    transform: translateY(-5px);
+    border-color: #ffd700;
+}
+
+body.informes-page .tarjeta-destacado h3 {
+    font-size: 1.1rem;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+body.informes-page .nombre-jugador {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+body.informes-page .dato-estadistico {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a50044; /* Granate para resaltar los datos */
+}
+
+/* --- GRID INFERIOR (Cajas Grises adaptadas al Dark Mode) --- */
+body.informes-page .grid-informes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    background: rgba(10, 23, 51, 0.55);
+    backdrop-filter: blur(16px);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+}
+
+body.informes-page .caja-gris {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    aspect-ratio: 1 / 1;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+body.informes-page .caja-gris:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #ffd700;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}

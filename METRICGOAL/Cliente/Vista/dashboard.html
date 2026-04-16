@@ -12,8 +12,8 @@
     <header>
         <div class="logo">MG</div>
         <nav>
-            <a href="#" class="active">Mi Equipo</a>
-            <a href="#">Informes</a>
+            <a href="dashboard.html" class="active">Mi Equipo</a>
+            <a href="informes.html">Informes</a>
             <a href="#">Comparar Jugadores</a>
         </nav>
         <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
@@ -93,15 +93,6 @@
             localStorage.clear(); // Limpiamos todo al salir
             window.location.href = 'index.html';
         }
-
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const activeLink = document.querySelector('nav a.active');
-                if (activeLink) activeLink.classList.remove('active');
-                this.classList.add('active');
-            });
-        });
     </script>
 </body>
 </html>

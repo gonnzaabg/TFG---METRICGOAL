@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes - METRICGOAL</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="informes-page">
+
+    <header>
+        <div class="logo">MG</div>
+        <nav>
+            <a href="dashboard.html">Mi Equipo</a>
+            <a href="informes.html" class="active">Informes</a>
+            <a href="comparar.html">Comparar Jugadores</a>
+        </nav>
+        <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+    </header>
+
+    <main class="container">
+        
+        <section class="destacados-section">
+            <div class="tarjeta-destacado" id="card-goleador">
+                <h3>Máximo Goleador</h3>
+                <div class="info-jugador">
+                    <p class="nombre-jugador">Cargando...</p>
+                    <p class="dato-estadistico">-</p>
+                </div>
+            </div>
+
+            <div class="tarjeta-destacado" id="card-asistente">
+                <h3>Máximo Asistente</h3>
+                <div class="info-jugador">
+                    <p class="nombre-jugador">Cargando...</p>
+                    <p class="dato-estadistico">-</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-informes">
+            <div class="caja-gris">Espacio 1</div>
+            <div class="caja-gris">Espacio 2</div>
+            <div class="caja-gris">Espacio 3</div>
+            <div class="caja-gris">Espacio 4</div>
+            <div class="caja-gris">Espacio 5</div>
+            <div class="caja-gris">Espacio 6</div>
+        </section>
+
+    </main>
+
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+
+</body>
+</html>
