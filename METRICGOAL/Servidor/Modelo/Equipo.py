@@ -1,11 +1,12 @@
 from .database import ejecutar_consulta
 
-class Equipo:
-    """
-    @author: gonnzaabg
-    @def: Clase que representa a un equipo específico dentro de un club.
-    """
+"""
+@author: gonnzaabg
+@def: Clase que representa a un equipo específico dentro de un club.
 
+"""
+class Equipo:
+    
     # @param id_equipo: Identificador único del equipo (int)
     # @param id_club: FK del club al que pertenece (int)
     # @param categoria: Categoría del equipo (ej: Senior, Juvenil A) (string)

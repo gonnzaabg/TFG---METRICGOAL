@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparar Jugadores - METRICGOAL</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="comparar-page">
+
+    <header>
+        <div class="logo">MG</div>
+        <nav>
+            <a href="dashboard.html">Mi Equipo</a>
+            <a href="informes.html">Informes</a>
+            <a href="comparar.html" class="active">Comparar Jugadores</a>
+        </nav>
+        <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+    </header>
+
+    <main class="container">
+        
+        <section class="controles-comparacion">
+            <div class="control-grupo">
+                <label for="select-canterano">Selecciona al canterano</label>
+                <select id="select-canterano">
+                    <option value="">Seleccionar...</option>
+                    <option value="1">Jugador 1</option>
+                    <option value="2">Jugador 2</option>
+                </select>
+            </div>
+
+            <div class="control-grupo">
+                <label for="input-profesional">Busca al profesional</label>
+                <input type="text" id="input-profesional" placeholder="Robert Lewandowski...">
+            </div>
+        </section>
+
+        <button class="btn-exportar">Exportar Informe a PDF</button>
+
+        <section class="metricas-grid">
+            <div class="caja-metrica">
+                <h2>MÉTRICAS</h2>
+            </div>
+            <div class="caja-metrica">
+                <h2>MÉTRICAS</h2>
+            </div>
+            <div class="caja-metrica">
+                <h2>MÉTRICAS</h2>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

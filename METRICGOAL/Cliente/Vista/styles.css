@@ -298,3 +298,143 @@ body.informes-page .caja-gris:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
+
+/* ==========================================================================
+   5. ESTILOS EXCLUSIVOS DE COMPARAR (Usando body.comparar-page)
+   ========================================================================== */
+body.comparar-page {
+    background: linear-gradient(rgba(0,0,10,0.8), rgba(0,0,10,0.8)), url('fondo_limpio_redimensionado.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    min-height: 100vh;
+}
+
+/* --- CABECERA Y NAVEGACIÓN (Igual que las otras páginas) --- */
+body.comparar-page header {
+    background: rgba(255, 255, 255, 0.98);
+    height: 80px; display: flex; align-items: center; padding: 0 50px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 1000;
+}
+body.comparar-page .logo {
+    width: 45px; height: 45px; background: #800020; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; color: #ffd700; margin-right: 40px; box-shadow: 0 2px 8px rgba(128,0,32,0.4);
+}
+body.comparar-page nav { display: flex; height: 100%; }
+body.comparar-page nav a {
+    text-decoration: none; color: #444; padding: 0 25px; height: 80px;
+    display: flex; align-items: center; font-weight: 600; font-size: 0.95rem;
+    border-bottom: 4px solid transparent; transition: all 0.3s ease;
+}
+body.comparar-page nav a:hover { color: #800020; background: #fdfdfd; border-bottom: 4px solid #ccc; }
+body.comparar-page nav a.active { color: #004d98; border-bottom: 4px solid #004d98; }
+body.comparar-page .btn-salir {
+    margin-left: auto; padding: 8px 20px; border: 2px solid #800020;
+    background: transparent; color: #800020; font-weight: bold; border-radius: 8px;
+    cursor: pointer; transition: 0.3s;
+}
+body.comparar-page .btn-salir:hover { background: #800020; color: white; }
+
+body.comparar-page .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+/* --- CONTROLES SUPERIORES (Select e Input) --- */
+body.comparar-page .controles-comparacion {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+body.comparar-page .control-grupo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+body.comparar-page .control-grupo label {
+    font-size: 14px;
+    color: #ffd700; /* Tu amarillo característico */
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-transform: uppercase; /* Lo pongo en mayúsculas para que quede igual de imponente que los títulos del Dashboard */
+    letter-spacing: 1px; /* Un poco de espacio entre letras para darle estilo */
+}
+
+body.comparar-page .control-grupo select,
+body.comparar-page .control-grupo input {
+    width: 100%;
+    padding: 14px;
+    background-color: rgba(10, 23, 51, 0.7);
+    border: 2px solid #1e3a8a;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+body.comparar-page .control-grupo select:focus,
+body.comparar-page .control-grupo input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+/* --- BOTÓN EXPORTAR --- */
+body.comparar-page .btn-exportar {
+    width: 100%;
+    background-color: #a50044; /* El rojo granate de tu marca */
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 40px;
+    box-shadow: 0 6px 20px rgba(165, 0, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+body.comparar-page .btn-exportar:hover {
+    background-color: #cc0055;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(165, 0, 68, 0.6);
+}
+
+body.comparar-page .btn-exportar:active {
+    transform: translateY(1px);
+}
+
+/* --- CAJAS DE MÉTRICAS --- */
+body.comparar-page .metricas-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+body.comparar-page .caja-metrica {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+body.comparar-page .caja-metrica:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #ffd700;
+}
+
+body.comparar-page .caja-metrica h2 {
+    color: #cbd5e1;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    opacity: 0.8;
+}
