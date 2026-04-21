@@ -438,3 +438,120 @@ body.comparar-page .caja-metrica h2 {
     letter-spacing: 3px;
     opacity: 0.8;
 }
+/* ==========================================================================
+   6. ESTILOS EXCLUSIVOS PARA MÓVILES (max-width: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* --- CABECERAS (Aplica a Dashboard, Informes y Comparar) --- */
+    body.dashboard-page header,
+    body.informes-page header,
+    body.comparar-page header {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 10px;
+        position: relative; /* Necesario para colocar el botón de salir flotante */
+    }
+
+    body.dashboard-page .logo,
+    body.informes-page .logo,
+    body.comparar-page .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    body.dashboard-page nav,
+    body.informes-page nav,
+    body.comparar-page nav {
+        width: 100%;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        height: auto;
+    }
+
+    body.dashboard-page nav a,
+    body.informes-page nav a,
+    body.comparar-page nav a {
+        height: 40px;
+        padding: 0 5px;
+        font-size: 0.85rem;
+    }
+
+    /* Botón de cerrar sesión: lo sacamos del flujo y lo fijamos arriba a la derecha */
+    body.dashboard-page .btn-salir,
+    body.informes-page .btn-salir,
+    body.comparar-page .btn-salir {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        margin: 0;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    /* --- DASHBOARD --- */
+    body.dashboard-page .titulo-equipo {
+        font-size: 2rem; /* Letra más pequeña para que no se salga */
+        margin-bottom: 20px;
+    }
+
+    body.dashboard-page .btn-añadir {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    body.dashboard-page .seccion {
+        padding: 15px;
+    }
+
+    body.dashboard-page .fila-jugadores {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Forzamos 2 columnas exactas */
+        gap: 10px;
+    }
+
+    body.dashboard-page .caja-jugador {
+        width: 100%;
+        height: 110px;
+        font-size: 0.9rem;
+    }
+
+    body.dashboard-page .flecha {
+        display: none; /* En móvil ocultamos la flecha porque usamos cuadrícula */
+    }
+
+    /* --- INFORMES --- */
+    body.informes-page .destacados-section {
+        flex-direction: column; /* Tarjetas una debajo de otra */
+        gap: 15px;
+    }
+
+    body.informes-page .grid-informes {
+        grid-template-columns: 1fr; /* 1 sola columna para las cajas grises */
+        padding: 20px;
+        gap: 15px;
+    }
+
+    body.informes-page .nombre-jugador {
+        font-size: 1.6rem;
+    }
+
+    /* --- COMPARATIVA --- */
+    body.comparar-page .controles-comparacion {
+        flex-direction: column; /* Selectores uno debajo del otro */
+        gap: 15px;
+    }
+
+    body.comparar-page .btn-exportar {
+        font-size: 1rem;
+        padding: 15px;
+    }
+
+    body.comparar-page .caja-metrica {
+        height: 150px; /* Reducimos la altura en móvil */
+    }
+
+    body.comparar-page .caja-metrica h2 {
+        font-size: 2rem;
+    }
+}
