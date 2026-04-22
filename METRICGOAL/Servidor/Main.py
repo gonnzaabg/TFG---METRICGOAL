@@ -52,6 +52,12 @@ async def read_informes():
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
+@app.get("/comparar_jugadores", response_class=HTMLResponse)
+async def read_informes():
+    path = os.path.join(VISTA_DIR, "comparar_jugadores.html")
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read()        
+
 # --- LÓGICA DEL LOGIN ---
 class LoginData(BaseModel):
     email: str
