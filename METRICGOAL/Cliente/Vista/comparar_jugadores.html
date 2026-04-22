@@ -11,9 +11,9 @@
     <header>
         <div class="logo">MG</div>
         <nav>
-            <a href="dashboard.html">Mi Equipo</a>
-            <a href="informes.html">Informes</a>
-            <a href="comparar.html" class="active">Comparar Jugadores</a>
+            <a href="/dashboard" class="active">Mi Equipo</a>
+            <a href="/informes">Informes</a>
+            <a href="/comparar_jugadores">Comparar Jugadores</a>
         </nav>
         <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
     </header>
@@ -55,7 +55,7 @@
     <script>
         function logout() {
             localStorage.clear();
-            window.location.href = 'index.html';
+            window.location.href = '/';
         }
     </script>
 </body>
