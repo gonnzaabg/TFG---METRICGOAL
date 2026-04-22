@@ -5,13 +5,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse 
 import os
 
-# ¡Importamos el controlador!
+# 1. IMPORTACIONES
 from Controlador.auth_controller import verificar_credenciales
 
-# 1. CREAR LA INSTANCIA DE LA APP (Fundamental que esté aquí arriba)
 app = FastAPI()
 
-# 2. CONFIGURAR CORS (Para que no te dé problemas de permisos desde el navegador)
+# 2. CONFIGURAR CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,34 +18,41 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# 3. CONFIGURAR RUTAS DE CARPETAS
-# Buscamos la carpeta 'Vista' que está en el mismo nivel que este Main.py
+# 3. LOCALIZACIÓN DE LA CARPETA CLIENTE (Desde Servidor)
+# BASE_DIR será: /app/METRICGOAL/Servidor
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-VISTA_DIR = os.path.join(BASE_DIR, "Vista")
+
+# Subimos un nivel para salir de 'Servidor' y entramos en 'Cliente/Vista'
+# La ruta resultante será: /app/METRICGOAL/Cliente/Vista
+VISTA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "Cliente", "Vista"))
+
+# --- DEBUG PARA LOGS DE RENDER ---
+print(f"DEBUG: Buscando HTML en: {VISTA_DIR}")
 
 # 4. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS
-# Ahora 'app' ya existe, así que no dará error
 app.mount("/static", StaticFiles(directory=VISTA_DIR), name="static")
 
 # --- RUTAS PARA LOS ARCHIVOS HTML ---
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():
-    with open(os.path.join(VISTA_DIR, "index.html"), "r", encoding="utf-8") as f:
+    path = os.path.join(VISTA_DIR, "index.html")
+    with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def read_dashboard():
-    with open(os.path.join(VISTA_DIR, "dashboard.html"), "r", encoding="utf-8") as f:
+    path = os.path.join(VISTA_DIR, "dashboard.html")
+    with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
 @app.get("/informes", response_class=HTMLResponse)
 async def read_informes():
-    with open(os.path.join(VISTA_DIR, "informes.html"), "r", encoding="utf-8") as f:
+    path = os.path.join(VISTA_DIR, "informes.html")
+    with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
-# --- LÓGICA DE LA API (LOGIN) ---
-
+# --- LÓGICA DEL LOGIN ---
 class LoginData(BaseModel):
     email: str
     password: str
@@ -58,7 +64,6 @@ async def login(data: LoginData):
         if datos_usuario:
             return {
                 "status": "success", 
-                "message": f"Bienvenido, {datos_usuario['nombre']}",
                 "nombre": datos_usuario['nombre'],
                 "club": datos_usuario['club'],
                 "equipo": datos_usuario['equipo']
@@ -66,11 +71,9 @@ async def login(data: LoginData):
         else:
             raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
     except Exception as e:
-        print(f"Error en el login: {e}")
-        raise HTTPException(status_code=500, detail="Error interno del servidor")
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
-    # Render usa la variable PORT
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
