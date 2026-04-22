@@ -8,30 +8,28 @@ import os
 # ¡Importamos el controlador!
 from Controlador.auth_controller import verificar_credenciales
 
-app = FastAPI()
-
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+# Buscamos la carpeta 'Vista' que está en el mismo nivel que este Main.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+VISTA_DIR = os.path.join(BASE_DIR, "Vista")
 
 # --- 1. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS ---
-# Usamos la ruta completa que definiste en tu estructura de carpetas
-app.mount("/static", StaticFiles(directory="METRICGOAL/Servidor/Vista"), name="static")
+app.mount("/static", StaticFiles(directory=VISTA_DIR), name="static")
 
 # --- 2. RUTAS PARA LOS ARCHIVOS HTML ---
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():
-    # El archivo de login
-    with open("METRICGOAL/Servidor/Vista/index.html", "r", encoding="utf-8") as f:
+    with open(os.path.join(VISTA_DIR, "index.html"), "r", encoding="utf-8") as f:
         return f.read()
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def read_dashboard():
-    with open("METRICGOAL/Servidor/Vista/dashboard.html", "r", encoding="utf-8") as f:
+    with open(os.path.join(VISTA_DIR, "dashboard.html"), "r", encoding="utf-8") as f:
         return f.read()
 
 @app.get("/informes", response_class=HTMLResponse)
 async def read_informes():
-    with open("METRICGOAL/Servidor/Vista/informes.html", "r", encoding="utf-8") as f:
+    with open(os.path.join(VISTA_DIR, "informes.html"), "r", encoding="utf-8") as f:
         return f.read()
 # --- 3. LÓGICA DE LA API (TU LOGIN) ---
 
