@@ -61,8 +61,11 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
+            // ... dentro del event listener ...
             try {
-                const response = await fetch('https://tfg-metricgoal-bueno.onrender.com', {
+                // CAMBIO 1: Añadir /login al final de la URL
+                // Lo mejor es usar una ruta relativa para que funcione en local y en Render
+                const response = await fetch('/login', { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -71,19 +74,17 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    // Tienes que guardar los 3 datos que te mande tu backend
                     localStorage.setItem('usuarioNombre', result.nombre); 
-                    localStorage.setItem('usuarioClub', result.club);       // Ej: "FC Barcelona"
-                    localStorage.setItem('usuarioEquipo', result.equipo);   // Ej: "Cadete A"
+                    localStorage.setItem('usuarioClub', result.club); 
+                    localStorage.setItem('usuarioEquipo', result.equipo); 
                     
-                    window.location.href = 'dashboard.html'; 
+                    // CAMBIO 2: Redirigir a la RUTA de FastAPI, no al archivo .html
+                    window.location.href = '/dashboard'; 
                 } else {
-                    // ERROR DE LOGIN
-                    errorDisplay.textContent = "Credenciales incorrectas";
+                    errorDisplay.textContent = result.detail || "Credenciales incorrectas";
                     errorDisplay.style.display = 'block';
                 }
             } catch (error) {
-                // ERROR DE SERVIDOR
                 errorDisplay.textContent = "🔌 Error: El servidor no responde.";
                 errorDisplay.style.display = 'block';
             }
