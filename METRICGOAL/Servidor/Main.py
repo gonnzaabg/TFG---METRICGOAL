@@ -1,21 +1,34 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from fastapi.staticfiles import StaticFiles # Importante
-from fastapi.responses import HTMLResponse # Importante
+from fastapi.staticfiles import StaticFiles 
+from fastapi.responses import HTMLResponse 
 import os
 
 # ¡Importamos el controlador!
 from Controlador.auth_controller import verificar_credenciales
 
+# 1. CREAR LA INSTANCIA DE LA APP (Fundamental que esté aquí arriba)
+app = FastAPI()
+
+# 2. CONFIGURAR CORS (Para que no te dé problemas de permisos desde el navegador)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+# 3. CONFIGURAR RUTAS DE CARPETAS
 # Buscamos la carpeta 'Vista' que está en el mismo nivel que este Main.py
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 VISTA_DIR = os.path.join(BASE_DIR, "Vista")
 
-# --- 1. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS ---
+# 4. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS
+# Ahora 'app' ya existe, así que no dará error
 app.mount("/static", StaticFiles(directory=VISTA_DIR), name="static")
 
-# --- 2. RUTAS PARA LOS ARCHIVOS HTML ---
+# --- RUTAS PARA LOS ARCHIVOS HTML ---
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():
@@ -31,7 +44,8 @@ async def read_dashboard():
 async def read_informes():
     with open(os.path.join(VISTA_DIR, "informes.html"), "r", encoding="utf-8") as f:
         return f.read()
-# --- 3. LÓGICA DE LA API (TU LOGIN) ---
+
+# --- LÓGICA DE LA API (LOGIN) ---
 
 class LoginData(BaseModel):
     email: str
@@ -57,7 +71,6 @@ async def login(data: LoginData):
 
 if __name__ == "__main__":
     import uvicorn
-    # En Render, el puerto lo da la variable de entorno $PORT, 
-    # pero para local el 8000 está bien.
+    # Render usa la variable PORT
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
