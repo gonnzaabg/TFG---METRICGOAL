@@ -24,7 +24,7 @@
         
         <h1 class="titulo-equipo" id="coachDisplay">Cargando...</h1>
 
-        <button class="btn-añadir">+ AÑADIR JUGADOR</button>
+        <button class="btn-añadir" onclick="abrirModal()">+ AÑADIR JUGADOR</button>
 
         <div class="seccion">
             <h3>Delanteros</h3>
@@ -69,6 +69,41 @@
                 <div class="flecha" style="visibility: hidden;">→</div>
             </div>
         </div>
+
+        <div id="modalJugador" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Registrar Canterano</h2>
+                    <span class="close-modal" onclick="cerrarModal()">&times;</span>
+                </div>
+                <form id="formJugador">
+                    <div class="modal-grid">
+                        <div class="input-group">
+                            <label>Nombre</label>
+                            <input type="text" id="nombreJ" placeholder="Ej: Juan" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Apellidos</label>
+                            <input type="text" id="apellidoJ" placeholder="Ej: García" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Edad</label>
+                            <input type="number" id="edadJ" placeholder="18" min="0" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Posición</label>
+                            <select id="posicionJ">
+                                <option value="Delantero">Delantero</option>
+                                <option value="Mediocentro">Mediocentro</option>
+                                <option value="Defensa">Defensa</option>
+                                <option value="Portero">Portero</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-guardar">GUARDAR JUGADOR</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -93,6 +128,21 @@
             localStorage.clear(); // Limpiamos todo al salir
             window.location.href = '/';
         }
+
+        function abrirModal() {
+            document.getElementById('modalJugador').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalJugador').style.display = 'none';
+        }
+
+        // Lógica para el envío del formulario (aquí conectarás con tu Python luego)
+        document.getElementById('formJugador').onsubmit = function(e) {
+            e.preventDefault();
+            alert("Jugador registrado (Simulado). ¡Aquí conectarás con la BD!");
+            cerrarModal();
+        };
     </script>
 </body>
 </html>
