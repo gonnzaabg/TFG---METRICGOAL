@@ -1,33 +1,31 @@
 import pandas as pd
 from Modelo.database import ejecutar_consulta
 
-def verificar_credenciales(email: str, password: str):
-    """
-    Controlador encargado de gestionar el login.
-    Devuelve un diccionario con los datos del usuario si hay éxito, o None si falla.
-    """
+def verificar_credenciales(email, password_input): # <--- Aquí se llama password_input
     query = """
         SELECT 
             ct.nombre, 
-            ct.apellidos, 
-            e.categoria AS equipo, 
-            c.nombre AS club
+            ct.id_equipo, 
+            c.nombre AS club, 
+            e.categoria AS equipo
         FROM cuerpo_tecnico ct
-        LEFT JOIN equipo e ON ct.id_equipo = e.id_equipo
-        LEFT JOIN club c ON e.id_club = c.id_club
-        WHERE ct.email = ? AND ct.contrasenia = ?
+        JOIN equipo e ON ct.id_equipo = e.id_equipo
+        JOIN club c ON e.id_club = c.id_club
+        WHERE ct.email = ? AND ct.password = ?
     """
     
-    df = ejecutar_consulta(query, (email, password))
+    # CAMBIO AQUÍ: Usamos password_input, que es como se llama tu variable
+    df = ejecutar_consulta(query, (email, password_input)) 
     
     if df is not None and not df.empty:
         usuario = df.iloc[0]
         
-        # Procesamos la lógica de negocio aquí (limpiar datos, asignar valores por defecto)
         return {
+            "status": "success",
             "nombre": str(usuario['nombre']),
-            "club": str(usuario['club']) if pd.notna(usuario['club']) else "Sin Club",
-            "equipo": str(usuario['equipo']) if pd.notna(usuario['equipo']) else "Sin Equipo"
+            "id_equipo": int(usuario['id_equipo']),
+            "club": str(usuario['club']),
+            "equipo": str(usuario['equipo'])
         }
     
-    return None # Si el login falla
+    return None

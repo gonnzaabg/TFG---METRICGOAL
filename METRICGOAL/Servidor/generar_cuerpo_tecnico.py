@@ -46,7 +46,7 @@ def generar_cuerpo_tecnico():
                 email = f"{nombre[:3].lower()}{apellido.lower()}{id_tecnico_actual}@metricgoal.com"
                 
                 con.execute("""
-                    INSERT INTO cuerpo_tecnico (id_cuerpo_tecnico, id_equipo, nombre, apellidos, email, contrasenia) 
+                    INSERT INTO cuerpo_tecnico (id_cuerpo_tecnico, id_equipo, nombre, apellidos, email, password)
                     VALUES (?, ?, ?, ?, ?, ?)
                 """, (id_tecnico_actual, id_equipo, nombre, f"{apellido} ({rol})", email, "metricg0al.1234"))
                 

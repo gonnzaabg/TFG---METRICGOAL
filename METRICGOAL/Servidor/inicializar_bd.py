@@ -37,11 +37,31 @@ def preparar_base_de_datos():
                 nombre VARCHAR,
                 apellidos VARCHAR,
                 email VARCHAR UNIQUE,
-                contrasenia VARCHAR,
+                password VARCHAR,
                 FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo)
             )
         """)
         print("✅ Tabla 'cuerpo_tecnico' creada y vinculada al Equipo.")
+
+        # 1. Borramos la tabla vieja
+        #con.execute("DROP TABLE IF EXISTS jugadores")
+
+        # 2. Creamos una SECUENCIA (el contador automático)
+        con.execute("CREATE SEQUENCE IF NOT EXISTS seq_jugadores_id START 1")
+
+        # 3. Creamos la tabla vinculando el ID a esa secuencia
+        con.execute("""
+            CREATE TABLE jugadores (
+                id_jugador INTEGER DEFAULT nextval('seq_jugadores_id') PRIMARY KEY,
+                id_equipo INTEGER,
+                nombre VARCHAR,
+                apellidos VARCHAR,
+                edad INTEGER,
+                posicion VARCHAR,
+                FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo)
+            )
+        """)
+        print("✅ Tabla 'jugadores' reseteada con Secuencia Automática.")
 
         # --- INSERTAR DATOS DE PRUEBA EN ORDEN ---
         
@@ -53,10 +73,11 @@ def preparar_base_de_datos():
         
         # 3º El Cuerpo Técnico (Tú, vinculado al Equipo 1)
         con.execute("""
-            INSERT OR IGNORE INTO cuerpo_tecnico (id_cuerpo_tecnico, id_equipo, nombre, apellidos, email, contrasenia) 
+            INSERT OR IGNORE INTO cuerpo_tecnico (id_cuerpo_tecnico, id_equipo, nombre, apellidos, email, password) 
             VALUES (1, 1, 'Gonzalo', 'Admin', 'admin@metricgoal.com', '1234')
         """)
         print("✅ Datos de prueba insertados (Club, Equipo y tu Usuario Admin).")
+
 
     except Exception as e:
         print(f"❌ Error al crear las tablas: {e}")

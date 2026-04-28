@@ -7,8 +7,13 @@ import os
 
 # 1. IMPORTACIONES
 from Controlador.auth_controller import verificar_credenciales
+from Controlador.jugador_controller import gestionar_registro_canterano
+from Controlador.jugador_controller import listar_jugadores_logic
+from inicializar_bd import preparar_base_de_datos
 
 app = FastAPI()
+
+preparar_base_de_datos()
 
 # 2. CONFIGURAR CORS
 app.add_middleware(
@@ -18,19 +23,27 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# 3. LOCALIZACIÓN DE LA CARPETA CLIENTE (Desde Servidor)
-# BASE_DIR será: /app/METRICGOAL/Servidor
+# 3. LOCALIZACIÓN DE LA CARPETA CLIENTE
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Subimos un nivel para salir de 'Servidor' y entramos en 'Cliente/Vista'
-# La ruta resultante será: /app/METRICGOAL/Cliente/Vista
 VISTA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "Cliente", "Vista"))
 
-# --- DEBUG PARA LOGS DE RENDER ---
 print(f"DEBUG: Buscando HTML en: {VISTA_DIR}")
 
 # 4. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS
 app.mount("/static", StaticFiles(directory=VISTA_DIR), name="static")
+
+# --- MODELOS DE DATOS (Pydantic) ---
+
+class LoginData(BaseModel):
+    email: str
+    password: str
+
+# Esquema para recibir los datos del modal de añadir jugador
+class JugadorData(BaseModel):
+    nombre: str
+    apellidos: str
+    edad: int
+    posicion: str
 
 # --- RUTAS PARA LOS ARCHIVOS HTML ---
 
@@ -53,31 +66,38 @@ async def read_informes():
         return f.read()
 
 @app.get("/comparar_jugadores", response_class=HTMLResponse)
-async def read_informes():
+async def read_comparar():
     path = os.path.join(VISTA_DIR, "comparar_jugadores.html")
     with open(path, "r", encoding="utf-8") as f:
-        return f.read()        
+        return f.read()  
 
-# --- LÓGICA DEL LOGIN ---
-class LoginData(BaseModel):
-    email: str
-    password: str
+@app.get("/obtener_jugadores")
+async def obtener_jugadores(id_equipo: int): 
+    return listar_jugadores_logic(id_equipo)         
+
+# --- LÓGICA DE ENDPOINTS (API) ---
 
 @app.post("/login")
 async def login(data: LoginData):
     try:
         datos_usuario = verificar_credenciales(data.email, data.password)
         if datos_usuario:
+            # Aquí 'datos_usuario' ya trae nombre, id_equipo, club y equipo
             return {
                 "status": "success", 
-                "nombre": datos_usuario['nombre'],
-                "club": datos_usuario['club'],
-                "equipo": datos_usuario['equipo']
+                **datos_usuario # Esto desglosa el diccionario automáticamente
             }
         else:
             raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
     except Exception as e:
+        print(f"ERROR EN LOGIN: {e}") # Esto te ayudará a ver el fallo en la terminal
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/registrar_jugador")
+async def registrar_jugador(data: JugadorData, id_equipo: int): # Recibe el ID de la URL
+    # Ahora le pasamos 'id_equipo' a la lógica del controlador
+    resultado = gestionar_registro_canterano(data, id_equipo) 
+    return resultado
 
 if __name__ == "__main__":
     import uvicorn
