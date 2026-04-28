@@ -1,4 +1,4 @@
-from .jugador import Jugador
+from .Jugador import Jugador
 from .database import ejecutar_consulta
 
 """
@@ -29,3 +29,18 @@ class Canterano(Jugador):
     def vincular_estadisticas(self):
         # TODO: Implementar lógica de inserción de estadísticas
         pass
+
+    @staticmethod
+    def guardar_en_db(id_equipo, nombre, apellidos, edad, posicion):
+        # IMPORTANTE: Solo 5 columnas, el id_jugador se llena solo por el DEFAULT de arriba
+        sql = """
+            INSERT INTO jugadores (id_equipo, nombre, apellidos, edad, posicion) 
+            VALUES (?, ?, ?, ?, ?)
+        """
+        params = (id_equipo, nombre, apellidos, edad, posicion)
+        return ejecutar_consulta(sql, params)
+
+    @staticmethod
+    def obtener_por_equipo(id_equipo):
+        sql = "SELECT nombre, apellidos, posicion FROM jugadores WHERE id_equipo = ?"
+        return ejecutar_consulta(sql, (id_equipo,)) 

@@ -27,8 +27,17 @@ def ejecutar_consulta(sql, params=()):
     con = obtener_conexion()
     if con:
         try:
-            # Ejecutamos y devolvemos un DataFrame de pandas, que es lo que espera tu código
-            return con.execute(sql, params).df()
+            # 1. Ejecutamos la consulta
+            resultado = con.execute(sql, params)
+            
+            # 2. Si la consulta es un SELECT, devolvemos el DataFrame
+            if sql.strip().upper().startswith("SELECT"):
+                return resultado.df()
+            
+            # 3. Si es INSERT, UPDATE o DELETE, no llamamos a .df()
+            # Solo confirmamos que se ejecutó devolviendo algo que no sea None
+            return True 
+            
         except Exception as e:
             print(f"❌ Error en la consulta SQL: {e}")
             return None
