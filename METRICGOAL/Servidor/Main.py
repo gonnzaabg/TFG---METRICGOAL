@@ -10,6 +10,8 @@ from Controlador.auth_controller import verificar_credenciales
 from Controlador.jugador_controller import gestionar_registro_canterano
 from Controlador.jugador_controller import listar_jugadores_logic
 from inicializar_bd import preparar_base_de_datos
+from Controlador.jugador_controller import gestionar_registro_stats
+from Controlador.jugador_controller import obtener_stats_jugador_temporada
 
 app = FastAPI()
 
@@ -38,12 +40,21 @@ class LoginData(BaseModel):
     email: str
     password: str
 
-# Esquema para recibir los datos del modal de añadir jugador
 class JugadorData(BaseModel):
     nombre: str
     apellidos: str
     edad: int
     posicion: str
+
+class EstadisticasData(BaseModel):
+    temporada: str
+    goles: int
+    asistencias: int
+    tarj_amarillas: int
+    tarj_rojas: int
+    partidos_jugados: int
+    minutos_jugados: int
+    pases_clave: int
 
 # --- RUTAS PARA LOS ARCHIVOS HTML ---
 
@@ -73,7 +84,14 @@ async def read_comparar():
 
 @app.get("/obtener_jugadores")
 async def obtener_jugadores(id_equipo: int): 
-    return listar_jugadores_logic(id_equipo)         
+    return listar_jugadores_logic(id_equipo)   
+
+@app.get("/obtener_stats")
+async def obtener_stats(id_jugador: int, temporada: str):
+    stats = obtener_stats_jugador_temporada(id_jugador, temporada)
+    
+    # Si existen, devolvemos los datos; si no, FastAPI devolverá null
+    return stats      
 
 # --- LÓGICA DE ENDPOINTS (API) ---
 
@@ -98,6 +116,15 @@ async def registrar_jugador(data: JugadorData, id_equipo: int): # Recibe el ID d
     # Ahora le pasamos 'id_equipo' a la lógica del controlador
     resultado = gestionar_registro_canterano(data, id_equipo) 
     return resultado
+
+@app.post("/registrar_estadisticas")
+async def registrar_estadisticas(data: EstadisticasData, id_jugador: int):
+    # Llamamos a la lógica del controlador pasando los datos y el ID del jugador
+    resultado = gestionar_registro_stats(data, id_jugador)
+    if resultado.get("status") == "success":
+        return resultado
+    else:
+        raise HTTPException(status_code=500, detail="No se pudieron guardar las estadísticas")
 
 if __name__ == "__main__":
     import uvicorn
