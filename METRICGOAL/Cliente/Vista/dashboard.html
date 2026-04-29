@@ -106,6 +106,57 @@
             </div>
         </div>
 
+        <div id="modalEstadisticas" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="statsTitulo">Estadísticas: Nombre Jugador</h2>
+                    <span class="close-modal" onclick="cerrarModalStats()">&times;</span>
+                </div>
+                <form id="formEstadisticas">
+                    <input type="hidden" id="idJugadorStats">
+                    <div class="modal-grid">
+                        <div class="input-group">
+                            <label>Temporada</label>
+                            <select id="temporada" onchange="consultarStats()">
+                                <option value="2023/24">2023/24</option>
+                                <option value="2024/25">2024/25</option>
+                                <option value="2025/26" selected>2025/26</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Partidos Jugados</label>
+                            <input type="number" id="pj" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Minutos Jugados</label>
+                            <input type="number" id="min" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Goles</label>
+                            <input type="number" id="goles" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Asistencias</label>
+                            <input type="number" id="asist" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Pases Clave</label>
+                            <input type="number" id="pases" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Tarj. Amarillas</label>
+                            <input type="number" id="amarillas" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Tarj. Rojas</label>
+                            <input type="number" id="rojas" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-guardar">GUARDAR ESTADÍSTICAS</button>
+                </form>
+            </div>
+        </div>
+
         <script>
             window.onload = function() {
                 const nombre = localStorage.getItem('usuarioNombre');
@@ -146,8 +197,12 @@
                         if (contenedor) {
                             const caja = document.createElement('div');
                             caja.className = 'caja-jugador';
-                            // IMPORTANTE: Asegúrate que tu API devuelva "apellidos"
+                            caja.style.cursor = 'pointer'; // Para que parezca un botón
                             caja.innerHTML = `<strong>${j.nombre} ${j.apellidos || j.apellido}</strong>`;
+                            
+                            // Evento al hacer clic en la caja
+                            caja.onclick = () => abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
+                            
                             contenedor.insertBefore(caja, contenedor.lastElementChild);
                         }
                     });
@@ -189,8 +244,132 @@
             };
 
             function abrirModal() { document.getElementById('modalJugador').style.display = 'flex'; }
+
             function cerrarModal() { document.getElementById('modalJugador').style.display = 'none'; document.getElementById('formJugador').reset(); }
+
             function logout() { localStorage.clear(); window.location.href = '/'; }
+
+            function abrirModalStats(id, nombreCompleto) {
+                document.getElementById('idJugadorStats').value = id;
+                document.getElementById('statsTitulo').textContent = `Estadísticas: ${nombreCompleto}`;
+                
+                // Mostramos el modal
+                document.getElementById('modalEstadisticas').style.display = 'flex';
+                
+                // Lanzamos la búsqueda automática nada más abrir
+                consultarStats();
+            }
+
+            function cerrarModalStats() {
+                document.getElementById('modalEstadisticas').style.display = 'none';
+                document.getElementById('formEstadisticas').reset();
+            }
+
+            async function consultarStats() {
+                const idJugador = document.getElementById('idJugadorStats').value;
+                const temp = document.getElementById('temporada').value;
+
+                try {
+                    const response = await fetch(`/obtener_stats?id_jugador=${idJugador}&temporada=${temp}`);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        if (data) {
+                            // Rellenamos con lo que hay en la DB
+                            document.getElementById('goles').value = data.goles;
+                            document.getElementById('asist').value = data.asistencias;
+                            document.getElementById('amarillas').value = data.tarj_amarillas;
+                            document.getElementById('rojas').value = data.tarj_rojas;
+                            document.getElementById('pj').value = data.partidos_jugados;
+                            document.getElementById('min').value = data.minutos_jugados;
+                            document.getElementById('pases').value = data.pases_clave;
+                        } else {
+                            // Si no hay datos (data es null), reseteamos a 0
+                            resetearInputsStats();
+                        }
+                    }
+                } catch (err) {
+                    console.error("Error al consultar automáticamente:", err);
+                }
+            }
+
+            function resetearInputsStats() {
+                const campos = ['goles', 'asist', 'amarillas', 'rojas', 'pj', 'min', 'pases'];
+                campos.forEach(id => document.getElementById(id).value = 0);
+            }
+
+            document.getElementById('formEstadisticas').onsubmit = async function(e) {
+                e.preventDefault();
+                
+                // 1. Bloqueamos el botón para evitar que el usuario pulse mil veces mientras guarda
+                const btnGuardar = e.target.querySelector('.btn-guardar');
+                const textoOriginal = btnGuardar.textContent;
+                btnGuardar.textContent = "Guardando...";
+                btnGuardar.disabled = true;
+
+                const idJugador = document.getElementById('idJugadorStats').value;
+                
+                const stats = {
+                    temporada: document.getElementById('temporada').value,
+                    goles: parseInt(document.getElementById('goles').value),
+                    asistencias: parseInt(document.getElementById('asist').value),
+                    tarj_amarillas: parseInt(document.getElementById('amarillas').value),
+                    tarj_rojas: parseInt(document.getElementById('rojas').value),
+                    partidos_jugados: parseInt(document.getElementById('pj').value),
+                    minutos_jugados: parseInt(document.getElementById('min').value),
+                    pases_clave: parseInt(document.getElementById('pases').value)
+                };
+
+                try {
+                    const response = await fetch(`/registrar_estadisticas?id_jugador=${idJugador}`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(stats)
+                    });
+
+                    if (response.ok) {
+                        cerrarModalStats();
+                        // Mensaje pro en lugar del alert cutre
+                        mostrarNotificacion("✅ Estadísticas actualizadas correctamente"); 
+                    } else {
+                        mostrarNotificacion("❌ Error al actualizar las estadísticas");
+                    }
+                } catch (err) {
+                    alert("❌ Error de conexión: " + err);
+                } finally {
+                    // C) Restauramos el botón
+                    btnGuardar.textContent = textoOriginal;
+                    btnGuardar.disabled = false;
+                }
+            };
+
+            function mostrarNotificacion(mensaje) {
+                const toast = document.getElementById('toast');
+                if (!toast) return;
+
+                toast.textContent = mensaje;
+                
+                // Mostramos el elemento
+                toast.style.display = 'block';
+                
+                // Le damos un milisegundo para que el navegador note el display:block 
+                // y luego activamos la animación con la clase CSS
+                setTimeout(() => {
+                    toast.classList.add('toast-active');
+                }, 10);
+
+                // Lo quitamos tras 3 segundos
+                setTimeout(() => {
+                    toast.classList.remove('toast-active');
+                    // Esperamos a que termine la animación de bajada para ocultarlo del todo
+                    setTimeout(() => {
+                        toast.style.display = 'none';
+                    }, 500);
+                }, 3000);
+            }
         </script>
+
+        <div id="toast" class="toast-container"></div>
     </body>
 </html>
