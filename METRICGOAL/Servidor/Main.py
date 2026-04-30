@@ -12,6 +12,7 @@ from Controlador.jugador_controller import listar_jugadores_logic
 from inicializar_bd import preparar_base_de_datos
 from Controlador.jugador_controller import gestionar_registro_stats
 from Controlador.jugador_controller import obtener_stats_jugador_temporada
+from Controlador.jugador_controller import eliminar_jugador_logic
 
 app = FastAPI()
 
@@ -125,6 +126,15 @@ async def registrar_estadisticas(data: EstadisticasData, id_jugador: int):
         return resultado
     else:
         raise HTTPException(status_code=500, detail="No se pudieron guardar las estadísticas")
+
+@app.delete("/eliminar_jugador/{id_jugador}")
+async def eliminar_jugador(id_jugador: int):
+    resultado = eliminar_jugador_logic(id_jugador)
+    if resultado.get("status") == "success":
+        return resultado
+    else:
+        # Esto enviará el detalle del error al navegador
+        raise HTTPException(status_code=500, detail=resultado.get("message"))
 
 if __name__ == "__main__":
     import uvicorn

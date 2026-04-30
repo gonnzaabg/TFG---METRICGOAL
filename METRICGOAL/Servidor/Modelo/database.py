@@ -19,7 +19,6 @@ def obtener_conexion():
             print(f"❌ Error en MotherDuck: {e}")
             return None
     else:
-        print("⚠️ CONEXIÓN LOCAL (¡Los datos se borrarán!)")
         # --- MODO LOCAL (Tu PC / Desarrollo) ---
         directorio_actual = os.path.dirname(os.path.abspath(__file__))
         ruta_carpeta_data = os.path.abspath(os.path.join(directorio_actual, '..', '..', 'Data'))
