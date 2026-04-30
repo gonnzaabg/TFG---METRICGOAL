@@ -58,4 +58,18 @@ def gestionar_registro_stats(datos_validados, id_jugador):
         print(f"Error en controlador stats: {e}")
         return {"status": "error", "message": str(e)}
 
+def eliminar_jugador_logic(id_jugador):
+    try:
+        # 1. Borrar estadísticas vinculadas al jugador
+        # Usamos tu función ejecutar_consulta pasando los parámetros en una tupla (id,)
+        ejecutar_consulta("DELETE FROM estadisticas_temporada WHERE id_jugador = ?", (id_jugador,))
+        
+        # 2. Borrar al jugador de la tabla principal
+        ejecutar_consulta("DELETE FROM jugadores WHERE id_jugador = ?", (id_jugador,))
+        
+        return {"status": "success"}
+    except Exception as e:
+        print(f"Error en lógica de eliminación: {e}")
+        return {"status": "error", "message": str(e)}
+
     

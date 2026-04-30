@@ -197,12 +197,32 @@
                         if (contenedor) {
                             const caja = document.createElement('div');
                             caja.className = 'caja-jugador';
-                            caja.style.cursor = 'pointer'; // Para que parezca un botón
-                            caja.innerHTML = `<strong>${j.nombre} ${j.apellidos || j.apellido}</strong>`;
-                            
-                            // Evento al hacer clic en la caja
-                            caja.onclick = () => abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
-                            
+                            caja.style.position = 'relative'; // Necesario para posicionar los puntos
+                            caja.style.cursor = 'pointer';
+
+                            // Estructura con el nombre y el menú de opciones
+                            caja.innerHTML = `
+                                <div class="menu-jugador">
+                                    <button class="btn-menu" onclick="toggleMenu(event, this)">⋮</button>
+                                    <div class="menu-dropdown">
+                                        <button onclick="confirmarEliminarJugador(event, ${j.id_jugador})">
+                                            <span>🗑️</span> Eliminar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 10px;">
+                                    <strong>${j.nombre} ${j.apellidos || j.apellido}</strong>
+                                </div>
+                            `;
+
+                            // Al hacer clic en la caja se abren las stats...
+                            caja.onclick = (e) => {
+                                // ...PERO solo si NO has hecho clic en el botón de los puntos
+                                if (!e.target.classList.contains('btn-menu')) {
+                                    abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
+                                }
+                            };
+
                             contenedor.insertBefore(caja, contenedor.lastElementChild);
                         }
                     });
@@ -294,6 +314,62 @@
                 }
             }
 
+            // Función para abrir/cerrar el menú de 3 puntos
+            function toggleMenu(event, element) {
+                event.stopPropagation(); // Evita que se abra el modal de stats
+                // Cerramos cualquier otro menú que esté abierto
+                document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
+                // Abrimos el de este jugador
+                element.nextElementSibling.classList.toggle('show-menu');
+            }
+
+            // Función para eliminar al jugador
+            let idJugadorAEliminar = null;
+
+            function confirmarEliminarJugador(event, id) {
+                event.stopPropagation();
+                idJugadorAEliminar = id; // Guardamos el ID
+                document.getElementById('modalConfirmar').style.display = 'flex'; // Abrimos el modal pro
+            }
+
+            function cerrarConfirmar() {
+                document.getElementById('modalConfirmar').style.display = 'none';
+                idJugadorAEliminar = null;
+            }
+
+            // Usamos delegación de eventos para que no falle nunca
+            document.addEventListener('click', async (e) => {
+                if (e.target && e.target.id === 'btnConfirmarEliminar') {
+                    if (!idJugadorAEliminar) return;
+
+                    try {
+                        const response = await fetch(`/eliminar_jugador/${idJugadorAEliminar}`, { 
+                            method: 'DELETE' 
+                        });
+                        
+                        if (response.ok) {
+                            cerrarConfirmar();
+                            mostrarNotificacion("🗑️ Jugador y estadísticas eliminados");
+                            
+                            setTimeout(() => {
+                                cargarJugadores(); 
+                            }, 300); 
+
+                        } else {
+                            mostrarNotificacion("❌ Error al eliminar");
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        mostrarNotificacion("❌ Error de conexión");
+                    }
+                }
+            });
+
+            // Si haces clic en cualquier parte de la pantalla, se cierran los menús de 3 puntos
+            window.addEventListener('click', () => {
+                document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
+            });
+
             function resetearInputsStats() {
                 const campos = ['goles', 'asist', 'amarillas', 'rojas', 'pj', 'min', 'pases'];
                 campos.forEach(id => document.getElementById(id).value = 0);
@@ -371,5 +447,18 @@
         </script>
 
         <div id="toast" class="toast-container"></div>
+
+        <div id="modalConfirmar" class="modal-overlay">
+            <div class="modal-content" style="max-width: 350px; text-align: center;">
+                <div class="modal-header" style="justify-content: center; border-bottom: none;">
+                    <h2 style="color: #ff4d4d;">⚠️ ¿ESTÁS SEGURO?</h2>
+                </div>
+                <p style="color: white; margin: 20px 0;">Esta acción no se puede deshacer. El jugador y sus estadísticas se borrarán para siempre.</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn-guardar" style="background: #334155 !important;" onclick="cerrarConfirmar()">CANCELAR</button>
+                    <button id="btnConfirmarEliminar" class="btn-guardar" style="background: #ff4d4d !important;">ELIMINAR</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
