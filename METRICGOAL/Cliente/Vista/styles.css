@@ -812,3 +812,69 @@ body.comparar-page .caja-metrica h2 {
 .show-menu {
     display: block !important;
 }
+
+/* --- BUSCADOR GRANDE Y CORREGIDO --- */
+
+.ts-control {
+    background-color: #1e293b !important;
+    color: white !important;
+    border: 1px solid #334155 !important;
+    
+    /* VOLVEMOS AL TAMAÑO GRANDE */
+    min-height: 60px !important; 
+    padding: 0 20px !important;
+    font-size: 18px !important;
+    
+    /* ALINEACIÓN TOTAL */
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important; 
+    border-radius: 10px !important;
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+/* El item seleccionado (el nombre del jugador) */
+.ts-control .item {
+    display: flex !important;
+    align-items: center !important;
+    font-weight: 600 !important;
+    color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 60px !important; /* Mismo que el min-height para centrar texto */
+}
+
+/* El input de escritura */
+.ts-control input {
+    color: white !important;
+    font-size: 18px !important;
+    margin-left: 10px !important;
+    /* Si ya hay un jugador, el input se vuelve invisible pero sigue ahí */
+    flex: 1 !important;
+    min-width: 5px !important;
+}
+
+/* Desaparece el cursor fantasma cuando ya hay un jugador */
+.ts-wrapper.has-items .ts-control input {
+    opacity: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+}
+
+/* Estilo del botón de eliminar (la X) */
+.ts-control .item .remove {
+    border-left: 1px solid rgba(255,255,255,0.2) !important;
+    margin-left: 15px !important;
+    padding-left: 10px !important;
+    font-size: 20px !important; /* X un poco más grande */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Hover para que se vea que es interactivo */
+.ts-control:hover {
+    border-color: #800020 !important;
+}
+

@@ -72,4 +72,80 @@ def eliminar_jugador_logic(id_jugador):
         print(f"Error en lógica de eliminación: {e}")
         return {"status": "error", "message": str(e)}
 
+def obtener_profesionales_busqueda(nombre: str):
+    """
+    Busca los profesionales que coincidan con el nombre proporcionado.
+    """
+    query = """
+        SELECT player, team, league 
+        FROM profesionales 
+        WHERE player ILIKE ? 
+        LIMIT 10
+    """
+    params = (f"%{nombre}%",)
+    
+    # Llamamos a la base de datos
+    df = ejecutar_consulta(query, params)
+    
+    # Si hay resultados, devolvemos los records, si no, lista vacía
+    if df is not None and not df.empty:
+        return df.to_dict(orient='records')
+    return []
+
+def obtener_datos_comparativa(id_canterano, nombre_profesional):
+    try:
+        # 1. CANTERANO
+        query_can = """
+            SELECT j.nombre, e.goles, e.asistencias, e.pases_clave, 
+                   e.tarj_amarillas, e.tarj_rojas
+            FROM jugadores j
+            JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
+            WHERE j.id_jugador = ?
+            ORDER BY e.temporada DESC LIMIT 1
+        """
+        df_can = ejecutar_consulta(query_can, (id_canterano,))
+        
+        # 2. PROFESIONAL
+        query_pro = """
+            SELECT player, goals, assists, key_passes, yellow_cards, red_cards 
+            FROM profesionales WHERE player = ?
+        """
+        df_pro = ejecutar_consulta(query_pro, (nombre_profesional,))
+
+        if df_can.empty or df_pro.empty:
+            return {"error": "Faltan datos de alguno de los jugadores"}
+
+        can = df_can.iloc[0]
+        pro = df_pro.iloc[0]
+
+        # Labels actualizados (quitamos el /90)
+        labels = ['Goles Totales', 'Asistencias Totales', 'Pases Clave', 'Amarillas', 'Rojas']
+
+        # Valores directos sin divisiones
+        can_vals = [
+            int(can['goles'] or 0),
+            int(can['asistencias'] or 0),
+            int(can['pases_clave'] or 0),
+            int(can['tarj_amarillas'] or 0),
+            int(can['tarj_rojas'] or 0)
+        ]
+
+        pro_vals = [
+            int(pro['goals'] or 0),
+            int(pro['assists'] or 0),
+            int(pro['key_passes'] or 0),
+            int(pro['yellow_cards'] or 0),
+            int(pro['red_cards'] or 0)
+        ]
+
+        return {
+            "labels": labels,
+            "canterano": {"nombre": can['nombre'], "valores": can_vals},
+            "profesional": {"nombre": pro['player'], "valores": pro_vals}
+        }
+
+    except Exception as e:
+        print(f"Error en comparativa totales: {e}")
+        return {"error": str(e)}
+
     

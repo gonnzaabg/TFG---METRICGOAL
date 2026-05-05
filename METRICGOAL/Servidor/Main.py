@@ -13,6 +13,8 @@ from inicializar_bd import preparar_base_de_datos
 from Controlador.jugador_controller import gestionar_registro_stats
 from Controlador.jugador_controller import obtener_stats_jugador_temporada
 from Controlador.jugador_controller import eliminar_jugador_logic
+from Controlador.jugador_controller import obtener_profesionales_busqueda
+from Controlador.jugador_controller import obtener_datos_comparativa
 
 app = FastAPI()
 
@@ -93,6 +95,22 @@ async def obtener_stats(id_jugador: int, temporada: str):
     
     # Si existen, devolvemos los datos; si no, FastAPI devolverá null
     return stats      
+
+@app.get("/buscar_profesionales")
+async def buscar_profesionales(nombre: str):
+    # El controlador hace todo el trabajo sucio
+    return obtener_profesionales_busqueda(nombre)
+
+@app.get("/api/comparar_jugadores")
+async def api_comparar(id_canterano: int, nombre_profesional: str):
+    # MUY IMPORTANTE: Llama a la función y captura posibles errores
+    try:
+        datos = obtener_datos_comparativa(id_canterano, nombre_profesional)
+        return datos
+    except Exception as e:
+        # Esto evita que devuelva un HTML de error y mande un JSON con el fallo
+        print(f"Error en el servidor: {e}")
+        return {"error": str(e)}
 
 # --- LÓGICA DE ENDPOINTS (API) ---
 
