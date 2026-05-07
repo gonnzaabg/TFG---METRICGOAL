@@ -577,10 +577,20 @@ body.comparar-page .caja-metrica h2 {
     padding: 35px;
     border-radius: 15px;
     width: 90%;
-    max-width: 450px;
+    max-width: 550px;
     border: 1px solid rgba(255, 215, 0, 0.3);
     box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     text-align: left;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Grid de 2 columnas para el modal de estadísticas en desktop */
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 5px;
 }
 
 .modal-header {
@@ -714,42 +724,6 @@ body.comparar-page .caja-metrica h2 {
     transform: translateY(0) !important;
 }
 
-/* ==========================================================================
-   ADAPTACIÓN TOTAL PARA MÓVILES (REVISADO)
-   ========================================================================== */
-
-@media screen and (max-width: 600px) {
-    /* 1. Forzamos que el contenido no se desborde */
-    .modal-content {
-        width: 95% !important;
-        max-width: 95vw !important; /* Asegura que no pase del ancho de pantalla */
-        margin: 5% auto !important;
-        padding: 15px !important;
-        box-sizing: border-box !important; /* Crucial para que el padding no sume ancho */
-    }
-
-    /* 2. Si tus inputs están dentro de un div con clase 'grid' o similar */
-    .stats-grid, .form-grid {
-        display: block !important; /* Desactiva las columnas y ponlo todo en una fila */
-    }
-
-    /* 3. Forzamos que CADA input ocupe el 100% */
-    .modal-content input, 
-    .modal-content select,
-    .modal-content textarea {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        display: block !important;
-        margin-bottom: 10px !important;
-    }
-
-    /* 4. Título más pequeño para que no rompa el diseño */
-    .modal-header h2 {
-        font-size: 1rem !important;
-        white-space: normal !important; /* Permite que el nombre del jugador baje de línea si es largo */
-    }
-}
 
 /* Contenedor del menú en la esquina superior derecha */
 .menu-jugador {
@@ -878,3 +852,73 @@ body.comparar-page .caja-metrica h2 {
     border-color: #800020 !important;
 }
 
+/* ==========================================================================
+   SOLUCIÓN DEFINITIVA PARA MODAL EN MÓVIL (Sustituir al final del CSS)
+   ========================================================================== */
+
+@media screen and (max-width: 600px) {
+    /* 1. Contenedor principal: Quitamos anchos fijos y permitimos scroll */
+    .modal-content {
+        width: 95% !important;
+        max-width: 95vw !important;
+        min-width: 0 !important;
+        margin: 5% auto !important;
+        padding: 20px !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+        position: relative !important;
+        display: block !important;
+    }
+
+    /* 2. El modal-grid pasa a 1 columna en móvil */
+    .modal-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    /* 3. La "X" de cerrar: posicionada fija arriba a la derecha del modal */
+    .close-modal, .close-button {
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        font-size: 32px !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(165, 0, 68, 0.2) !important;
+        border-radius: 50% !important;
+        color: white !important;
+        z-index: 10001 !important;
+        line-height: 1 !important;
+    }
+
+    /* 4. Cabecera */
+    .modal-header {
+        padding-right: 40px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .modal-header h2 {
+        font-size: 1.1rem !important;
+        white-space: normal !important;
+    }
+
+    /* 5. Inputs y Formulario */
+    .modal-content input, 
+    .modal-content select {
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
+        font-size: 16px !important; /* Evita el zoom automático en iOS */
+        padding: 12px !important;
+    }
+
+    /* 6. Botón guardar: Más grande para el pulgar */
+    .btn-guardar {
+        margin-top: 20px !important;
+        padding: 18px !important;
+        font-size: 1.1rem !important;
+    }
+}
