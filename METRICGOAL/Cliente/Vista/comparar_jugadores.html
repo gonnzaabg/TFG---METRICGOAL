@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     <style>
-        /* Ajuste para que el buscador combine con tu estilo oscuro */
         .ts-control {
             background-color: #1e293b !important;
             color: white !important;
@@ -31,16 +30,20 @@
 
     <header>
         <div class="logo">MG</div>
+        <div class="header-sep"></div>
         <nav>
             <a href="/dashboard">Mi Equipo</a>
             <a href="/informes">Informes</a>
             <a href="/comparar_jugadores" class="active">Comparar Jugadores</a>
         </nav>
-        <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+        <div class="header-right">
+            <span class="badge-temporada">2025/26</span>
+            <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+        </div>
     </header>
 
     <main class="container">
-        
+
         <section class="controles-comparacion">
             <div class="control-grupo">
                 <label for="select-canterano">Selecciona al canterano</label>
@@ -48,7 +51,6 @@
                     <option value="">Seleccionar...</option>
                 </select>
             </div>
-
             <div class="control-grupo">
                 <label for="select-profesional">Busca al profesional</label>
                 <select id="select-profesional" placeholder="Escribe para buscar (ej: Lewandowski, Mbappe...)"></select>
@@ -57,122 +59,59 @@
 
         <button class="btn-exportar" onclick="realizarComparacion()">Comparar Jugadores</button>
 
-        <section class="metricas-grid" style="display: flex; justify-content: center; align-items: center; width: 100%;">
-            <div class="caja-metrica" style="grid-column: span 3; width: 100%; max-width: 900px; min-height: 550px; display: flex; flex-direction: column; align-items: center;">
-                
-                <div id="grafico-radar" style="width: 100%; height: 500px; z-index: 1;"></div>
+        <!-- CONTENEDOR DE LAS TRES MÉTRICAS (oculto hasta comparar) -->
+        <section class="metricas-grid" id="seccion-metricas" style="display:none; flex-direction:column; align-items:center; gap:30px;">
+
+            <!-- 1. RADAR -->
+            <div class="caja-metrica" style="width:100%; max-width:900px; min-height:550px; display:flex; flex-direction:column; align-items:center; height:auto; padding:24px;">
+                <h3 class="titulo-caja">Gráfico Radar</h3>
+                <div id="grafico-radar" style="width:100%; height:500px;"></div>
             </div>
+
+            <!-- 2. BARRAS HORIZONTALES -->
+            <div class="caja-metrica" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
+                <h3 class="titulo-caja">Comparativa por Métrica</h3>
+                <div id="grafico-barras" style="width:100%; height:420px;"></div>
+            </div>
+
+            <!-- 3. TABLA RESUMEN -->
+            <div class="caja-metrica" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
+                <h3 class="titulo-caja">Resumen Estadístico</h3>
+                <div class="tabla-wrapper">
+                    <table class="tabla-resumen">
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th id="th-canterano">Canterano</th>
+                                <th>Diferencia</th>
+                                <th id="th-profesional">Profesional</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
         </section>
-
     </main>
-
-    <script>
-        // ... (tus funciones cargarJugadoresSelect y la inicialización de TomSelect iguales)
-
-        async function realizarComparacion() {
-            const idCanterano = document.getElementById('select-canterano').value;
-            const nombreProfesional = document.getElementById('select-profesional').value;
-            
-            if(!idCanterano || !nombreProfesional) {
-                alert("Selecciona ambos jugadores.");
-                return;
-            }
-
-            try {
-                // Usamos la ruta de la API que definimos antes
-                const response = await fetch(`/api/comparar_jugadores?id_canterano=${idCanterano}&nombre_profesional=${encodeURIComponent(nombreProfesional)}`);
-                
-                if (!response.ok) throw new Error("Error en la respuesta del servidor");
-
-                const data = await response.json();
-                if (data.error) {
-                    alert("Error: " + data.error);
-                    return;
-                }
-
-                // 3. Pintar el gráfico con Hover Inteligente
-                const traceCanterano = {
-                    type: 'scatterpolar',
-                    r: data.canterano.valores,
-                    theta: data.labels,
-                    fill: 'toself',
-                    name: data.canterano.nombre,
-                    // HOVER INTUITIVO: Muestra "Nombre: Valor"
-                    hovertemplate: `<b>${data.canterano.nombre}</b><br>%{theta}: <b>%{r}</b><extra></extra>`,
-                    line: { color: '#3b82f6', width: 3 }, 
-                    fillcolor: 'rgba(59, 130, 246, 0.3)'
-                };
-
-                const traceProfesional = {
-                    type: 'scatterpolar',
-                    r: data.profesional.valores,
-                    theta: data.labels,
-                    fill: 'toself',
-                    name: data.profesional.nombre,
-                    hovertemplate: `<b>${data.profesional.nombre}</b><br>%{theta}: <b>%{r}</b><extra></extra>`,
-                    line: { color: '#800020', width: 3 }, 
-                    fillcolor: 'rgba(128, 0, 32, 0.3)'
-                };
-
-                const layout = {
-                    autosize: true,
-                    hovermode: 'closest', // Hace que el hover sea más sensible
-                    polar: {
-                        radialaxis: { 
-                            visible: false, // Limpio, sin números 'r' emborronando
-                        },
-                        angularaxis: { 
-                            tickfont: { size: 13, color: "white", family: "Arial" },
-                            gridcolor: "rgba(255,255,255,0.1)" 
-                        },
-                        bgcolor: "rgba(30, 41, 59, 0.5)"
-                    },
-                    margin: { l: 60, r: 60, t: 40, b: 40 },
-                    paper_bgcolor: "rgba(0,0,0,0)",
-                    plot_bgcolor: "rgba(0,0,0,0)",
-                    showlegend: true,
-                    legend: {
-                        orientation: "h",
-                        y: -0.15,
-                        x: 0.5,
-                        xanchor: "center",
-                        font: { color: "white" }
-                    }
-                };
-
-                Plotly.newPlot('grafico-radar', [traceCanterano, traceProfesional], layout, {responsive: true});
-
-            } catch (error) {
-                console.error("Error al comparar:", error);
-                alert("No se pudo realizar la comparación.");
-            }
-        }
-    </script>
 
     <script>
         let buscador;
 
-        // Al cargar la página, recuperamos los datos
         document.addEventListener('DOMContentLoaded', async () => {
-            // 1. Inicializamos el buscador visual
             buscador = new TomSelect("#select-canterano", {
                 create: false,
-                sortField: { field: "text", order: "asc" }
+                sortField: { field: "text", direction: "asc" }
             });
-
-            // 2. Cargamos los jugadores reales de tu DB
             await cargarJugadoresSelect();
         });
 
         async function cargarJugadoresSelect() {
             const idEquipo = localStorage.getItem('idEquipo');
             if (!idEquipo) return;
-
             try {
                 const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
                 const jugadores = await response.json();
-
-                // Añadimos cada jugador al buscador
                 jugadores.forEach(j => {
                     buscador.addOption({
                         value: j.id_jugador,
@@ -197,89 +136,108 @@
                 const response = await fetch(`/api/comparar_jugadores?id_canterano=${idCanterano}&nombre_profesional=${encodeURIComponent(nombreProfesional)}`);
                 const data = await response.json();
 
-                if (data.error) {
-                    alert("Error: " + data.error);
-                    return;
-                }
+                if (data.error) { alert("Error: " + data.error); return; }
 
-                // --- PASO 1: NORMALIZACIÓN INDIVIDUAL POR MÉTRICA ---
-                // Esto hace que el mejor de los dos en cada estadística siempre toque el borde (100)
-                const valoresVisualesCanterano = [];
-                const valoresVisualesProfesional = [];
+                const seccion = document.getElementById('seccion-metricas');
+                seccion.style.display = 'flex';
 
-                data.labels.forEach((label, i) => {
-                    const vCan = data.canterano.valores[i];
-                    const vProf = data.profesional.valores[i];
-                    const maxMetrica = Math.max(vCan, vProf);
+                document.getElementById('th-canterano').textContent = data.canterano.nombre;
+                document.getElementById('th-profesional').textContent = data.profesional.nombre;
 
-                    if (maxMetrica > 0) {
-                        // El que más tiene llega a 100, el otro se queda proporcional
-                        valoresVisualesCanterano.push((vCan / maxMetrica) * 100);
-                        valoresVisualesProfesional.push((vProf / maxMetrica) * 100);
-                    } else {
-                        valoresVisualesCanterano.push(0);
-                        valoresVisualesProfesional.push(0);
-                    }
+                // ── Normalización para el radar (0-100) ──
+                const valCan = [], valProf = [];
+                data.labels.forEach((_, i) => {
+                    const vC = data.canterano.valores[i];
+                    const vP = data.profesional.valores[i];
+                    const max = Math.max(vC, vP);
+                    valCan.push(max > 0 ? (vC / max) * 100 : 0);
+                    valProf.push(max > 0 ? (vP / max) * 100 : 0);
                 });
 
-                // --- PASO 2: CONFIGURACIÓN DE TRACES ---
-                const traceCanterano = {
-                    type: 'scatterpolar',
-                    r: valoresVisualesCanterano, // Usamos el valor 0-100 para el dibujo
-                    theta: data.labels,
-                    fill: 'toself',
-                    name: data.canterano.nombre,
-                    // Mostramos el valor real (customdata) en el cartelito
-                    customdata: data.canterano.valores, 
-                    hovertemplate: `<b>${data.canterano.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
-                    line: { color: '#3b82f6', width: 3 },
-                    fillcolor: 'rgba(59, 130, 246, 0.3)'
-                };
-
-                const traceProfesional = {
-                    type: 'scatterpolar',
-                    r: valoresVisualesProfesional, // Usamos el valor 0-100 para el dibujo
-                    theta: data.labels,
-                    fill: 'toself',
-                    name: data.profesional.nombre,
-                    customdata: data.profesional.valores,
-                    hovertemplate: `<b>${data.profesional.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
-                    line: { color: '#800020', width: 3 },
-                    fillcolor: 'rgba(128, 0, 32, 0.3)'
-                };
-
-                // --- PASO 3: LAYOUT CON RANGO FIJO 0-100 ---
-                const layout = {
+                // ── 1. RADAR ──
+                Plotly.newPlot('grafico-radar', [
+                    {
+                        type: 'scatterpolar', r: valCan, theta: data.labels, fill: 'toself',
+                        name: data.canterano.nombre,
+                        customdata: data.canterano.valores,
+                        hovertemplate: `<b>${data.canterano.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
+                        line: { color: '#3b82f6', width: 3 }, fillcolor: 'rgba(59,130,246,0.3)'
+                    },
+                    {
+                        type: 'scatterpolar', r: valProf, theta: data.labels, fill: 'toself',
+                        name: data.profesional.nombre,
+                        customdata: data.profesional.valores,
+                        hovertemplate: `<b>${data.profesional.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
+                        line: { color: '#800020', width: 3 }, fillcolor: 'rgba(128,0,32,0.3)'
+                    }
+                ], {
                     polar: {
-                        radialaxis: {
-                            visible: true,
-                            showticklabels: false,
-                            gridcolor: "rgba(255,255,255,0.1)",
-                            range: [0, 105] // 105 para que el punto no toque el borde blanco exacto
-                        },
-                        angularaxis: {
-                            gridcolor: "#334155",
-                            color: "white",
-                            tickfont: { size: 12 },
-                            rotation: 90 // Opcional: para que la primera métrica salga arriba
-                        },
-                        bgcolor: "rgba(30, 41, 59, 0.5)"
+                        radialaxis: { visible: true, showticklabels: false, gridcolor: "rgba(255,255,255,0.1)", range: [0, 105] },
+                        angularaxis: { gridcolor: "#334155", color: "white", tickfont: { size: 12 }, rotation: 90 },
+                        bgcolor: "rgba(30,41,59,0.5)"
                     },
                     hovermode: 'closest',
-                    paper_bgcolor: "rgba(0,0,0,0)",
-                    plot_bgcolor: "rgba(0,0,0,0)",
-                    font: { color: "white" },
-                    showlegend: true,
-                    legend: {
-                        orientation: "h",
-                        y: -0.2,
-                        x: 0.5,
-                        xanchor: "center"
-                    },
+                    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+                    font: { color: "white" }, showlegend: true,
+                    legend: { orientation: "h", y: -0.2, x: 0.5, xanchor: "center" },
                     margin: { t: 40, b: 40, l: 80, r: 80 }
-                };
+                }, { responsive: true });
 
-                Plotly.newPlot('grafico-radar', [traceCanterano, traceProfesional], layout, {responsive: true});
+                // ── 2. BARRAS HORIZONTALES ──
+                Plotly.newPlot('grafico-barras', [
+                    {
+                        type: 'bar', orientation: 'h',
+                        name: data.canterano.nombre,
+                        x: data.canterano.valores,
+                        y: data.labels,
+                        marker: { color: 'rgba(59,130,246,0.85)', line: { color: '#3b82f6', width: 1.5 } },
+                        hovertemplate: `<b>${data.canterano.nombre}</b>: %{x}<extra></extra>`
+                    },
+                    {
+                        type: 'bar', orientation: 'h',
+                        name: data.profesional.nombre,
+                        x: data.profesional.valores,
+                        y: data.labels,
+                        marker: { color: 'rgba(128,0,32,0.85)', line: { color: '#800020', width: 1.5 } },
+                        hovertemplate: `<b>${data.profesional.nombre}</b>: %{x}<extra></extra>`
+                    }
+                ], {
+                    barmode: 'group',
+                    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+                    font: { color: "white", size: 12 },
+                    xaxis: { gridcolor: "rgba(255,255,255,0.08)", color: "white", zeroline: false },
+                    yaxis: { color: "white", automargin: true, tickfont: { size: 13 } },
+                    legend: { orientation: "h", y: -0.18, x: 0.5, xanchor: "center" },
+                    margin: { t: 20, b: 60, l: 140, r: 30 }
+                }, { responsive: true });
+
+                // ── 3. TABLA RESUMEN ──
+                const tbody = document.getElementById('tabla-body');
+                tbody.innerHTML = '';
+                data.labels.forEach((label, i) => {
+                    const vC = data.canterano.valores[i];
+                    const vP = data.profesional.valores[i];
+                    const diff = vC - vP;
+                    const diffAbs = Math.abs(diff);
+
+                    let diffClass, diffText, tdCanClass = '', tdProfClass = '';
+                    if (diff === 0) {
+                        diffClass = 'diff-empate'; diffText = '=';
+                    } else if (diff > 0) {
+                        diffClass = 'diff-canton-gana'; diffText = `+${diffAbs}`; tdCanClass = 'celda-ganador';
+                    } else {
+                        diffClass = 'diff-prof-gana'; diffText = `-${diffAbs}`; tdProfClass = 'celda-ganador';
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="label-metrica">${label}</td>
+                        <td class="${tdCanClass}">${vC}</td>
+                        <td class="celda-diff ${diffClass}">${diffText}</td>
+                        <td class="${tdProfClass}">${vP}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
 
             } catch (error) {
                 console.error("Error:", error);
@@ -292,7 +250,6 @@
             window.location.href = '/';
         }
 
-        // Configuración para el buscador de PROFESIONALES (2777 jugadores)
         new TomSelect("#select-profesional", {
             maxItems: 1,
             hideSelected: true,
@@ -300,21 +257,13 @@
             valueField: 'player',
             labelField: 'display_name',
             searchField: 'player',
-            // Añadimos este plugin para que sea fácil borrar al jugador seleccionado
             plugins: ['remove_button'],
             load: async function(query, callback) {
                 if (query.length < 3) return callback();
-                
                 try {
                     const response = await fetch(`/buscar_profesionales?nombre=${encodeURIComponent(query)}`);
                     const data = await response.json();
-                    
-                    const options = data.map(p => ({
-                        player: p.player,
-                        display_name: `${p.player} (${p.team})`
-                    }));
-                    
-                    callback(options);
+                    callback(data.map(p => ({ player: p.player, display_name: `${p.player} (${p.team})` })));
                 } catch (error) {
                     console.error("Error cargando profesionales:", error);
                     callback();
@@ -323,19 +272,15 @@
             render: {
                 option: function(item, escape) {
                     return `<div class="py-2">
-                                <div style="font-weight: bold; color: white;">${escape(item.player)}</div>
-                                <small style="color: #94a3b8;">${escape(item.display_name)}</small>
-                            </div>`;
+                        <div style="font-weight:bold;color:white;">${escape(item.player)}</div>
+                        <small style="color:#94a3b8;">${escape(item.display_name)}</small>
+                    </div>`;
                 },
                 item: function(item, escape) {
-                    // Esto es lo que se ve dentro de la caja al seleccionar
-                    return `<div style="color: white;">${escape(item.display_name)}</div>`;
+                    return `<div style="color:white;">${escape(item.display_name)}</div>`;
                 }
             },
-            // Agrupamos los eventos correctamente
-            onItemAdd: function() {
-                this.blur(); // Cierra el teclado/foco al seleccionar
-            }
+            onItemAdd: function() { this.blur(); }
         });
     </script>
 </body>

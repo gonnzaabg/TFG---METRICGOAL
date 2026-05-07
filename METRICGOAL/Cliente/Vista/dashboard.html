@@ -11,12 +11,16 @@
 
         <header>
             <div class="logo">MG</div>
+            <div class="header-sep"></div>
             <nav>
                 <a href="/dashboard" class="active">Mi Equipo</a>
                 <a href="/informes">Informes</a>
                 <a href="/comparar_jugadores">Comparar Jugadores</a>
             </nav>
-            <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+            <div class="header-right">
+                <span class="badge-temporada" id="badgeTemporada">2025/26</span>
+                <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+            </div>
         </header>
 
         <div class="container">
@@ -28,46 +32,50 @@
 
             <div class="seccion">
                 <h3>Delanteros</h3>
-                <div class="fila-jugadores">
-                    <div class="caja-jugador"># Jugador 9</div>
-                    <div class="caja-jugador"># Jugador 10</div>
-                    <div class="caja-jugador"># Jugador 11</div>
-                    <div class="caja-jugador"># Jugador 12</div>
-                    <div class="flecha">→</div>
+                <div class="fila-jugadores" id="fila-Delantero">
+                    <span class="flecha flecha-izq" onclick="moverCarrusel('Delantero', -1)">←</span>
+                    <div class="carrusel-viewport">
+                        <div class="carrusel-track" id="track-Delantero"></div>
+                    </div>
+                    <span class="flecha flecha-der" onclick="moverCarrusel('Delantero', 1)">→</span>
                 </div>
+                <div class="carrusel-dots" id="dots-Delantero"></div>
             </div>
 
             <div class="seccion">
                 <h3>Mediocentros</h3>
-                <div class="fila-jugadores">
-                    <div class="caja-jugador"># Jugador 1</div>
-                    <div class="caja-jugador"># Jugador 2</div>
-                    <div class="caja-jugador"># Jugador 3</div>
-                    <div class="caja-jugador"># Jugador 4</div>
-                    <div class="flecha">→</div>
+                <div class="fila-jugadores" id="fila-Mediocentro">
+                    <span class="flecha flecha-izq" onclick="moverCarrusel('Mediocentro', -1)">←</span>
+                    <div class="carrusel-viewport">
+                        <div class="carrusel-track" id="track-Mediocentro"></div>
+                    </div>
+                    <span class="flecha flecha-der" onclick="moverCarrusel('Mediocentro', 1)">→</span>
                 </div>
+                <div class="carrusel-dots" id="dots-Mediocentro"></div>
             </div>
 
             <div class="seccion">
                 <h3>Defensas</h3>
-                <div class="fila-jugadores">
-                    <div class="caja-jugador"># Jugador 5</div>
-                    <div class="caja-jugador"># Jugador 6</div>
-                    <div class="caja-jugador"># Jugador 7</div>
-                    <div class="caja-jugador"># Jugador 8</div>
-                    <div class="flecha">→</div>
+                <div class="fila-jugadores" id="fila-Defensa">
+                    <span class="flecha flecha-izq" onclick="moverCarrusel('Defensa', -1)">←</span>
+                    <div class="carrusel-viewport">
+                        <div class="carrusel-track" id="track-Defensa"></div>
+                    </div>
+                    <span class="flecha flecha-der" onclick="moverCarrusel('Defensa', 1)">→</span>
                 </div>
+                <div class="carrusel-dots" id="dots-Defensa"></div>
             </div>
 
             <div class="seccion">
                 <h3>Porteros</h3>
-                <div class="fila-jugadores">
-                    <div class="caja-jugador"># Portero 1</div>
-                    <div class="caja-jugador"># Portero 2</div>
-                    <div class="caja-jugador" style="opacity: 0.3; cursor: default;">Vacío</div>
-                    <div class="caja-jugador" style="opacity: 0.3; cursor: default;">Vacío</div>
-                    <div class="flecha" style="visibility: hidden;">→</div>
+                <div class="fila-jugadores" id="fila-Portero">
+                    <span class="flecha flecha-izq" onclick="moverCarrusel('Portero', -1)">←</span>
+                    <div class="carrusel-viewport">
+                        <div class="carrusel-track" id="track-Portero"></div>
+                    </div>
+                    <span class="flecha flecha-der" onclick="moverCarrusel('Portero', 1)">→</span>
                 </div>
+                <div class="carrusel-dots" id="dots-Portero"></div>
             </div>
 
             <div id="modalJugador" class="modal-overlay">
@@ -165,70 +173,115 @@
                 document.getElementById('clubDisplay').textContent = localStorage.getItem('usuarioClub')?.toUpperCase() || "CLUB NO ASIGNADO";
                 document.getElementById('coachDisplay').textContent = nombre.replace("Bienvenido, ", "") + " - " + (localStorage.getItem('usuarioEquipo') || "Sin equipo");
                 
+                // Actualizar badge de temporada si es necesario
+                const temporadaActual = document.getElementById('temporada')?.value;
+                if (temporadaActual) document.getElementById('badgeTemporada').textContent = temporadaActual;
+
                 cargarJugadores();
             };
+
+            const carruseles = {
+                Delantero:   { jugadores: [], pagina: 0 },
+                Mediocentro: { jugadores: [], pagina: 0 },
+                Defensa:     { jugadores: [], pagina: 0 },
+                Portero:     { jugadores: [], pagina: 0 }
+            };
+            const POR_PAGINA = 3;
 
             async function cargarJugadores() {
                 try {
                     const idEquipo = localStorage.getItem('idEquipo');
-                    
-                    // Si el ID es null, evitamos la petición y avisamos
-                    if (!idEquipo || idEquipo === "null") {
-                        console.error("No se encontró el ID del equipo en el almacenamiento local.");
-                        return;
-                    }
+                    if (!idEquipo || idEquipo === "null") { console.error("No se encontró el ID del equipo."); return; }
 
                     const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
                     const jugadores = await response.json();
 
-                    const filas = {
-                        'Delantero': document.querySelector('.seccion:nth-of-type(1) .fila-jugadores'),
-                        'Mediocentro': document.querySelector('.seccion:nth-of-type(2) .fila-jugadores'),
-                        'Defensa': document.querySelector('.seccion:nth-of-type(3) .fila-jugadores'),
-                        'Portero': document.querySelector('.seccion:nth-of-type(4) .fila-jugadores')
-                    };
-
-                    Object.values(filas).forEach(f => {
-                        if (f) f.innerHTML = '<div class="flecha">→</div>';
-                    });
+                    Object.keys(carruseles).forEach(pos => { carruseles[pos].jugadores = []; carruseles[pos].pagina = 0; });
 
                     jugadores.forEach(j => {
-                        const contenedor = filas[j.posicion];
-                        if (contenedor) {
-                            const caja = document.createElement('div');
-                            caja.className = 'caja-jugador';
-                            caja.style.position = 'relative'; // Necesario para posicionar los puntos
-                            caja.style.cursor = 'pointer';
-
-                            // Estructura con el nombre y el menú de opciones
-                            caja.innerHTML = `
-                                <div class="menu-jugador">
-                                    <button class="btn-menu" onclick="toggleMenu(event, this)">⋮</button>
-                                    <div class="menu-dropdown">
-                                        <button onclick="confirmarEliminarJugador(event, ${j.id_jugador})">
-                                            <span>🗑️</span> Eliminar
-                                        </button>
-                                    </div>
-                                </div>
-                                <div style="margin-top: 10px;">
-                                    <strong>${j.nombre} ${j.apellidos || j.apellido}</strong>
-                                </div>
-                            `;
-
-                            // Al hacer clic en la caja se abren las stats...
-                            caja.onclick = (e) => {
-                                // ...PERO solo si NO has hecho clic en el botón de los puntos
-                                if (!e.target.classList.contains('btn-menu')) {
-                                    abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
-                                }
-                            };
-
-                            contenedor.insertBefore(caja, contenedor.lastElementChild);
-                        }
+                        const pos = j.posicion;
+                        if (carruseles[pos]) carruseles[pos].jugadores.push(j);
                     });
+
+                    Object.keys(carruseles).forEach(pos => renderCarrusel(pos));
                 } catch (error) {
                     console.error("Error cargando jugadores:", error);
                 }
+            }
+
+            function crearCajaJugador(j) {
+                const caja = document.createElement('div');
+                caja.className = 'caja-jugador';
+                caja.style.position = 'relative';
+                caja.style.cursor = 'pointer';
+                caja.innerHTML = `
+                    <div class="menu-jugador">
+                        <button class="btn-menu" onclick="toggleMenu(event, this)">⋮</button>
+                        <div class="menu-dropdown">
+                            <button onclick="confirmarEliminarJugador(event, ${j.id_jugador})">
+                                <span>🗑️</span> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong>${j.nombre} ${j.apellidos || j.apellido}</strong>
+                    </div>
+                `;
+                caja.onclick = (e) => {
+                    if (!e.target.classList.contains('btn-menu')) {
+                        abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
+                    }
+                };
+                return caja;
+            }
+
+            function renderCarrusel(pos, direccion = null) {
+                const estado = carruseles[pos];
+                const track = document.getElementById(`track-${pos}`);
+                const dotsContainer = document.getElementById(`dots-${pos}`);
+                const fila = document.getElementById(`fila-${pos}`);
+
+                const totalPaginas = Math.ceil(estado.jugadores.length / POR_PAGINA) || 1;
+                const inicio = estado.pagina * POR_PAGINA;
+                const slice = estado.jugadores.slice(inicio, inicio + POR_PAGINA);
+
+                track.classList.remove('slide-right', 'slide-left');
+                void track.offsetWidth;
+                if (direccion === 1)  track.classList.add('slide-right');
+                if (direccion === -1) track.classList.add('slide-left');
+
+                track.innerHTML = '';
+                slice.forEach(j => track.appendChild(crearCajaJugador(j)));
+
+                dotsContainer.innerHTML = '';
+                if (totalPaginas > 1) {
+                    for (let i = 0; i < totalPaginas; i++) {
+                        const dot = document.createElement('span');
+                        dot.className = 'dot' + (i === estado.pagina ? ' active' : '');
+                        dot.onclick = () => irAPagina(pos, i);
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+
+                const flechaIzq = fila.querySelector('.flecha-izq');
+                const flechaDer = fila.querySelector('.flecha-der');
+                flechaIzq.classList.toggle('flecha-disabled', estado.pagina === 0);
+                flechaDer.classList.toggle('flecha-disabled', estado.pagina >= totalPaginas - 1);
+            }
+
+            function moverCarrusel(pos, dir) {
+                const estado = carruseles[pos];
+                const totalPaginas = Math.ceil(estado.jugadores.length / POR_PAGINA) || 1;
+                const nuevaPagina = estado.pagina + dir;
+                if (nuevaPagina < 0 || nuevaPagina >= totalPaginas) return;
+                estado.pagina = nuevaPagina;
+                renderCarrusel(pos, dir);
+            }
+
+            function irAPagina(pos, pagina) {
+                const dir = pagina > carruseles[pos].pagina ? 1 : -1;
+                carruseles[pos].pagina = pagina;
+                renderCarrusel(pos, dir);
             }
 
             document.getElementById('formJugador').onsubmit = async function(e) {
@@ -238,12 +291,11 @@
                 
                 const datosJugador = {
                     nombre: document.getElementById('nombreJ').value,
-                    apellidos: document.getElementById('apellidoJ').value, // Verifica si tu Pydantic usa "apellidos" o "apellido"
+                    apellidos: document.getElementById('apellidoJ').value,
                     edad: parseInt(document.getElementById('edadJ').value),
                     posicion: document.getElementById('posicionJ').value
                 };
 
-                // ENVIAMOS EL id_equipo como parámetro de consulta (query param)
                 try {
                     const response = await fetch(`/registrar_jugador?id_equipo=${idEquipo}`, {
                         method: 'POST',
@@ -264,19 +316,13 @@
             };
 
             function abrirModal() { document.getElementById('modalJugador').style.display = 'flex'; }
-
             function cerrarModal() { document.getElementById('modalJugador').style.display = 'none'; document.getElementById('formJugador').reset(); }
-
             function logout() { localStorage.clear(); window.location.href = '/'; }
 
             function abrirModalStats(id, nombreCompleto) {
                 document.getElementById('idJugadorStats').value = id;
                 document.getElementById('statsTitulo').textContent = `Estadísticas: ${nombreCompleto}`;
-                
-                // Mostramos el modal
                 document.getElementById('modalEstadisticas').style.display = 'flex';
-                
-                // Lanzamos la búsqueda automática nada más abrir
                 consultarStats();
             }
 
@@ -296,7 +342,6 @@
                         const data = await response.json();
 
                         if (data) {
-                            // Rellenamos con lo que hay en la DB
                             document.getElementById('goles').value = data.goles;
                             document.getElementById('asist').value = data.asistencias;
                             document.getElementById('amarillas').value = data.tarj_amarillas;
@@ -305,7 +350,6 @@
                             document.getElementById('min').value = data.minutos_jugados;
                             document.getElementById('pases').value = data.pases_clave;
                         } else {
-                            // Si no hay datos (data es null), reseteamos a 0
                             resetearInputsStats();
                         }
                     }
@@ -314,22 +358,18 @@
                 }
             }
 
-            // Función para abrir/cerrar el menú de 3 puntos
             function toggleMenu(event, element) {
-                event.stopPropagation(); // Evita que se abra el modal de stats
-                // Cerramos cualquier otro menú que esté abierto
+                event.stopPropagation();
                 document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
-                // Abrimos el de este jugador
                 element.nextElementSibling.classList.toggle('show-menu');
             }
 
-            // Función para eliminar al jugador
             let idJugadorAEliminar = null;
 
             function confirmarEliminarJugador(event, id) {
                 event.stopPropagation();
-                idJugadorAEliminar = id; // Guardamos el ID
-                document.getElementById('modalConfirmar').style.display = 'flex'; // Abrimos el modal pro
+                idJugadorAEliminar = id;
+                document.getElementById('modalConfirmar').style.display = 'flex';
             }
 
             function cerrarConfirmar() {
@@ -337,7 +377,6 @@
                 idJugadorAEliminar = null;
             }
 
-            // Usamos delegación de eventos para que no falle nunca
             document.addEventListener('click', async (e) => {
                 if (e.target && e.target.id === 'btnConfirmarEliminar') {
                     if (!idJugadorAEliminar) return;
@@ -350,11 +389,7 @@
                         if (response.ok) {
                             cerrarConfirmar();
                             mostrarNotificacion("🗑️ Jugador y estadísticas eliminados");
-                            
-                            setTimeout(() => {
-                                cargarJugadores(); 
-                            }, 300); 
-
+                            setTimeout(() => { cargarJugadores(); }, 300); 
                         } else {
                             mostrarNotificacion("❌ Error al eliminar");
                         }
@@ -365,7 +400,6 @@
                 }
             });
 
-            // Si haces clic en cualquier parte de la pantalla, se cierran los menús de 3 puntos
             window.addEventListener('click', () => {
                 document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
             });
@@ -378,7 +412,6 @@
             document.getElementById('formEstadisticas').onsubmit = async function(e) {
                 e.preventDefault();
                 
-                // 1. Bloqueamos el botón para evitar que el usuario pulse mil veces mientras guarda
                 const btnGuardar = e.target.querySelector('.btn-guardar');
                 const textoOriginal = btnGuardar.textContent;
                 btnGuardar.textContent = "Guardando...";
@@ -406,7 +439,6 @@
 
                     if (response.ok) {
                         cerrarModalStats();
-                        // Mensaje pro en lugar del alert cutre
                         mostrarNotificacion("✅ Estadísticas actualizadas correctamente"); 
                     } else {
                         mostrarNotificacion("❌ Error al actualizar las estadísticas");
@@ -414,7 +446,6 @@
                 } catch (err) {
                     alert("❌ Error de conexión: " + err);
                 } finally {
-                    // C) Restauramos el botón
                     btnGuardar.textContent = textoOriginal;
                     btnGuardar.disabled = false;
                 }
@@ -425,23 +456,13 @@
                 if (!toast) return;
 
                 toast.textContent = mensaje;
-                
-                // Mostramos el elemento
                 toast.style.display = 'block';
-                
-                // Le damos un milisegundo para que el navegador note el display:block 
-                // y luego activamos la animación con la clase CSS
-                setTimeout(() => {
-                    toast.classList.add('toast-active');
-                }, 10);
 
-                // Lo quitamos tras 3 segundos
+                setTimeout(() => { toast.classList.add('toast-active'); }, 10);
+
                 setTimeout(() => {
                     toast.classList.remove('toast-active');
-                    // Esperamos a que termine la animación de bajada para ocultarlo del todo
-                    setTimeout(() => {
-                        toast.style.display = 'none';
-                    }, 500);
+                    setTimeout(() => { toast.style.display = 'none'; }, 500);
                 }, 3000);
             }
         </script>

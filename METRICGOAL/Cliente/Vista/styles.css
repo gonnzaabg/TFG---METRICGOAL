@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. RESET GENERAL (Para que todo empiece limpio)
+   1. RESET GENERAL
    ========================================================================== */
 * {
     margin: 0;
@@ -9,7 +9,7 @@
 }
 
 /* ==========================================================================
-   2. ESTILOS EXCLUSIVOS DEL LOGIN (Usando body.login-page)
+   2. LOGIN PAGE
    ========================================================================== */
 body.login-page {
     background-color: #040914; 
@@ -24,7 +24,7 @@ body.login-page {
     align-items: center;
     height: 100vh;
     color: #f8fafc;
-    margin: 0; /* Aseguramos que no haya scroll extra */
+    margin: 0;
 }
 
 body.login-page .login-container {
@@ -70,58 +70,177 @@ body.login-page .error-message {
 
 
 /* ==========================================================================
-   3. ESTILOS EXCLUSIVOS DEL DASHBOARD (Usando body.dashboard-page)
+   3. DASHBOARD PAGE
    ========================================================================== */
 body.dashboard-page {
     background: linear-gradient(rgba(0,0,10,0.8), rgba(0,0,10,0.8)), url('fondo_limpio_redimensionado.jpg') no-repeat center center fixed;
     background-size: cover;
     color: white;
     min-height: 100vh;
-    display: block; /* ESTO ES CLAVE: deshace el display: flex que rompía todo */
+    display: block;
 }
 
+/* ── HEADER DARK GLASS ── */
 body.dashboard-page header {
-    background: rgba(255, 255, 255, 0.98);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     height: 80px;
     display: flex;
     align-items: center;
     padding: 0 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    background: linear-gradient(135deg, rgba(10,5,20,0.92) 0%, rgba(40,5,20,0.88) 50%, rgba(10,5,20,0.92) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,215,0,0.15);
+    overflow: hidden;
     width: 100%;
-    position: sticky; 
-    top: 0; 
-    z-index: 1000;
+}
+
+/* Resplandor granate en los extremos */
+body.dashboard-page header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 80% at 0% 50%, rgba(128,0,32,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 100% 50%, rgba(128,0,32,0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Línea dorada inferior con brillo */
+body.dashboard-page header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.15) 15%, rgba(255,215,0,0.6) 40%, rgba(255,215,0,0.8) 50%, rgba(255,215,0,0.6) 60%, rgba(255,215,0,0.15) 85%, transparent 100%);
 }
 
 body.dashboard-page .logo {
-    width: 45px; height: 45px; background: #800020; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: bold; color: #ffd700; margin-right: 40px;
-    box-shadow: 0 2px 8px rgba(128,0,32,0.4);
+    position: relative;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #6b0018 0%, #a50044 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 14px;
+    color: #ffd700;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 20px rgba(165,0,68,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    letter-spacing: 0.5px;
 }
 
-body.dashboard-page nav { display: flex; height: 100%; }
-body.dashboard-page nav a {
-    text-decoration: none; color: #444; padding: 0 25px; height: 80px;
-    display: flex; align-items: center; font-weight: 600; font-size: 0.95rem;
-    border-bottom: 4px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+body.dashboard-page .header-sep {
+    width: 1px;
+    height: 28px;
+    background: linear-gradient(180deg, transparent, rgba(255,215,0,0.2), transparent);
+    margin: 0 36px;
+    flex-shrink: 0;
 }
-body.dashboard-page nav a:hover { color: #800020; background: #fdfdfd; border-bottom: 4px solid #ccc; }
-body.dashboard-page nav a.active { color: #004d98; border-bottom: 4px solid #004d98; }
+
+body.dashboard-page nav { display: flex; height: 100%; gap: 2px; position: relative; z-index: 1; }
+
+body.dashboard-page nav a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.55);
+    padding: 0 18px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.3px;
+    position: relative;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+
+body.dashboard-page nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: #ffd700;
+    transition: left 0.3s ease, right 0.3s ease;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+body.dashboard-page nav a:hover { color: rgba(255,255,255,0.9); }
+body.dashboard-page nav a:hover::after { left: 14px; right: 14px; }
+
+body.dashboard-page nav a.active {
+    color: #ffd700;
+    font-weight: 700;
+}
+
+body.dashboard-page nav a.active::before {
+    content: '';
+    position: absolute;
+    inset: 18px 6px;
+    background: rgba(255,215,0,0.06);
+    border-radius: 6px;
+}
+
+body.dashboard-page nav a.active::after {
+    left: 14px; right: 14px;
+    background: #ffd700;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
+}
+
+body.dashboard-page .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+body.dashboard-page .badge-temporada {
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,215,0,0.85);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
 
 body.dashboard-page .btn-salir {
-    margin-left: auto; padding: 8px 20px; border: 2px solid #800020;
-    background: transparent; color: #800020; font-weight: bold; border-radius: 8px;
-    cursor: pointer; transition: 0.3s;
+    padding: 8px 18px;
+    border: 1px solid rgba(165,0,68,0.6);
+    background: rgba(165,0,68,0.12);
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
 }
-body.dashboard-page .btn-salir:hover { background: #800020; color: white; }
+
+body.dashboard-page .btn-salir:hover {
+    background: rgba(165,0,68,0.5);
+    border-color: rgba(165,0,68,0.9);
+    color: white;
+    box-shadow: 0 4px 15px rgba(128,0,32,0.4);
+}
 
 body.dashboard-page .container { 
     max-width: 1100px; 
     margin: 40px auto; 
     padding: 0 20px; 
     text-align: center; 
-    /* Eliminamos cualquier flex extraño de aquí por si acaso */
 }
 
 body.dashboard-page .club-label {
@@ -143,30 +262,153 @@ body.dashboard-page .btn-añadir {
 body.dashboard-page .btn-añadir:hover { transform: translateY(-3px) scale(1.02); background: #27ae60; box-shadow: 0 8px 25px rgba(46,204,113,0.5); }
 
 body.dashboard-page .seccion {
-    background: rgba(128, 0, 32, 0.15); backdrop-filter: blur(10px);
+    background: rgba(128, 0, 32, 0.15);
     border-radius: 20px; padding: 30px; margin-bottom: 35px; text-align: left;
     border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: visible;
+    position: relative;
+    isolation: auto;
 }
+
+body.dashboard-page .seccion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+body.dashboard-page .seccion > * {
+    position: relative;
+    z-index: 1;
+}
+
 body.dashboard-page .seccion h3 { color: #ffd700; margin-bottom: 25px; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; }
 
-body.dashboard-page .fila-jugadores { display: flex; align-items: center; gap: 20px; }
+body.dashboard-page .fila-jugadores {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+body.dashboard-page .carrusel-viewport {
+    flex: 1;
+    overflow: visible;
+    position: relative;
+    min-height: 150px;
+}
+
+body.dashboard-page .carrusel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    overflow: visible;
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+body.dashboard-page .carrusel-track.slide-right .caja-jugador {
+    animation: slideInRight 0.35s ease forwards;
+}
+
+body.dashboard-page .carrusel-track.slide-left .caja-jugador {
+    animation: slideInLeft 0.35s ease forwards;
+}
 
 body.dashboard-page .caja-jugador {
-    background: rgba(255, 255, 255, 0.05); flex: 1; height: 130px; border-radius: 15px;
-    border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center;
-    justify-content: center; color: #ccc; font-style: italic; cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-body.dashboard-page .caja-jugador:hover {
-    background: rgba(255, 255, 255, 0.15); border-color: #ffd700; color: #fff;
-    transform: scale(1.05) translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.05);
+    min-width: calc((100% - 40px) / 3);
+    flex-shrink: 0;
+    height: 130px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+    font-style: italic;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    position: relative;
 }
 
-body.dashboard-page .flecha { font-size: 2.5rem; color: #ffd700; cursor: pointer; transition: 0.3s; padding: 10px; }
-body.dashboard-page .flecha:hover { transform: translateX(10px); text-shadow: 0 0 15px #ffd700; }
+body.dashboard-page .caja-jugador::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 215, 0, 0.12) 50%,
+        transparent 100%
+    );
+    transform: skewX(-20deg);
+    transition: none;
+    opacity: 0;
+}
+
+body.dashboard-page .caja-jugador:hover::after {
+    animation: shimmer-sweep 0.55s ease forwards;
+    opacity: 1;
+}
+
+@keyframes shimmer-sweep {
+    0%   { left: -75%; }
+    100% { left: 125%; }
+}
+
+body.dashboard-page .caja-jugador:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffd700;
+    color: #fff;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.15), 0 6px 20px rgba(0,0,0,0.4);
+}
+
+body.dashboard-page .flecha {
+    font-size: 2.5rem; color: #ffd700; cursor: pointer;
+    transition: 0.3s; padding: 10px;
+    user-select: none; flex-shrink: 0;
+}
+body.dashboard-page .flecha:hover { transform: translateX(4px); text-shadow: 0 0 15px #ffd700; }
+body.dashboard-page .flecha.flecha-izq:hover { transform: translateX(-4px); }
+body.dashboard-page .flecha.flecha-disabled { opacity: 0.15; cursor: default; pointer-events: none; }
+
+body.dashboard-page .carrusel-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+}
+body.dashboard-page .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.3s, transform 0.3s;
+}
+body.dashboard-page .dot.active {
+    background: #ffd700;
+    transform: scale(1.3);
+}
 
 /* ==========================================================================
-   4. ESTILOS EXCLUSIVOS DE INFORMES (Usando body.informes-page)
+   4. INFORMES PAGE
    ========================================================================== */
 body.informes-page {
     background: linear-gradient(rgba(0,0,10,0.8), rgba(0,0,10,0.8)), url('fondo_limpio_redimensionado.jpg') no-repeat center center fixed;
@@ -175,50 +417,144 @@ body.informes-page {
     min-height: 100vh;
 }
 
-/* --- CABECERA Y NAVEGACIÓN (Adaptada a la paleta del Dashboard) --- */
+/* ── HEADER DARK GLASS ── */
 body.informes-page header {
-    background: rgba(255, 255, 255, 0.98);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     height: 80px;
     display: flex;
     align-items: center;
     padding: 0 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    position: sticky; 
-    top: 0; 
-    z-index: 1000;
+    background: linear-gradient(135deg, rgba(10,5,20,0.92) 0%, rgba(40,5,20,0.88) 50%, rgba(10,5,20,0.92) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,215,0,0.15);
+    overflow: hidden;
+}
+
+body.informes-page header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 80% at 0% 50%, rgba(128,0,32,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 100% 50%, rgba(128,0,32,0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+body.informes-page header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.15) 15%, rgba(255,215,0,0.6) 40%, rgba(255,215,0,0.8) 50%, rgba(255,215,0,0.6) 60%, rgba(255,215,0,0.15) 85%, transparent 100%);
 }
 
 body.informes-page .logo {
-    width: 45px; height: 45px; background: #800020; border-radius: 10px;
+    position: relative;
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, #6b0018 0%, #a50044 100%);
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: bold; color: #ffd700; margin-right: 40px;
-    box-shadow: 0 2px 8px rgba(128,0,32,0.4);
+    font-weight: 900; font-size: 14px; color: #ffd700;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 20px rgba(165,0,68,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    letter-spacing: 0.5px;
 }
 
-body.informes-page nav { display: flex; height: 100%; }
-body.informes-page nav a {
-    text-decoration: none; color: #444; padding: 0 25px; height: 80px;
-    display: flex; align-items: center; font-weight: 600; font-size: 0.95rem;
-    border-bottom: 4px solid transparent; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+body.informes-page .header-sep {
+    width: 1px; height: 28px;
+    background: linear-gradient(180deg, transparent, rgba(255,215,0,0.2), transparent);
+    margin: 0 36px;
+    flex-shrink: 0;
 }
-body.informes-page nav a:hover { color: #800020; background: #fdfdfd; border-bottom: 4px solid #ccc; }
-body.informes-page nav a.active { color: #004d98; border-bottom: 4px solid #004d98; }
+
+body.informes-page nav { display: flex; height: 100%; gap: 2px; position: relative; z-index: 1; }
+
+body.informes-page nav a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.55);
+    padding: 0 18px; height: 80px;
+    display: flex; align-items: center;
+    font-weight: 500; font-size: 0.875rem;
+    letter-spacing: 0.3px;
+    position: relative;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+
+body.informes-page nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: #ffd700;
+    transition: left 0.3s ease, right 0.3s ease;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+body.informes-page nav a:hover { color: rgba(255,255,255,0.9); }
+body.informes-page nav a:hover::after { left: 14px; right: 14px; }
+
+body.informes-page nav a.active { color: #ffd700; font-weight: 700; }
+body.informes-page nav a.active::before {
+    content: '';
+    position: absolute;
+    inset: 18px 6px;
+    background: rgba(255,215,0,0.06);
+    border-radius: 6px;
+}
+body.informes-page nav a.active::after {
+    left: 14px; right: 14px;
+    background: #ffd700;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
+}
+
+body.informes-page .header-right {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 14px;
+    position: relative; z-index: 1;
+}
+
+body.informes-page .badge-temporada {
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,215,0,0.85);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
 
 body.informes-page .btn-salir {
-    margin-left: auto; padding: 8px 20px; border: 2px solid #800020;
-    background: transparent; color: #800020; font-weight: bold; border-radius: 8px;
-    cursor: pointer; transition: 0.3s;
+    padding: 8px 18px;
+    border: 1px solid rgba(165,0,68,0.6);
+    background: rgba(165,0,68,0.12);
+    color: rgba(255,255,255,0.8);
+    font-weight: 600; font-size: 0.8rem;
+    border-radius: 8px; cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px; white-space: nowrap;
 }
-body.informes-page .btn-salir:hover { background: #800020; color: white; }
+body.informes-page .btn-salir:hover {
+    background: rgba(165,0,68,0.5);
+    border-color: rgba(165,0,68,0.9);
+    color: white;
+    box-shadow: 0 4px 15px rgba(128,0,32,0.4);
+}
 
-/* --- CONTENEDOR PRINCIPAL --- */
 body.informes-page .container {
     max-width: 1100px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-/* --- DESTACADOS (Top Scorer / Assister) --- */
 body.informes-page .destacados-section {
     display: flex;
     justify-content: space-between;
@@ -261,10 +597,9 @@ body.informes-page .nombre-jugador {
 body.informes-page .dato-estadistico {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #a50044; /* Granate para resaltar los datos */
+    color: #a50044;
 }
 
-/* --- GRID INFERIOR (Cajas Grises adaptadas al Dark Mode) --- */
 body.informes-page .grid-informes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -300,7 +635,7 @@ body.informes-page .caja-gris:hover {
 }
 
 /* ==========================================================================
-   5. ESTILOS EXCLUSIVOS DE COMPARAR (Usando body.comparar-page)
+   5. COMPARAR PAGE (HEADER ESTILO INFORMES + CONTENIDO ORIGINAL)
    ========================================================================== */
 body.comparar-page {
     background: linear-gradient(rgba(0,0,10,0.8), rgba(0,0,10,0.8)), url('fondo_limpio_redimensionado.jpg') no-repeat center center fixed;
@@ -309,35 +644,141 @@ body.comparar-page {
     min-height: 100vh;
 }
 
-/* --- CABECERA Y NAVEGACIÓN (Igual que las otras páginas) --- */
+/* ── HEADER DARK GLASS (Igual a Informes) ── */
 body.comparar-page header {
-    background: rgba(255, 255, 255, 0.98);
-    height: 80px; display: flex; align-items: center; padding: 0 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 1000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    background: linear-gradient(135deg, rgba(10,5,20,0.92) 0%, rgba(40,5,20,0.88) 50%, rgba(10,5,20,0.92) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,215,0,0.15);
+    overflow: hidden;
 }
-body.comparar-page .logo {
-    width: 45px; height: 45px; background: #800020; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: bold; color: #ffd700; margin-right: 40px; box-shadow: 0 2px 8px rgba(128,0,32,0.4);
-}
-body.comparar-page nav { display: flex; height: 100%; }
-body.comparar-page nav a {
-    text-decoration: none; color: #444; padding: 0 25px; height: 80px;
-    display: flex; align-items: center; font-weight: 600; font-size: 0.95rem;
-    border-bottom: 4px solid transparent; transition: all 0.3s ease;
-}
-body.comparar-page nav a:hover { color: #800020; background: #fdfdfd; border-bottom: 4px solid #ccc; }
-body.comparar-page nav a.active { color: #004d98; border-bottom: 4px solid #004d98; }
-body.comparar-page .btn-salir {
-    margin-left: auto; padding: 8px 20px; border: 2px solid #800020;
-    background: transparent; color: #800020; font-weight: bold; border-radius: 8px;
-    cursor: pointer; transition: 0.3s;
-}
-body.comparar-page .btn-salir:hover { background: #800020; color: white; }
 
+body.comparar-page header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 80% at 0% 50%, rgba(128,0,32,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 100% 50%, rgba(128,0,32,0.12) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+body.comparar-page header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.15) 15%, rgba(255,215,0,0.6) 40%, rgba(255,215,0,0.8) 50%, rgba(255,215,0,0.6) 60%, rgba(255,215,0,0.15) 85%, transparent 100%);
+}
+
+body.comparar-page .logo {
+    position: relative;
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, #6b0018 0%, #a50044 100%);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 14px; color: #ffd700;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 20px rgba(165,0,68,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    letter-spacing: 0.5px;
+}
+
+body.comparar-page .header-sep {
+    width: 1px; height: 28px;
+    background: linear-gradient(180deg, transparent, rgba(255,215,0,0.2), transparent);
+    margin: 0 36px;
+    flex-shrink: 0;
+}
+
+body.comparar-page nav { display: flex; height: 100%; gap: 2px; position: relative; z-index: 1; }
+
+body.comparar-page nav a {
+    text-decoration: none;
+    color: rgba(255,255,255,0.55);
+    padding: 0 18px; height: 80px;
+    display: flex; align-items: center;
+    font-weight: 500; font-size: 0.875rem;
+    letter-spacing: 0.3px;
+    position: relative;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+
+body.comparar-page nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: #ffd700;
+    transition: left 0.3s ease, right 0.3s ease;
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+body.comparar-page nav a:hover { color: rgba(255,255,255,0.9); }
+body.comparar-page nav a:hover::after { left: 14px; right: 14px; }
+
+body.comparar-page nav a.active { color: #ffd700; font-weight: 700; }
+body.comparar-page nav a.active::before {
+    content: '';
+    position: absolute;
+    inset: 18px 6px;
+    background: rgba(255,215,0,0.06);
+    border-radius: 6px;
+}
+body.comparar-page nav a.active::after {
+    left: 14px; right: 14px;
+    background: #ffd700;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
+}
+
+body.comparar-page .header-right {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 14px;
+    position: relative; z-index: 1;
+}
+
+body.comparar-page .badge-temporada {
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,215,0,0.85);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+body.comparar-page .btn-salir {
+    padding: 8px 18px;
+    border: 1px solid rgba(165,0,68,0.6);
+    background: rgba(165,0,68,0.12);
+    color: rgba(255,255,255,0.8);
+    font-weight: 600; font-size: 0.8rem;
+    border-radius: 8px; cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px; white-space: nowrap;
+}
+body.comparar-page .btn-salir:hover {
+    background: rgba(165,0,68,0.5);
+    border-color: rgba(165,0,68,0.9);
+    color: white;
+    box-shadow: 0 4px 15px rgba(128,0,32,0.4);
+}
+
+/* ── CONTENIDO ESPECÍFICO DE COMPARAR (RECUPERADO) ── */
 body.comparar-page .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
-/* --- CONTROLES SUPERIORES (Select e Input) --- */
 body.comparar-page .controles-comparacion {
     display: flex;
     justify-content: space-between;
@@ -353,11 +794,11 @@ body.comparar-page .control-grupo {
 
 body.comparar-page .control-grupo label {
     font-size: 14px;
-    color: #ffd700; /* Tu amarillo característico */
+    color: #ffd700;
     margin-bottom: 8px;
     font-weight: bold;
-    text-transform: uppercase; /* Lo pongo en mayúsculas para que quede igual de imponente que los títulos del Dashboard */
-    letter-spacing: 1px; /* Un poco de espacio entre letras para darle estilo */
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 body.comparar-page .control-grupo select,
@@ -379,10 +820,9 @@ body.comparar-page .control-grupo input:focus {
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 
-/* --- BOTÓN EXPORTAR --- */
 body.comparar-page .btn-exportar {
     width: 100%;
-    background-color: #a50044; /* El rojo granate de tu marca */
+    background-color: #a50044;
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
@@ -403,11 +843,6 @@ body.comparar-page .btn-exportar:hover {
     box-shadow: 0 8px 25px rgba(165, 0, 68, 0.6);
 }
 
-body.comparar-page .btn-exportar:active {
-    transform: translateY(1px);
-}
-
-/* --- CAJAS DE MÉTRICAS --- */
 body.comparar-page .metricas-grid {
     display: flex;
     flex-direction: column;
@@ -427,37 +862,60 @@ body.comparar-page .caja-metrica {
     transition: all 0.3s ease;
 }
 
-body.comparar-page .caja-metrica:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: #ffd700;
+body.comparar-page .titulo-caja {
+    color: #ffd700;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 18px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    width: 100%;
 }
 
-body.comparar-page .caja-metrica h2 {
-    color: #cbd5e1;
-    font-size: 3rem;
-    letter-spacing: 3px;
-    opacity: 0.8;
+body.comparar-page .tabla-resumen { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+
+body.comparar-page .tabla-resumen thead tr {
+    background: rgba(255, 215, 0, 0.08);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
 }
+
+body.comparar-page .tabla-resumen th {
+    color: #ffd700; font-weight: 700; letter-spacing: 1px;
+    padding: 12px 16px; text-align: center; font-size: 0.85rem; text-transform: uppercase;
+}
+
+body.comparar-page .tabla-resumen td {
+    padding: 11px 16px; text-align: center; color: #cbd5e1; font-size: 0.95rem;
+}
+
+body.comparar-page .diff-canton-gana { color: #3b82f6; background: rgba(59, 130, 246, 0.12); }
+body.comparar-page .diff-prof-gana { color: #c0392b; background: rgba(128, 0, 32, 0.18); }
+
 /* ==========================================================================
-   6. ESTILOS EXCLUSIVOS PARA MÓVILES (max-width: 768px)
+   6. RESPONSIVE MÓVIL
    ========================================================================== */
 @media (max-width: 768px) {
-    
-    /* --- CABECERAS (Aplica a Dashboard, Informes y Comparar) --- */
     body.dashboard-page header,
     body.informes-page header,
     body.comparar-page header {
         flex-direction: column;
         height: auto;
         padding: 15px 10px;
-        position: relative; /* Necesario para colocar el botón de salir flotante */
+        position: relative;
     }
 
     body.dashboard-page .logo,
     body.informes-page .logo,
     body.comparar-page .logo {
-        margin-right: 0;
         margin-bottom: 10px;
+    }
+
+    body.dashboard-page .header-sep,
+    body.informes-page .header-sep,
+    body.comparar-page .header-sep {
+        display: none;
     }
 
     body.dashboard-page nav,
@@ -477,89 +935,53 @@ body.comparar-page .caja-metrica h2 {
         font-size: 0.85rem;
     }
 
-    /* Botón de cerrar sesión: lo sacamos del flujo y lo fijamos arriba a la derecha */
-    body.dashboard-page .btn-salir,
-    body.informes-page .btn-salir,
-    body.comparar-page .btn-salir {
+    body.dashboard-page .header-right,
+    body.informes-page .header-right,
+    body.comparar-page .header-right {
         position: absolute;
         top: 15px;
         right: 15px;
         margin: 0;
+        gap: 8px;
+    }
+
+    body.dashboard-page .badge-temporada,
+    body.informes-page .badge-temporada,
+    body.comparar-page .badge-temporada {
+        display: none;
+    }
+
+    body.dashboard-page .btn-salir,
+    body.informes-page .btn-salir,
+    body.comparar-page .btn-salir {
         padding: 6px 12px;
         font-size: 0.8rem;
     }
 
-    /* --- DASHBOARD --- */
-    body.dashboard-page .titulo-equipo {
-        font-size: 2rem; /* Letra más pequeña para que no se salga */
-        margin-bottom: 20px;
-    }
-
-    body.dashboard-page .btn-añadir {
-        padding: 12px 30px;
-        font-size: 1rem;
-    }
-
-    body.dashboard-page .seccion {
-        padding: 15px;
-    }
-
+    body.dashboard-page .titulo-equipo { font-size: 2rem; margin-bottom: 20px; }
+    body.dashboard-page .btn-añadir { padding: 12px 30px; font-size: 1rem; }
+    body.dashboard-page .seccion { padding: 15px; }
     body.dashboard-page .fila-jugadores {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Forzamos 2 columnas exactas */
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
+    body.dashboard-page .caja-jugador { width: 100%; height: 110px; font-size: 0.9rem; }
+    body.dashboard-page .flecha { display: none; }
 
-    body.dashboard-page .caja-jugador {
-        width: 100%;
-        height: 110px;
-        font-size: 0.9rem;
-    }
+    body.informes-page .destacados-section { flex-direction: column; gap: 15px; }
+    body.informes-page .grid-informes { grid-template-columns: 1fr; padding: 20px; gap: 15px; }
+    body.informes-page .nombre-jugador { font-size: 1.6rem; }
 
-    body.dashboard-page .flecha {
-        display: none; /* En móvil ocultamos la flecha porque usamos cuadrícula */
-    }
-
-    /* --- INFORMES --- */
-    body.informes-page .destacados-section {
-        flex-direction: column; /* Tarjetas una debajo de otra */
-        gap: 15px;
-    }
-
-    body.informes-page .grid-informes {
-        grid-template-columns: 1fr; /* 1 sola columna para las cajas grises */
-        padding: 20px;
-        gap: 15px;
-    }
-
-    body.informes-page .nombre-jugador {
-        font-size: 1.6rem;
-    }
-
-    /* --- COMPARATIVA --- */
-    body.comparar-page .controles-comparacion {
-        flex-direction: column; /* Selectores uno debajo del otro */
-        gap: 15px;
-    }
-
-    body.comparar-page .btn-exportar {
-        font-size: 1rem;
-        padding: 15px;
-    }
-
-    body.comparar-page .caja-metrica {
-        height: 150px; /* Reducimos la altura en móvil */
-    }
-
-    body.comparar-page .caja-metrica h2 {
-        font-size: 2rem;
-    }
+    body.comparar-page .controles-comparacion { flex-direction: column; gap: 15px; }
+    body.comparar-page .btn-exportar { font-size: 1rem; padding: 15px; }
+    body.comparar-page .caja-metrica { height: 150px; }
+    body.comparar-page .caja-metrica h2 { font-size: 2rem; }
 }
 
 /* ==========================================================================
-   MODAL - REGISTRAR JUGADOR (Versión Final Corregida)
+   MODAL
    ========================================================================== */
-
 .modal-overlay {
     display: none; 
     position: fixed;
@@ -575,10 +997,7 @@ body.comparar-page .caja-metrica h2 {
 }
 
 @media screen and (max-width: 600px) {
-    .modal-overlay {
-        align-items: flex-start;
-        padding: 20px 0;
-    }
+    .modal-overlay { align-items: flex-start; padding: 20px 0; }
 }
 
 .modal-content {
@@ -594,7 +1013,6 @@ body.comparar-page .caja-metrica h2 {
     overflow-y: auto;
 }
 
-/* Grid de 2 columnas para el modal de estadísticas en desktop */
 .modal-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -620,52 +1038,30 @@ body.comparar-page .caja-metrica h2 {
 }
 
 .close-modal {
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    line-height: 1;
-    transition: 0.3s;
+    color: white; font-size: 30px; cursor: pointer; line-height: 1; transition: 0.3s;
 }
-
-.close-modal:hover {
-    color: #a50044;
-}
+.close-modal:hover { color: #a50044; }
 
 .modal-content label {
-    display: block;
-    color: #ffd700;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    font-weight: bold;
-    text-transform: uppercase;
+    display: block; color: #ffd700; font-size: 0.85rem;
+    margin-bottom: 8px; font-weight: bold; text-transform: uppercase;
 }
 
-/* Estilo unificado para Inputs y Selects */
 .modal-content input, 
 .modal-content select {
-    width: 100%;
-    padding: 12px;
+    width: 100%; padding: 12px;
     background: rgba(255, 255, 255, 0.07);
     border: 2px solid #1e3a8a;
     border-radius: 8px;
-    color: #ffffff !important; /* Texto siempre blanco */
-    font-size: 1rem;
-    outline: none;
-    transition: 0.3s;
+    color: #ffffff !important;
+    font-size: 1rem; outline: none; transition: 0.3s;
 }
 
 .modal-content input:focus, 
-.modal-content select:focus {
-    border-color: #ffd700;
-}
+.modal-content select:focus { border-color: #ffd700; }
 
-/* ARREGLO DE TEXTOS EN EL DESPLEGABLE */
-.modal-content select option {
-    background-color: #10172a; /* Fondo oscuro para que se vea el texto blanco */
-    color: white;
-}
+.modal-content select option { background-color: #10172a; color: white; }
 
-/* Flecha dorada personalizada para el select */
 .modal-content select {
     appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffd700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -675,259 +1071,100 @@ body.comparar-page .caja-metrica h2 {
 }
 
 .btn-guardar {
-    width: 100%;
-    background: #a50044;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    width: 100%; background: #a50044; color: white; border: none;
+    padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem;
+    cursor: pointer; margin-top: 15px; transition: 0.3s;
+    text-transform: uppercase; letter-spacing: 1px;
 }
+.btn-guardar:hover { background: #cc0055; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(165, 0, 68, 0.4); }
 
-.btn-guardar:hover {
-    background: #cc0055;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(165, 0, 68, 0.4);
-}
-
-/* Estilo Único y Final para la Notificación */
+/* Toast */
 .toast-container {
     position: fixed !important;
-    bottom: 30px !important;
-    right: 30px !important;
-    
-    /* Colores y Diseño */
-    background: #27ae60 !important;
-    color: white !important;
-    padding: 16px 28px !important;
-    border-radius: 12px !important;
+    bottom: 30px !important; right: 30px !important;
+    background: #27ae60 !important; color: white !important;
+    padding: 16px 28px !important; border-radius: 12px !important;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
-    
-    /* Tipografía */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    
-    /* Capas y Visibilidad */
+    font-size: 16px !important; font-weight: 600 !important;
     z-index: 9999999 !important;
-    display: none; /* Se activa por JS */
-    min-width: 300px;
-    text-align: center;
-    
-    /* Animación manual más fiable */
+    display: none;
+    min-width: 300px; text-align: center;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    opacity: 0;
-    transform: translateY(100px);
+    opacity: 0; transform: translateY(100px);
 }
+.toast-active { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
 
-/* Clase que activaremos con JS */
-.toast-active {
-    display: block !important;
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-}
+/* Menú jugador */
+.menu-jugador { position: absolute !important; top: 5px !important; right: 5px !important; z-index: 10; }
 
-
-/* Contenedor del menú en la esquina superior derecha */
-.menu-jugador {
-    position: absolute !important;
-    top: 5px !important;
-    right: 5px !important;
-    z-index: 10;
-}
-
-/* El botón de los 3 puntos */
 .btn-menu {
-    background: none !important;
-    border: none !important;
-    color: #ffd700 !important; /* Dorado */
-    font-size: 22px !important;
-    cursor: pointer !important;
-    padding: 0 5px !important;
-    transition: transform 0.2s;
+    background: none !important; border: none !important; color: #ffd700 !important;
+    font-size: 22px !important; cursor: pointer !important; padding: 0 5px !important; transition: transform 0.2s;
 }
+.btn-menu:hover { transform: scale(1.2); }
 
-.btn-menu:hover {
-    transform: scale(1.2);
-}
-
-/* El desplegable (Dropdown) */
 .menu-dropdown {
-    display: none; /* Se activa con la clase .show-menu */
-    position: absolute !important;
-    right: 0 !important;
-    top: 25px !important;
-    background-color: #1e293b !important; /* Azul oscuro pizarra */
-    border: 1px solid rgba(255, 215, 0, 0.4) !important;
-    border-radius: 6px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
-    min-width: 120px !important;
-    z-index: 1000 !important;
-}
-
-/* Botón de eliminar dentro del menú */
-.menu-dropdown button {
-    width: 100% !important;
-    padding: 10px 15px !important;
-    background: none !important;
-    border: none !important;
-    color: #ff4d4d !important; /* Rojo alerta */
-    font-size: 14px !important;
-    font-weight: bold !important;
-    text-align: left !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-}
-
-.menu-dropdown button:hover {
-    background-color: rgba(255, 77, 77, 0.1) !important;
-}
-
-/* Clase que activa el JS */
-.show-menu {
-    display: block !important;
-}
-
-/* --- BUSCADOR GRANDE Y CORREGIDO --- */
-
-.ts-control {
+    display: none;
+    position: absolute !important; right: 0 !important; top: 25px !important;
     background-color: #1e293b !important;
-    color: white !important;
+    border: 1px solid rgba(255, 215, 0, 0.4) !important;
+    border-radius: 6px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+    min-width: 120px !important; z-index: 1000 !important;
+}
+
+.menu-dropdown button {
+    width: 100% !important; padding: 10px 15px !important;
+    background: none !important; border: none !important; color: #ff4d4d !important;
+    font-size: 14px !important; font-weight: bold !important; text-align: left !important;
+    cursor: pointer !important; display: flex !important; align-items: center !important; gap: 8px !important;
+}
+.menu-dropdown button:hover { background-color: rgba(255, 77, 77, 0.1) !important; }
+.show-menu { display: block !important; }
+
+/* TomSelect */
+.ts-control {
+    background-color: #1e293b !important; color: white !important;
     border: 1px solid #334155 !important;
-    
-    /* VOLVEMOS AL TAMAÑO GRANDE */
-    min-height: 60px !important; 
-    padding: 0 20px !important;
-    font-size: 18px !important;
-    
-    /* ALINEACIÓN TOTAL */
-    display: flex !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important; 
-    border-radius: 10px !important;
-    position: relative !important;
-    z-index: 9999 !important;
+    min-height: 60px !important; padding: 0 20px !important; font-size: 18px !important;
+    display: flex !important; align-items: center !important; flex-wrap: nowrap !important; 
+    border-radius: 10px !important; position: relative !important; z-index: 9999 !important;
 }
-
-/* El item seleccionado (el nombre del jugador) */
 .ts-control .item {
-    display: flex !important;
-    align-items: center !important;
-    font-weight: 600 !important;
-    color: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 60px !important; /* Mismo que el min-height para centrar texto */
+    display: flex !important; align-items: center !important;
+    font-weight: 600 !important; color: white !important;
+    margin: 0 !important; padding: 0 !important; line-height: 60px !important;
 }
-
-/* El input de escritura */
-.ts-control input {
-    color: white !important;
-    font-size: 18px !important;
-    margin-left: 10px !important;
-    /* Si ya hay un jugador, el input se vuelve invisible pero sigue ahí */
-    flex: 1 !important;
-    min-width: 5px !important;
-}
-
-/* Desaparece el cursor fantasma cuando ya hay un jugador */
-.ts-wrapper.has-items .ts-control input {
-    opacity: 0 !important;
-    width: 0 !important;
-    margin: 0 !important;
-}
-
-/* Estilo del botón de eliminar (la X) */
+.ts-control input { color: white !important; font-size: 18px !important; margin-left: 10px !important; flex: 1 !important; min-width: 5px !important; }
+.ts-wrapper.has-items .ts-control input { opacity: 0 !important; width: 0 !important; margin: 0 !important; }
 .ts-control .item .remove {
-    border-left: 1px solid rgba(255,255,255,0.2) !important;
-    margin-left: 15px !important;
-    padding-left: 10px !important;
-    font-size: 20px !important; /* X un poco más grande */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    border-left: 1px solid rgba(255,255,255,0.2) !important; margin-left: 15px !important;
+    padding-left: 10px !important; font-size: 20px !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
 }
+.ts-control:hover { border-color: #800020 !important; }
 
-/* Hover para que se vea que es interactivo */
-.ts-control:hover {
-    border-color: #800020 !important;
-}
-
-/* ==========================================================================
-   SOLUCIÓN DEFINITIVA PARA MODAL EN MÓVIL (Sustituir al final del CSS)
-   ========================================================================== */
-
+/* Modal móvil */
 @media screen and (max-width: 600px) {
-    /* 1. Contenedor principal: Quitamos anchos fijos y permitimos scroll */
     .modal-content {
-        width: 95% !important;
-        max-width: 95vw !important;
-        min-width: 0 !important;
-        margin: 5% auto !important;
-        padding: 20px !important;
-        max-height: 90vh !important;
-        overflow-y: auto !important;
-        position: relative !important;
-        display: block !important;
+        width: 95% !important; max-width: 95vw !important; min-width: 0 !important;
+        margin: 5% auto !important; padding: 20px !important;
+        max-height: 90vh !important; overflow-y: auto !important;
+        position: relative !important; display: block !important;
     }
-
-    /* 2. El modal-grid pasa a 1 columna en móvil */
-    .modal-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-    }
-
-    /* 3. La "X" de cerrar: posicionada fija arriba a la derecha del modal */
+    .modal-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
     .close-modal, .close-button {
-        position: absolute !important;
-        top: 10px !important;
-        right: 10px !important;
-        font-size: 32px !important;
-        width: 40px !important;
-        height: 40px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: rgba(165, 0, 68, 0.2) !important;
-        border-radius: 50% !important;
-        color: white !important;
-        z-index: 10001 !important;
-        line-height: 1 !important;
+        position: absolute !important; top: 10px !important; right: 10px !important;
+        font-size: 32px !important; width: 40px !important; height: 40px !important;
+        display: flex !important; align-items: center !important; justify-content: center !important;
+        background: rgba(165, 0, 68, 0.2) !important; border-radius: 50% !important;
+        color: white !important; z-index: 10001 !important; line-height: 1 !important;
     }
-
-    /* 4. Cabecera */
-    .modal-header {
-        padding-right: 40px !important;
-        margin-bottom: 15px !important;
+    .modal-header { padding-right: 40px !important; margin-bottom: 15px !important; }
+    .modal-header h2 { font-size: 1.1rem !important; white-space: normal !important; }
+    .modal-content input, .modal-content select {
+        width: 100% !important; min-width: 100% !important; box-sizing: border-box !important;
+        font-size: 16px !important; padding: 12px !important;
     }
-
-    .modal-header h2 {
-        font-size: 1.1rem !important;
-        white-space: normal !important;
-    }
-
-    /* 5. Inputs y Formulario */
-    .modal-content input, 
-    .modal-content select {
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-        font-size: 16px !important; /* Evita el zoom automático en iOS */
-        padding: 12px !important;
-    }
-
-    /* 6. Botón guardar: Más grande para el pulgar */
-    .btn-guardar {
-        margin-top: 20px !important;
-        padding: 18px !important;
-        font-size: 1.1rem !important;
-    }
+    .btn-guardar { margin-top: 20px !important; padding: 18px !important; font-size: 1.1rem !important; }
 }
