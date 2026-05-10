@@ -92,18 +92,17 @@ def obtener_profesionales_busqueda(nombre: str):
         return df.to_dict(orient='records')
     return []
 
-def obtener_datos_comparativa(id_canterano, nombre_profesional):
+def obtener_datos_comparativa(id_canterano, nombre_profesional, temporada="2025/26"):
     try:
-        # 1. CANTERANO
+        # 1. CANTERANO — filtramos por la temporada seleccionada
         query_can = """
             SELECT j.nombre, e.goles, e.asistencias, e.pases_clave, 
                    e.tarj_amarillas, e.tarj_rojas
             FROM jugadores j
             JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
-            WHERE j.id_jugador = ?
-            ORDER BY e.temporada DESC LIMIT 1
+            WHERE j.id_jugador = ? AND e.temporada = ?
         """
-        df_can = ejecutar_consulta(query_can, (id_canterano,))
+        df_can = ejecutar_consulta(query_can, (id_canterano, temporada))
         
         # 2. PROFESIONAL
         query_pro = """
@@ -118,10 +117,8 @@ def obtener_datos_comparativa(id_canterano, nombre_profesional):
         can = df_can.iloc[0]
         pro = df_pro.iloc[0]
 
-        # Labels actualizados (quitamos el /90)
         labels = ['Goles Totales', 'Asistencias Totales', 'Pases Clave', 'Amarillas', 'Rojas']
 
-        # Valores directos sin divisiones
         can_vals = [
             int(can['goles'] or 0),
             int(can['asistencias'] or 0),

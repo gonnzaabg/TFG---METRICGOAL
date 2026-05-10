@@ -2,6 +2,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <html lang="es">
 <head>
@@ -11,19 +13,79 @@
     <link rel="stylesheet" href="/static/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
     <style>
-        .ts-control {
-            background-color: #1e293b !important;
-            color: white !important;
-            border: 1px solid #334155 !important;
+        .ts-control { background-color: #1e293b !important; color: white !important; border: 1px solid #334155 !important; }
+        .ts-dropdown { background-color: #1e293b !important; color: white !important; }
+        .ts-dropdown .active { background-color: #800020 !important; color: white !important; }
+
+        /* ── Barra de exportar ── */
+        #barra-exportar {
+            display: none;
+            width: 100%; max-width: 900px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, rgba(10,5,20,0.9), rgba(30,5,20,0.85));
+            border: 1px solid rgba(255,215,0,0.25);
+            border-radius: 16px;
+            padding: 20px 28px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
         }
-        .ts-dropdown {
-            background-color: #1e293b !important;
-            color: white !important;
+
+        #barra-exportar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.6), #ffd700, rgba(255,215,0,0.6), transparent);
         }
-        .ts-dropdown .active {
-            background-color: #800020 !important;
-            color: white !important;
+
+        .barra-info { display: flex; flex-direction: column; gap: 4px; }
+        .barra-titulo { color: #ffd700; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        .barra-sub { color: rgba(255,255,255,0.4); font-size: 0.78rem; }
+        .barra-acciones { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn-accion {
+            display: flex; align-items: center; gap: 9px;
+            padding: 11px 22px; border-radius: 10px;
+            font-weight: 700; font-size: 0.82rem;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.25s ease;
+            border: none; white-space: nowrap;
         }
+        .btn-accion .icono { font-size: 1rem; }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #a50044, #7a0033);
+            color: white;
+            box-shadow: 0 4px 14px rgba(165,0,68,0.4);
+        }
+        .btn-pdf:hover { background: linear-gradient(135deg, #c0005a, #a50044); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(165,0,68,0.55); }
+
+        .btn-guardar-informe {
+            background: rgba(255,215,0,0.08);
+            color: #ffd700;
+            border: 1px solid rgba(255,215,0,0.3) !important;
+        }
+        .btn-guardar-informe:hover { background: rgba(255,215,0,0.18); border-color: #ffd700 !important; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,0.15); }
+
+        .btn-accion:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+        /* Toast */
+        #toast-informe {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(135deg, #1a7a3a, #27ae60);
+            color: white; padding: 16px 28px; border-radius: 14px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+            font-size: 15px; font-weight: 700; z-index: 9999999;
+            display: none; min-width: 280px; text-align: center;
+            transition: all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+            opacity: 0; transform: translateY(80px);
+        }
+        #toast-informe.activo { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
     </style>
 </head>
 <body class="comparar-page">
@@ -57,25 +119,45 @@
             </div>
         </section>
 
+        <div id="selector-temporada-wrapper" style="display:none; margin-bottom: 24px;">
+            <p class="label-temporada-comparar">Temporada del canterano</p>
+            <div class="temporada-tabs" id="temporada-tabs"></div>
+        </div>
+
         <button class="btn-exportar" onclick="realizarComparacion()">Comparar Jugadores</button>
 
-        <!-- CONTENEDOR DE LAS TRES MÉTRICAS (oculto hasta comparar) -->
         <section class="metricas-grid" id="seccion-metricas" style="display:none; flex-direction:column; align-items:center; gap:30px;">
 
+            <!-- BARRA DE EXPORTAR -->
+            <div id="barra-exportar">
+                <div class="barra-info">
+                    <span class="barra-titulo">📊 Análisis completado</span>
+                    <span class="barra-sub">Exporta o guarda el informe comparativo</span>
+                </div>
+                <div class="barra-acciones">
+                    <button class="btn-accion btn-guardar-informe" onclick="guardarEnInformes()">
+                        <span class="icono">📁</span> Guardar en Informes
+                    </button>
+                    <button class="btn-accion btn-pdf" onclick="exportarPDF()">
+                        <span class="icono">⬇️</span> Exportar PDF
+                    </button>
+                </div>
+            </div>
+
             <!-- 1. RADAR -->
-            <div class="caja-metrica" style="width:100%; max-width:900px; min-height:550px; display:flex; flex-direction:column; align-items:center; height:auto; padding:24px;">
+            <div class="caja-metrica" id="bloque-radar" style="width:100%; max-width:900px; min-height:550px; display:flex; flex-direction:column; align-items:center; height:auto; padding:24px;">
                 <h3 class="titulo-caja">Gráfico Radar</h3>
                 <div id="grafico-radar" style="width:100%; height:500px;"></div>
             </div>
 
-            <!-- 2. BARRAS HORIZONTALES -->
-            <div class="caja-metrica" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
+            <!-- 2. BARRAS -->
+            <div class="caja-metrica" id="bloque-barras" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
                 <h3 class="titulo-caja">Comparativa por Métrica</h3>
                 <div id="grafico-barras" style="width:100%; height:420px;"></div>
             </div>
 
-            <!-- 3. TABLA RESUMEN -->
-            <div class="caja-metrica" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
+            <!-- 3. TABLA -->
+            <div class="caja-metrica" id="bloque-tabla" style="width:100%; max-width:900px; height:auto; padding:24px; flex-direction:column; align-items:flex-start;">
                 <h3 class="titulo-caja">Resumen Estadístico</h3>
                 <div class="tabla-wrapper">
                     <table class="tabla-resumen">
@@ -95,13 +177,21 @@
         </section>
     </main>
 
+    <div id="toast-informe"></div>
+
     <script>
         let buscador;
+        let temporadaSeleccionada = null;
+        let datosComparacion = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
             buscador = new TomSelect("#select-canterano", {
                 create: false,
-                sortField: { field: "text", direction: "asc" }
+                sortField: { field: "text", direction: "asc" },
+                onChange: async function(value) {
+                    if (!value) { document.getElementById('selector-temporada-wrapper').style.display = 'none'; temporadaSeleccionada = null; return; }
+                    await cargarTemporadasCanterano(value);
+                }
             });
             await cargarJugadoresSelect();
         });
@@ -112,173 +202,457 @@
             try {
                 const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
                 const jugadores = await response.json();
-                jugadores.forEach(j => {
-                    buscador.addOption({
-                        value: j.id_jugador,
-                        text: `${j.nombre} ${j.apellidos || ''} (${j.posicion})`
-                    });
-                });
-            } catch (error) {
-                console.error("Error al cargar jugadores:", error);
+                jugadores.forEach(j => buscador.addOption({ value: j.id_jugador, text: `${j.nombre} ${j.apellidos || ''} (${j.posicion})` }));
+            } catch (error) { console.error("Error al cargar jugadores:", error); }
+        }
+
+        async function cargarTemporadasCanterano(idJugador) {
+            const temporadas = ['2023/24', '2024/25', '2025/26'];
+            const disponibles = [];
+            for (const temp of temporadas) {
+                try {
+                    const res = await fetch(`/obtener_stats?id_jugador=${idJugador}&temporada=${encodeURIComponent(temp)}`);
+                    const data = await res.json();
+                    if (data) disponibles.push(temp);
+                } catch {}
             }
+            const wrapper = document.getElementById('selector-temporada-wrapper');
+            const tabsContainer = document.getElementById('temporada-tabs');
+            tabsContainer.innerHTML = '';
+            if (disponibles.length === 0) { wrapper.style.display = 'none'; temporadaSeleccionada = null; return; }
+            temporadaSeleccionada = disponibles[disponibles.length - 1];
+            disponibles.forEach(temp => {
+                const btn = document.createElement('button');
+                btn.className = 'tab-temporada' + (temp === temporadaSeleccionada ? ' tab-activa' : '');
+                btn.textContent = temp;
+                btn.onclick = () => { temporadaSeleccionada = temp; document.querySelectorAll('.tab-temporada').forEach(b => b.classList.remove('tab-activa')); btn.classList.add('tab-activa'); };
+                tabsContainer.appendChild(btn);
+            });
+            wrapper.style.display = 'block';
         }
 
         async function realizarComparacion() {
             const idCanterano = document.getElementById('select-canterano').value;
             const nombreProfesional = document.getElementById('select-profesional').value;
-
-            if (!idCanterano || !nombreProfesional) {
-                alert("Por favor, selecciona ambos jugadores");
-                return;
-            }
+            if (!idCanterano || !nombreProfesional) { alert("Por favor, selecciona ambos jugadores"); return; }
+            if (!temporadaSeleccionada) { alert("Este canterano no tiene estadísticas registradas."); return; }
 
             try {
-                const response = await fetch(`/api/comparar_jugadores?id_canterano=${idCanterano}&nombre_profesional=${encodeURIComponent(nombreProfesional)}`);
+                const response = await fetch(`/api/comparar_jugadores?id_canterano=${idCanterano}&nombre_profesional=${encodeURIComponent(nombreProfesional)}&temporada=${encodeURIComponent(temporadaSeleccionada)}`);
                 const data = await response.json();
-
                 if (data.error) { alert("Error: " + data.error); return; }
 
-                const seccion = document.getElementById('seccion-metricas');
-                seccion.style.display = 'flex';
+                datosComparacion = data;
 
+                document.getElementById('seccion-metricas').style.display = 'flex';
+                document.getElementById('barra-exportar').style.display = 'flex';
                 document.getElementById('th-canterano').textContent = data.canterano.nombre;
                 document.getElementById('th-profesional').textContent = data.profesional.nombre;
 
-                // ── Normalización para el radar (0-100) ──
                 const valCan = [], valProf = [];
                 data.labels.forEach((_, i) => {
-                    const vC = data.canterano.valores[i];
-                    const vP = data.profesional.valores[i];
+                    const vC = data.canterano.valores[i], vP = data.profesional.valores[i];
                     const max = Math.max(vC, vP);
                     valCan.push(max > 0 ? (vC / max) * 100 : 0);
                     valProf.push(max > 0 ? (vP / max) * 100 : 0);
                 });
 
-                // ── 1. RADAR ──
                 Plotly.newPlot('grafico-radar', [
-                    {
-                        type: 'scatterpolar', r: valCan, theta: data.labels, fill: 'toself',
-                        name: data.canterano.nombre,
-                        customdata: data.canterano.valores,
-                        hovertemplate: `<b>${data.canterano.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
-                        line: { color: '#3b82f6', width: 3 }, fillcolor: 'rgba(59,130,246,0.3)'
-                    },
-                    {
-                        type: 'scatterpolar', r: valProf, theta: data.labels, fill: 'toself',
-                        name: data.profesional.nombre,
-                        customdata: data.profesional.valores,
-                        hovertemplate: `<b>${data.profesional.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`,
-                        line: { color: '#800020', width: 3 }, fillcolor: 'rgba(128,0,32,0.3)'
-                    }
-                ], {
-                    polar: {
-                        radialaxis: { visible: true, showticklabels: false, gridcolor: "rgba(255,255,255,0.1)", range: [0, 105] },
-                        angularaxis: { gridcolor: "#334155", color: "white", tickfont: { size: 12 }, rotation: 90 },
-                        bgcolor: "rgba(30,41,59,0.5)"
-                    },
-                    hovermode: 'closest',
-                    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-                    font: { color: "white" }, showlegend: true,
-                    legend: { orientation: "h", y: -0.2, x: 0.5, xanchor: "center" },
-                    margin: { t: 40, b: 40, l: 80, r: 80 }
-                }, { responsive: true });
+                    { type: 'scatterpolar', r: valCan, theta: data.labels, fill: 'toself', name: data.canterano.nombre, customdata: data.canterano.valores, hovertemplate: `<b>${data.canterano.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`, line: { color: '#3b82f6', width: 3 }, fillcolor: 'rgba(59,130,246,0.3)' },
+                    { type: 'scatterpolar', r: valProf, theta: data.labels, fill: 'toself', name: data.profesional.nombre, customdata: data.profesional.valores, hovertemplate: `<b>${data.profesional.nombre}</b><br>%{theta}: <b>%{customdata}</b><extra></extra>`, line: { color: '#800020', width: 3 }, fillcolor: 'rgba(128,0,32,0.3)' }
+                ], { polar: { radialaxis: { visible: true, showticklabels: false, gridcolor: "rgba(255,255,255,0.1)", range: [0, 105] }, angularaxis: { gridcolor: "#334155", color: "white", tickfont: { size: 12 }, rotation: 90 }, bgcolor: "rgba(30,41,59,0.5)" }, hovermode: 'closest', paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "white" }, showlegend: true, legend: { orientation: "h", y: -0.2, x: 0.5, xanchor: "center" }, margin: { t: 40, b: 40, l: 80, r: 80 } }, { responsive: true });
 
-                // ── 2. BARRAS HORIZONTALES ──
                 Plotly.newPlot('grafico-barras', [
-                    {
-                        type: 'bar', orientation: 'h',
-                        name: data.canterano.nombre,
-                        x: data.canterano.valores,
-                        y: data.labels,
-                        marker: { color: 'rgba(59,130,246,0.85)', line: { color: '#3b82f6', width: 1.5 } },
-                        hovertemplate: `<b>${data.canterano.nombre}</b>: %{x}<extra></extra>`
-                    },
-                    {
-                        type: 'bar', orientation: 'h',
-                        name: data.profesional.nombre,
-                        x: data.profesional.valores,
-                        y: data.labels,
-                        marker: { color: 'rgba(128,0,32,0.85)', line: { color: '#800020', width: 1.5 } },
-                        hovertemplate: `<b>${data.profesional.nombre}</b>: %{x}<extra></extra>`
-                    }
-                ], {
-                    barmode: 'group',
-                    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
-                    font: { color: "white", size: 12 },
-                    xaxis: { gridcolor: "rgba(255,255,255,0.08)", color: "white", zeroline: false },
-                    yaxis: { color: "white", automargin: true, tickfont: { size: 13 } },
-                    legend: { orientation: "h", y: -0.18, x: 0.5, xanchor: "center" },
-                    margin: { t: 20, b: 60, l: 140, r: 30 }
-                }, { responsive: true });
+                    { type: 'bar', orientation: 'h', name: data.canterano.nombre, x: data.canterano.valores, y: data.labels, marker: { color: 'rgba(59,130,246,0.85)', line: { color: '#3b82f6', width: 1.5 } }, hovertemplate: `<b>${data.canterano.nombre}</b>: %{x}<extra></extra>` },
+                    { type: 'bar', orientation: 'h', name: data.profesional.nombre, x: data.profesional.valores, y: data.labels, marker: { color: 'rgba(128,0,32,0.85)', line: { color: '#800020', width: 1.5 } }, hovertemplate: `<b>${data.profesional.nombre}</b>: %{x}<extra></extra>` }
+                ], { barmode: 'group', paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)", font: { color: "white", size: 12 }, xaxis: { gridcolor: "rgba(255,255,255,0.08)", color: "white", zeroline: false }, yaxis: { color: "white", automargin: true, tickfont: { size: 13 } }, legend: { orientation: "h", y: -0.18, x: 0.5, xanchor: "center" }, margin: { t: 20, b: 60, l: 140, r: 30 } }, { responsive: true });
 
-                // ── 3. TABLA RESUMEN ──
                 const tbody = document.getElementById('tabla-body');
                 tbody.innerHTML = '';
+                data.labels.forEach((label, i) => {
+                    const vC = data.canterano.valores[i], vP = data.profesional.valores[i];
+                    const diff = vC - vP, diffAbs = Math.abs(diff);
+                    let diffClass, diffText, tdCanClass = '', tdProfClass = '';
+                    if (diff === 0) { diffClass = 'diff-empate'; diffText = '='; }
+                    else if (diff > 0) { diffClass = 'diff-canton-gana'; diffText = `+${diffAbs}`; tdCanClass = 'celda-ganador'; }
+                    else { diffClass = 'diff-prof-gana'; diffText = `-${diffAbs}`; tdProfClass = 'celda-ganador'; }
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td class="label-metrica">${label}</td><td class="${tdCanClass}">${vC}</td><td class="celda-diff ${diffClass}">${diffText}</td><td class="${tdProfClass}">${vP}</td>`;
+                    tbody.appendChild(tr);
+                });
+
+            } catch (error) { console.error("Error:", error); alert("No se pudo cargar el gráfico."); }
+        }
+
+        // ══════════════════════════════════════
+        //  EXPORTAR PDF
+        // ══════════════════════════════════════
+        async function exportarPDF() {
+            if (!datosComparacion) return;
+            const btn = document.querySelector('.btn-pdf');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<span class="icono">⏳</span> Generando...';
+            btn.disabled = true;
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const W = 210, H = 297, M = 14, CW = W - M * 2;
+                const data = datosComparacion;
+                const fecha = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
+                const club = (localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
+
+                // ─── PÁGINA 1 ───────────────────────────────
+                // Fondo oscuro
+                pdf.setFillColor(8, 12, 30);
+                pdf.rect(0, 0, W, H, 'F');
+
+                // Cabecera granate
+                pdf.setFillColor(100, 0, 25);
+                pdf.rect(0, 0, W, 42, 'F');
+                // Degradado simulado (capas semitransparentes)
+                pdf.setFillColor(128, 0, 32);
+                pdf.rect(0, 0, W * 0.5, 42, 'F');
+
+                // Línea dorada bajo cabecera
+                pdf.setFillColor(255, 215, 0);
+                pdf.rect(0, 42, W, 1.5, 'F');
+
+                // Logo MG (círculo)
+                pdf.setFillColor(165, 0, 68);
+                pdf.circle(M + 11, 21, 9, 'F');
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.8);
+                pdf.circle(M + 11, 21, 9, 'S');
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(10);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('MG', M + 11, 24, { align: 'center' });
+
+                // Nombre app
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('METRICGOAL', M + 25, 18);
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(7);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
+
+                // Info derecha
+                pdf.setTextColor(200, 200, 220);
+                pdf.setFontSize(7.5);
+                pdf.text(fecha, W - M, 16, { align: 'right' });
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8.5);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(club, W - M, 26, { align: 'right' });
+                pdf.setTextColor(180, 180, 200);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`Temporada ${temporadaSeleccionada}`, W - M, 34, { align: 'right' });
+
+                // ─ Título comparación
+                let y = 58;
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(7.5);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('▸ INFORME COMPARATIVO', M, y);
+
+                y += 9;
+                // Nombre canterano (azul)
+                pdf.setTextColor(100, 160, 255);
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                const w1 = pdf.getTextWidth(data.canterano.nombre);
+                pdf.text(data.canterano.nombre, M, y);
+
+                // "vs"
+                pdf.setTextColor(120, 120, 150);
+                pdf.setFontSize(11);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(' vs ', M + w1 + 1, y);
+                const wVs = pdf.getTextWidth(' vs ');
+
+                // Nombre profesional (granate)
+                pdf.setTextColor(220, 80, 110);
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(data.profesional.nombre, M + w1 + wVs + 1, y);
+
+                y += 4;
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.5);
+                pdf.line(M, y, W - M, y);
+
+                // ─ Tarjetas resumen (3 cards)
+                y += 10;
+                const cW = (CW - 10) / 3;
+
+                const drawCard = (x, cy, titulo, valor, colorValor) => {
+                    pdf.setFillColor(15, 22, 50);
+                    pdf.roundedRect(x, cy, cW, 24, 3, 3, 'F');
+                    pdf.setDrawColor(255, 215, 0);
+                    pdf.setLineWidth(0.25);
+                    pdf.roundedRect(x, cy, cW, 24, 3, 3, 'S');
+                    pdf.setTextColor(120, 130, 160);
+                    pdf.setFontSize(6);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(titulo, x + cW / 2, cy + 8, { align: 'center' });
+                    pdf.setTextColor(...colorValor);
+                    pdf.setFontSize(13);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(valor, x + cW / 2, cy + 18, { align: 'center' });
+                };
+
+                const ganadasCan = data.labels.filter((_, i) => data.canterano.valores[i] > data.profesional.valores[i]).length;
+                drawCard(M,             y, 'TEMPORADA',          temporadaSeleccionada || '—',           [255, 215, 0]);
+                drawCard(M + cW + 5,    y, 'MÉTRICAS ANALIZADAS', `${data.labels.length}`,               [200, 220, 255]);
+                drawCard(M + (cW+5)*2,  y, 'GANADAS (CANTERANO)', `${ganadasCan} / ${data.labels.length}`, [100, 200, 120]);
+
+                // ─ Tabla comparativa
+                y += 34;
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
+                y += 6;
+
+                // Cabecera tabla
+                const colW = [52, 34, 28, 34, 34];
+                const nomCan = data.canterano.nombre.substring(0, 16).toUpperCase();
+                const nomPro = data.profesional.nombre.substring(0, 16).toUpperCase();
+                const cols   = ['MÉTRICA', nomCan, 'DIFER.', nomPro, 'VENTAJA'];
+
+                pdf.setFillColor(128, 0, 32);
+                pdf.roundedRect(M, y, CW, 9, 2, 2, 'F');
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'bold');
+                let cx = M + 3;
+                cols.forEach((col, i) => { pdf.text(col, cx, y + 6); cx += colW[i]; });
+                y += 9;
+
                 data.labels.forEach((label, i) => {
                     const vC = data.canterano.valores[i];
                     const vP = data.profesional.valores[i];
                     const diff = vC - vP;
                     const diffAbs = Math.abs(diff);
 
-                    let diffClass, diffText, tdCanClass = '', tdProfClass = '';
-                    if (diff === 0) {
-                        diffClass = 'diff-empate'; diffText = '=';
-                    } else if (diff > 0) {
-                        diffClass = 'diff-canton-gana'; diffText = `+${diffAbs}`; tdCanClass = 'celda-ganador';
-                    } else {
-                        diffClass = 'diff-prof-gana'; diffText = `-${diffAbs}`; tdProfClass = 'celda-ganador';
-                    }
+                    if (i % 2 === 0) { pdf.setFillColor(14, 20, 46); pdf.rect(M, y, CW, 8, 'F'); }
 
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="label-metrica">${label}</td>
-                        <td class="${tdCanClass}">${vC}</td>
-                        <td class="celda-diff ${diffClass}">${diffText}</td>
-                        <td class="${tdProfClass}">${vP}</td>
-                    `;
-                    tbody.appendChild(tr);
+                    cx = M + 3;
+                    pdf.setFont('helvetica', 'normal');
+
+                    // Métrica
+                    pdf.setTextColor(180, 190, 210);
+                    pdf.setFontSize(7);
+                    pdf.text(label, cx, y + 5.5); cx += colW[0];
+
+                    // Canterano
+                    pdf.setTextColor(diff > 0 ? 100 : 180, diff > 0 ? 170 : 200, diff > 0 ? 255 : 220);
+                    if (diff > 0) pdf.setFont('helvetica', 'bold');
+                    pdf.text(`${vC}`, cx, y + 5.5); cx += colW[1];
+
+                    // Diferencia
+                    pdf.setFont('helvetica', 'bold');
+                    if (diff === 0) { pdf.setTextColor(120, 130, 160); pdf.text('=', cx, y + 5.5); }
+                    else if (diff > 0) { pdf.setTextColor(80, 150, 255); pdf.text(`+${diffAbs}`, cx, y + 5.5); }
+                    else { pdf.setTextColor(210, 70, 90); pdf.text(`-${diffAbs}`, cx, y + 5.5); }
+                    cx += colW[2];
+
+                    // Profesional
+                    pdf.setFont(diff < 0 ? 'bold' : 'normal', 'normal');
+                    pdf.setTextColor(diff < 0 ? 220 : 180, diff < 0 ? 80 : 200, diff < 0 ? 100 : 220);
+                    pdf.text(`${vP}`, cx, y + 5.5); cx += colW[3];
+
+                    // Ventaja
+                    pdf.setFont('helvetica', 'bold');
+                    if (diff > 0) { pdf.setTextColor(80, 150, 255); pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5); }
+                    else if (diff < 0) { pdf.setTextColor(210, 70, 90); pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5); }
+                    else { pdf.setTextColor(120, 130, 160); pdf.text('Empate', cx, y + 5.5); }
+
+                    y += 8;
                 });
 
-            } catch (error) {
-                console.error("Error:", error);
-                alert("No se pudo cargar el gráfico.");
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.3);
+                pdf.line(M, y, W - M, y);
+
+                // Footer pág 1
+                pdf.setFillColor(15, 10, 30);
+                pdf.rect(0, H - 14, W, 14, 'F');
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.3);
+                pdf.line(M, H - 14, W - M, H - 14);
+                pdf.setTextColor(100, 110, 140);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
+                pdf.setTextColor(255, 215, 0);
+                pdf.text('1', W - M, H - 6, { align: 'right' });
+
+                // ─── PÁGINA 2: Gráficos ────────────────────
+                pdf.addPage();
+                pdf.setFillColor(8, 12, 30);
+                pdf.rect(0, 0, W, H, 'F');
+
+                // Mini cabecera
+                pdf.setFillColor(100, 0, 25);
+                pdf.rect(0, 0, W, 20, 'F');
+                pdf.setFillColor(255, 215, 0);
+                pdf.rect(0, 20, W, 1, 'F');
+
+                pdf.setFillColor(165, 0, 68);
+                pdf.circle(M + 7, 10, 5.5, 'F');
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.5);
+                pdf.circle(M + 7, 10, 5.5, 'S');
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(6);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('MG', M + 7, 12, { align: 'center' });
+
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFontSize(10);
+                pdf.text('METRICGOAL', M + 17, 9);
+                pdf.setTextColor(200, 200, 220);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`${data.canterano.nombre} vs ${data.profesional.nombre} · ${temporadaSeleccionada}`, M + 17, 15.5);
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(7);
+                pdf.text('2', W - M, 13, { align: 'right' });
+
+                y = 30;
+
+                // Radar
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('▸ ANÁLISIS RADAR MULTIDIMENSIONAL', M, y);
+                y += 4;
+
+                const radarEl = document.getElementById('grafico-radar');
+                const radarCanvas = await html2canvas(radarEl, { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+                const radarImg = radarCanvas.toDataURL('image/png');
+                const rH = Math.min((radarCanvas.height / radarCanvas.width) * CW, 105);
+                pdf.addImage(radarImg, 'PNG', M, y, CW, rH);
+                y += rH + 12;
+
+                // Barras
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8);
+                pdf.text('▸ COMPARATIVA POR MÉTRICA', M, y);
+                y += 4;
+
+                const barrasEl = document.getElementById('grafico-barras');
+                const barrasCanvas = await html2canvas(barrasEl, { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+                const barrasImg = barrasCanvas.toDataURL('image/png');
+                const bH = Math.min((barrasCanvas.height / barrasCanvas.width) * CW, 95);
+                pdf.addImage(barrasImg, 'PNG', M, y, CW, bH);
+                y += bH + 12;
+
+                // Bloque conclusión
+                if (y < H - 55) {
+                    const perdidas = data.labels.filter((_, i) => data.canterano.valores[i] < data.profesional.valores[i]).length;
+                    const pct = Math.round((ganadasCan / data.labels.length) * 100);
+
+                    pdf.setFillColor(12, 18, 42);
+                    pdf.roundedRect(M, y, CW, 38, 4, 4, 'F');
+                    pdf.setDrawColor(255, 215, 0);
+                    pdf.setLineWidth(0.35);
+                    pdf.roundedRect(M, y, CW, 38, 4, 4, 'S');
+                    // Acento lateral izquierdo
+                    pdf.setFillColor(255, 215, 0);
+                    pdf.roundedRect(M, y, 3, 38, 2, 2, 'F');
+
+                    pdf.setTextColor(255, 215, 0);
+                    pdf.setFontSize(8);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text('CONCLUSIÓN DEL ANÁLISIS', M + 8, y + 10);
+
+                    pdf.setTextColor(180, 190, 215);
+                    pdf.setFontSize(7);
+                    pdf.setFont('helvetica', 'normal');
+                    const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadasCan} de ${data.labels.length} métricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
+                    const lines = pdf.splitTextToSize(txt, CW - 16);
+                    pdf.text(lines, M + 8, y + 19);
+                }
+
+                // Footer pág 2
+                pdf.setFillColor(15, 10, 30);
+                pdf.rect(0, H - 14, W, 14, 'F');
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.3);
+                pdf.line(M, H - 14, W - M, H - 14);
+                pdf.setTextColor(100, 110, 140);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
+
+                // Guardar archivo
+                const fname = `MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}_${(temporadaSeleccionada||'').replace('/','_')}.pdf`;
+                pdf.save(fname);
+
+            } catch (err) {
+                console.error('Error PDF:', err);
+                alert('Error al generar el PDF.');
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled = false;
             }
         }
 
-        function logout() {
-            localStorage.clear();
-            window.location.href = '/';
+        // ══════════════════════════════════════
+        //  GUARDAR EN INFORMES
+        // ══════════════════════════════════════
+        function guardarEnInformes() {
+            if (!datosComparacion) return;
+            const data = datosComparacion;
+            const informe = {
+                id: Date.now(),
+                tipo: 'comparacion',
+                fecha: new Date().toISOString(),
+                temporada: temporadaSeleccionada,
+                club: localStorage.getItem('usuarioClub') || '',
+                equipo: localStorage.getItem('usuarioEquipo') || '',
+                canterano: { nombre: data.canterano.nombre, valores: data.canterano.valores },
+                profesional: { nombre: data.profesional.nombre, valores: data.profesional.valores },
+                labels: data.labels
+            };
+            const guardados = JSON.parse(localStorage.getItem('mg_informes') || '[]');
+            guardados.unshift(informe);
+            if (guardados.length > 20) guardados.splice(20);
+            localStorage.setItem('mg_informes', JSON.stringify(guardados));
+            mostrarToast('✅ Informe guardado en Informes');
         }
 
+        function mostrarToast(msg) {
+            const t = document.getElementById('toast-informe');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.classList.add('activo'), 10);
+            setTimeout(() => { t.classList.remove('activo'); setTimeout(() => t.style.display = 'none', 400); }, 3200);
+        }
+
+        function logout() { localStorage.clear(); window.location.href = '/'; }
+
         new TomSelect("#select-profesional", {
-            maxItems: 1,
-            hideSelected: true,
-            allowEmptyOption: true,
-            valueField: 'player',
-            labelField: 'display_name',
-            searchField: 'player',
+            maxItems: 1, hideSelected: true, allowEmptyOption: true,
+            valueField: 'player', labelField: 'display_name', searchField: 'player',
             plugins: ['remove_button'],
             load: async function(query, callback) {
                 if (query.length < 3) return callback();
                 try {
-                    const response = await fetch(`/buscar_profesionales?nombre=${encodeURIComponent(query)}`);
-                    const data = await response.json();
+                    const res = await fetch(`/buscar_profesionales?nombre=${encodeURIComponent(query)}`);
+                    const data = await res.json();
                     callback(data.map(p => ({ player: p.player, display_name: `${p.player} (${p.team})` })));
-                } catch (error) {
-                    console.error("Error cargando profesionales:", error);
-                    callback();
-                }
+                } catch { callback(); }
             },
             render: {
-                option: function(item, escape) {
-                    return `<div class="py-2">
-                        <div style="font-weight:bold;color:white;">${escape(item.player)}</div>
-                        <small style="color:#94a3b8;">${escape(item.display_name)}</small>
-                    </div>`;
-                },
-                item: function(item, escape) {
-                    return `<div style="color:white;">${escape(item.display_name)}</div>`;
-                }
+                option: (item, escape) => `<div class="py-2"><div style="font-weight:bold;color:white;">${escape(item.player)}</div><small style="color:#94a3b8;">${escape(item.display_name)}</small></div>`,
+                item:   (item, escape) => `<div style="color:white;">${escape(item.display_name)}</div>`
             },
             onItemAdd: function() { this.blur(); }
         });

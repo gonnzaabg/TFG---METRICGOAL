@@ -5,6 +5,235 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informes - METRICGOAL</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        /* ── Grid de informes guardados ── */
+        .seccion-informes-guardados {
+            margin-top: 34px;
+        }
+
+        .seccion-informes-guardados h2 {
+            color: #ffd700;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .seccion-informes-guardados h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,215,0,0.34), transparent);
+        }
+
+        .grid-informes-guardados {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 18px;
+        }
+
+        .tarjeta-informe {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)),
+                linear-gradient(135deg, rgba(15,22,50,0.96), rgba(20,10,35,0.92));
+            border: 1px solid rgba(255,215,0,0.14);
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+            cursor: default;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .tarjeta-informe::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.45), #ffd700, rgba(255,215,0,0.45), transparent);
+        }
+
+        .tarjeta-informe:hover {
+            border-color: rgba(255,215,0,0.34);
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.36), 0 0 0 1px rgba(255,215,0,0.06);
+        }
+
+        .informe-tipo {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(128,0,32,0.22);
+            border: 1px solid rgba(165,0,68,0.35);
+            border-radius: 999px;
+            padding: 5px 12px;
+            font-size: 0.66rem;
+            font-weight: 700;
+            color: #ff8080;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+        }
+
+        .informe-nombres {
+            margin-bottom: 14px;
+        }
+
+        .informe-nombre-can {
+            font-size: 1.04rem;
+            font-weight: 800;
+            color: #93c5fd;
+            line-height: 1.2;
+        }
+
+        .informe-vs {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.34);
+            margin: 3px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+        }
+
+        .informe-nombre-pro {
+            font-size: 1.04rem;
+            font-weight: 800;
+            color: #fca5a5;
+            line-height: 1.2;
+        }
+
+        .informe-meta {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .informe-badge {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 76px;
+        }
+
+        .informe-badge-label {
+            font-size: 0.58rem;
+            color: rgba(255,255,255,0.36);
+            text-transform: uppercase;
+            letter-spacing: 0.85px;
+            font-weight: 700;
+        }
+
+        .informe-badge-valor {
+            font-size: 0.84rem;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        /* Mini barra de victorias */
+        .informe-barra-wrap {
+            margin-bottom: 18px;
+        }
+
+        .informe-barra-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.64rem;
+            color: rgba(255,255,255,0.34);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.55px;
+        }
+
+        .informe-barra {
+            height: 6px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .informe-barra-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 999px;
+            transition: width 0.8s ease;
+        }
+
+        .informe-acciones {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-informe-accion {
+            flex: 1;
+            padding: 9px 10px;
+            border-radius: 12px;
+            font-size: 0.71rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-informe-accion:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-inf-pdf {
+            background: linear-gradient(135deg, #a50044, #7a0033);
+            color: white;
+            box-shadow: 0 8px 18px rgba(165,0,68,0.22);
+        }
+        .btn-inf-pdf:hover { background: linear-gradient(135deg, #c0005a, #a50044); }
+
+        .btn-inf-eliminar {
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,100,100,0.82);
+            border: 1px solid rgba(255,100,100,0.22) !important;
+        }
+        .btn-inf-eliminar:hover { background: rgba(255,80,80,0.12); color: #ff6060; border-color: rgba(255,80,80,0.42) !important; }
+
+        /* Estado vacío */
+        .informes-vacio {
+            text-align: center;
+            padding: 72px 20px;
+            color: rgba(255,255,255,0.25);
+            border: 1px dashed rgba(255,255,255,0.12);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .informes-vacio .vacio-icono { font-size: 3rem; margin-bottom: 14px; opacity: 0.42; }
+        .informes-vacio p { font-size: 0.92rem; margin-bottom: 6px; }
+        .informes-vacio small { font-size: 0.78rem; opacity: 0.6; }
+
+        /* Toast */
+        #toast-informes {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(135deg, #1a7a3a, #27ae60);
+            color: white; padding: 14px 24px; border-radius: 14px;
+            font-size: 14px; font-weight: 700; z-index: 9999999;
+            display: none; min-width: 240px; text-align: center;
+            transition: all 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+            opacity: 0; transform: translateY(80px);
+            box-shadow: 0 12px 34px rgba(0,0,0,0.38);
+        }
+        #toast-informes.activo { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
+
+        @media (max-width: 768px) {
+            .grid-informes-guardados { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body class="informes-page">
 
@@ -24,6 +253,7 @@
 
     <main class="container">
         
+        <!-- Destacados del equipo -->
         <section class="destacados-section">
             <div class="tarjeta-destacado" id="card-goleador">
                 <h3>Máximo Goleador</h3>
@@ -32,7 +262,6 @@
                     <p class="dato-estadistico">-</p>
                 </div>
             </div>
-
             <div class="tarjeta-destacado" id="card-asistente">
                 <h3>Máximo Asistente</h3>
                 <div class="info-jugador">
@@ -42,22 +271,269 @@
             </div>
         </section>
 
-        <section class="grid-informes">
-            <div class="caja-gris">Espacio 1</div>
-            <div class="caja-gris">Espacio 2</div>
-            <div class="caja-gris">Espacio 3</div>
-            <div class="caja-gris">Espacio 4</div>
-            <div class="caja-gris">Espacio 5</div>
-            <div class="caja-gris">Espacio 6</div>
+        <!-- Informes guardados -->
+        <section class="seccion-informes-guardados">
+            <h2>📁 Informes Guardados</h2>
+            <div class="grid-informes-guardados" id="grid-informes-guardados">
+                <!-- Se rellena dinámicamente -->
+            </div>
         </section>
 
     </main>
 
+    <div id="toast-informes"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
-        function logout() {
-            localStorage.clear();
-            window.location.href = '/';
+        function logout() { localStorage.clear(); window.location.href = '/'; }
+
+        // ── Cargar y renderizar informes guardados ──
+        function cargarInformesGuardados() {
+            const grid = document.getElementById('grid-informes-guardados');
+            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
+
+            if (informes.length === 0) {
+                grid.innerHTML = `
+                    <div class="informes-vacio" style="grid-column: 1/-1;">
+                        <div class="vacio-icono">📊</div>
+                        <p>No hay informes guardados todavía</p>
+                        <small>Compara jugadores y guarda el análisis desde la sección <strong style="color:#ffd700">Comparar Jugadores</strong></small>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            informes.forEach(inf => {
+                const fecha = new Date(inf.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+                const totalMetricas = inf.labels ? inf.labels.length : 0;
+                const ganadas = inf.labels ? inf.labels.filter((_, i) => inf.canterano.valores[i] > inf.profesional.valores[i]).length : 0;
+                const pct = totalMetricas > 0 ? Math.round((ganadas / totalMetricas) * 100) : 0;
+
+                const card = document.createElement('div');
+                card.className = 'tarjeta-informe';
+                card.innerHTML = `
+                    <div class="informe-tipo">⚽ Comparación</div>
+                    <div class="informe-nombres">
+                        <div class="informe-nombre-can">${inf.canterano.nombre}</div>
+                        <div class="informe-vs">vs</div>
+                        <div class="informe-nombre-pro">${inf.profesional.nombre}</div>
+                    </div>
+                    <div class="informe-meta">
+                        <div class="informe-badge">
+                            <span class="informe-badge-label">Temporada</span>
+                            <span class="informe-badge-valor">${inf.temporada || '—'}</span>
+                        </div>
+                        <div class="informe-badge">
+                            <span class="informe-badge-label">Fecha</span>
+                            <span class="informe-badge-valor">${fecha}</span>
+                        </div>
+                        <div class="informe-badge">
+                            <span class="informe-badge-label">Resultado</span>
+                            <span class="informe-badge-valor">${ganadas}/${totalMetricas} ✓</span>
+                        </div>
+                    </div>
+                    <div class="informe-barra-wrap">
+                        <div class="informe-barra-label">
+                            <span>${inf.canterano.nombre.split(' ')[0]}</span>
+                            <span>${pct}%</span>
+                        </div>
+                        <div class="informe-barra">
+                            <div class="informe-barra-fill" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                    <div class="informe-acciones">
+                        <button class="btn-informe-accion btn-inf-pdf" onclick="exportarInformePDF(${inf.id})">
+                            ⬇️ PDF
+                        </button>
+                        <button class="btn-informe-accion btn-inf-eliminar" onclick="eliminarInforme(${inf.id})">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
+
+        function eliminarInforme(id) {
+            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
+            const filtrados = informes.filter(i => i.id !== id);
+            localStorage.setItem('mg_informes', JSON.stringify(filtrados));
+            cargarInformesGuardados();
+            mostrarToast('🗑️ Informe eliminado');
+        }
+
+        async function exportarInformePDF(id) {
+            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
+            const inf = informes.find(i => i.id === id);
+            if (!inf) return;
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const W = 210, H = 297, M = 14, CW = W - M * 2;
+            const fecha = new Date(inf.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
+            const club = (inf.club || localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
+            const data = inf;
+
+            // Fondo
+            pdf.setFillColor(8, 12, 30);
+            pdf.rect(0, 0, W, H, 'F');
+
+            // Cabecera
+            pdf.setFillColor(100, 0, 25);
+            pdf.rect(0, 0, W, 42, 'F');
+            pdf.setFillColor(128, 0, 32);
+            pdf.rect(0, 0, W * 0.5, 42, 'F');
+            pdf.setFillColor(255, 215, 0);
+            pdf.rect(0, 42, W, 1.5, 'F');
+
+            // Logo
+            pdf.setFillColor(165, 0, 68);
+            pdf.circle(M + 11, 21, 9, 'F');
+            pdf.setDrawColor(255, 215, 0);
+            pdf.setLineWidth(0.8);
+            pdf.circle(M + 11, 21, 9, 'S');
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(10);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('MG', M + 11, 24, { align: 'center' });
+
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(18);
+            pdf.text('METRICGOAL', M + 25, 18);
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(7);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
+
+            pdf.setTextColor(200, 200, 220);
+            pdf.setFontSize(7.5);
+            pdf.text(fecha, W - M, 16, { align: 'right' });
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(8.5);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(club, W - M, 26, { align: 'right' });
+            pdf.setTextColor(180, 180, 200);
+            pdf.setFontSize(6.5);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(`Temporada ${inf.temporada || '—'}`, W - M, 34, { align: 'right' });
+
+            let y = 58;
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(7.5);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('▸ INFORME COMPARATIVO', M, y);
+
+            y += 9;
+            pdf.setTextColor(100, 160, 255);
+            pdf.setFontSize(18);
+            const w1 = pdf.getTextWidth(data.canterano.nombre);
+            pdf.text(data.canterano.nombre, M, y);
+            pdf.setTextColor(120, 120, 150);
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text(' vs ', M + w1 + 1, y);
+            const wVs = pdf.getTextWidth(' vs ');
+            pdf.setTextColor(220, 80, 110);
+            pdf.setFontSize(18);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(data.profesional.nombre, M + w1 + wVs + 1, y);
+
+            y += 4;
+            pdf.setDrawColor(255, 215, 0);
+            pdf.setLineWidth(0.5);
+            pdf.line(M, y, W - M, y);
+
+            // Tabla métricas
+            y += 14;
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(8);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
+            y += 6;
+
+            const colW = [52, 34, 28, 34, 34];
+            const cols = ['MÉTRICA', data.canterano.nombre.substring(0,16).toUpperCase(), 'DIFER.', data.profesional.nombre.substring(0,16).toUpperCase(), 'VENTAJA'];
+            pdf.setFillColor(128, 0, 32);
+            pdf.roundedRect(M, y, CW, 9, 2, 2, 'F');
+            pdf.setTextColor(255, 215, 0);
+            pdf.setFontSize(6.5);
+            let cx = M + 3;
+            cols.forEach((col, i) => { pdf.text(col, cx, y + 6); cx += colW[i]; });
+            y += 9;
+
+            data.labels.forEach((label, i) => {
+                const vC = data.canterano.valores[i];
+                const vP = data.profesional.valores[i];
+                const diff = vC - vP;
+                const diffAbs = Math.abs(diff);
+                if (i % 2 === 0) { pdf.setFillColor(14, 20, 46); pdf.rect(M, y, CW, 8, 'F'); }
+                cx = M + 3;
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(180, 190, 210); pdf.setFontSize(7);
+                pdf.text(label, cx, y + 5.5); cx += colW[0];
+                pdf.setTextColor(diff > 0 ? 100 : 180, diff > 0 ? 170 : 200, diff > 0 ? 255 : 220);
+                if (diff > 0) pdf.setFont('helvetica', 'bold');
+                pdf.text(`${vC}`, cx, y + 5.5); cx += colW[1];
+                pdf.setFont('helvetica', 'bold');
+                if (diff === 0) { pdf.setTextColor(120,130,160); pdf.text('=', cx, y + 5.5); }
+                else if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text(`+${diffAbs}`, cx, y + 5.5); }
+                else { pdf.setTextColor(210,70,90); pdf.text(`-${diffAbs}`, cx, y + 5.5); }
+                cx += colW[2];
+                pdf.setFont(diff < 0 ? 'bold' : 'normal', 'normal');
+                pdf.setTextColor(diff < 0 ? 220 : 180, diff < 0 ? 80 : 200, diff < 0 ? 100 : 220);
+                pdf.text(`${vP}`, cx, y + 5.5); cx += colW[3];
+                pdf.setFont('helvetica', 'bold');
+                if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5); }
+                else if (diff < 0) { pdf.setTextColor(210,70,90); pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5); }
+                else { pdf.setTextColor(120,130,160); pdf.text('Empate', cx, y + 5.5); }
+                y += 8;
+            });
+
+            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
+            pdf.line(M, y, W - M, y);
+
+            // Conclusión
+            y += 12;
+            const ganadas = data.labels.filter((_, i) => data.canterano.valores[i] > data.profesional.valores[i]).length;
+            const perdidas = data.labels.filter((_, i) => data.canterano.valores[i] < data.profesional.valores[i]).length;
+            const pct = Math.round((ganadas / data.labels.length) * 100);
+
+            pdf.setFillColor(12, 18, 42);
+            pdf.roundedRect(M, y, CW, 36, 4, 4, 'F');
+            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.35);
+            pdf.roundedRect(M, y, CW, 36, 4, 4, 'S');
+            pdf.setFillColor(255, 215, 0);
+            pdf.roundedRect(M, y, 3, 36, 2, 2, 'F');
+            pdf.setTextColor(255, 215, 0); pdf.setFontSize(8); pdf.setFont('helvetica', 'bold');
+            pdf.text('CONCLUSIÓN DEL ANÁLISIS', M + 8, y + 10);
+            pdf.setTextColor(180, 190, 215); pdf.setFontSize(7); pdf.setFont('helvetica', 'normal');
+            const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadas} de ${data.labels.length} métricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
+            pdf.text(pdf.splitTextToSize(txt, CW - 16), M + 8, y + 19);
+
+            // Footer
+            pdf.setFillColor(15, 10, 30); pdf.rect(0, H - 14, W, 14, 'F');
+            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
+            pdf.line(M, H - 14, W - M, H - 14);
+            pdf.setTextColor(100, 110, 140); pdf.setFontSize(6.5); pdf.setFont('helvetica', 'normal');
+            pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
+
+            pdf.save(`MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}.pdf`);
+        }
+
+        function mostrarToast(msg) {
+            const t = document.getElementById('toast-informes');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.classList.add('activo'), 10);
+            setTimeout(() => { t.classList.remove('activo'); setTimeout(() => t.style.display = 'none', 400); }, 3000);
+        }
+
+        // Inicializar
+        window.onload = () => cargarInformesGuardados();
     </script>
 
 </body>

@@ -24,7 +24,7 @@
         </header>
 
         <div class="container">
-            <p class="club-label" id="clubDisplay" style="text-align: center; color: #ffd700; font-weight: bold; margin-bottom: 10px;">Cargando Club...</p>
+            <p class="club-label" id="clubDisplay">Cargando Club...</p>
             
             <h1 class="titulo-equipo" id="coachDisplay">Cargando...</h1>
 
@@ -133,31 +133,31 @@
                         </div>
                         <div class="input-group">
                             <label>Partidos Jugados</label>
-                            <input type="number" id="pj" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="pj" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 10" required>
                         </div>
                         <div class="input-group">
                             <label>Minutos Jugados</label>
-                            <input type="number" id="min" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="min" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 900" required>
                         </div>
                         <div class="input-group">
                             <label>Goles</label>
-                            <input type="number" id="goles" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="goles" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
                         </div>
                         <div class="input-group">
                             <label>Asistencias</label>
-                            <input type="number" id="asist" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="asist" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
                         </div>
                         <div class="input-group">
                             <label>Pases Clave</label>
-                            <input type="number" id="pases" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="pases" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
                         </div>
                         <div class="input-group">
                             <label>Tarj. Amarillas</label>
-                            <input type="number" id="amarillas" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="amarillas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
                         </div>
                         <div class="input-group">
                             <label>Tarj. Rojas</label>
-                            <input type="number" id="rojas" min="0" value="0" onkeypress="return event.charCode >= 48" required>
+                            <input type="number" id="rojas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
                         </div>
                     </div>
                     <button type="submit" class="btn-guardar">GUARDAR ESTADÍSTICAS</button>
@@ -435,7 +435,13 @@
 
             function resetearInputsStats() {
                 const campos = ['goles', 'asist', 'amarillas', 'rojas', 'pj', 'min', 'pases'];
-                campos.forEach(id => document.getElementById(id).value = 0);
+                // Cambiamos el 0 por '' para que el campo quede limpio
+                campos.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        input.value = ''; 
+                    }
+                });
             }
 
             document.getElementById('formEstadisticas').onsubmit = async function(e) {

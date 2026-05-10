@@ -92,23 +92,18 @@ async def obtener_jugadores(id_equipo: int):
 @app.get("/obtener_stats")
 async def obtener_stats(id_jugador: int, temporada: str):
     stats = obtener_stats_jugador_temporada(id_jugador, temporada)
-    
-    # Si existen, devolvemos los datos; si no, FastAPI devolverá null
     return stats      
 
 @app.get("/buscar_profesionales")
 async def buscar_profesionales(nombre: str):
-    # El controlador hace todo el trabajo sucio
     return obtener_profesionales_busqueda(nombre)
 
 @app.get("/api/comparar_jugadores")
-async def api_comparar(id_canterano: int, nombre_profesional: str):
-    # MUY IMPORTANTE: Llama a la función y captura posibles errores
+async def api_comparar(id_canterano: int, nombre_profesional: str, temporada: str = "2025/26"):
     try:
-        datos = obtener_datos_comparativa(id_canterano, nombre_profesional)
+        datos = obtener_datos_comparativa(id_canterano, nombre_profesional, temporada)
         return datos
     except Exception as e:
-        # Esto evita que devuelva un HTML de error y mande un JSON con el fallo
         print(f"Error en el servidor: {e}")
         return {"error": str(e)}
 
@@ -119,26 +114,23 @@ async def login(data: LoginData):
     try:
         datos_usuario = verificar_credenciales(data.email, data.password)
         if datos_usuario:
-            # Aquí 'datos_usuario' ya trae nombre, id_equipo, club y equipo
             return {
                 "status": "success", 
-                **datos_usuario # Esto desglosa el diccionario automáticamente
+                **datos_usuario
             }
         else:
             raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
     except Exception as e:
-        print(f"ERROR EN LOGIN: {e}") # Esto te ayudará a ver el fallo en la terminal
+        print(f"ERROR EN LOGIN: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/registrar_jugador")
-async def registrar_jugador(data: JugadorData, id_equipo: int): # Recibe el ID de la URL
-    # Ahora le pasamos 'id_equipo' a la lógica del controlador
+async def registrar_jugador(data: JugadorData, id_equipo: int):
     resultado = gestionar_registro_canterano(data, id_equipo) 
     return resultado
 
 @app.post("/registrar_estadisticas")
 async def registrar_estadisticas(data: EstadisticasData, id_jugador: int):
-    # Llamamos a la lógica del controlador pasando los datos y el ID del jugador
     resultado = gestionar_registro_stats(data, id_jugador)
     if resultado.get("status") == "success":
         return resultado
@@ -151,7 +143,6 @@ async def eliminar_jugador(id_jugador: int):
     if resultado.get("status") == "success":
         return resultado
     else:
-        # Esto enviará el detalle del error al navegador
         raise HTTPException(status_code=500, detail=resultado.get("message"))
 
 if __name__ == "__main__":
