@@ -15,6 +15,7 @@ from Controlador.jugador_controller import obtener_stats_jugador_temporada
 from Controlador.jugador_controller import eliminar_jugador_logic
 from Controlador.jugador_controller import obtener_profesionales_busqueda
 from Controlador.jugador_controller import obtener_datos_comparativa
+from Controlador.informes_controller import guardar_informe_logic, listar_informes_logic, borrar_informe_logic
 
 app = FastAPI()
 
@@ -59,7 +60,14 @@ class EstadisticasData(BaseModel):
     minutos_jugados: int
     pases_clave: int
 
-# --- RUTAS PARA LOS ARCHIVOS HTML ---
+class InformeData(BaseModel):
+    fecha: str
+    temporada: str
+    canterano: str
+    profesional: str
+    datos: dict
+
+# --- RUTAS HTML ---
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():
@@ -83,51 +91,33 @@ async def read_informes():
 async def read_comparar():
     path = os.path.join(VISTA_DIR, "comparar_jugadores.html")
     with open(path, "r", encoding="utf-8") as f:
-        return f.read()  
+        return f.read()
 
-@app.get("/obtener_jugadores")
-async def obtener_jugadores(id_equipo: int): 
-    return listar_jugadores_logic(id_equipo)   
-
-@app.get("/obtener_stats")
-async def obtener_stats(id_jugador: int, temporada: str):
-    stats = obtener_stats_jugador_temporada(id_jugador, temporada)
-    return stats      
-
-@app.get("/buscar_profesionales")
-async def buscar_profesionales(nombre: str):
-    return obtener_profesionales_busqueda(nombre)
-
-@app.get("/api/comparar_jugadores")
-async def api_comparar(id_canterano: int, nombre_profesional: str, temporada: str = "2025/26"):
-    try:
-        datos = obtener_datos_comparativa(id_canterano, nombre_profesional, temporada)
-        return datos
-    except Exception as e:
-        print(f"Error en el servidor: {e}")
-        return {"error": str(e)}
-
-# --- LÓGICA DE ENDPOINTS (API) ---
+# --- ENDPOINTS API ---
 
 @app.post("/login")
 async def login(data: LoginData):
     try:
         datos_usuario = verificar_credenciales(data.email, data.password)
         if datos_usuario:
-            return {
-                "status": "success", 
-                **datos_usuario
-            }
+            return {"status": "success", **datos_usuario}
         else:
             raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos")
     except Exception as e:
         print(f"ERROR EN LOGIN: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/obtener_jugadores")
+async def obtener_jugadores(id_equipo: int): 
+    return listar_jugadores_logic(id_equipo)
+
 @app.post("/registrar_jugador")
 async def registrar_jugador(data: JugadorData, id_equipo: int):
-    resultado = gestionar_registro_canterano(data, id_equipo) 
-    return resultado
+    return gestionar_registro_canterano(data, id_equipo)
+
+@app.get("/obtener_stats")
+async def obtener_stats(id_jugador: int, temporada: str):
+    return obtener_stats_jugador_temporada(id_jugador, temporada)
 
 @app.post("/registrar_estadisticas")
 async def registrar_estadisticas(data: EstadisticasData, id_jugador: int):
@@ -144,6 +134,33 @@ async def eliminar_jugador(id_jugador: int):
         return resultado
     else:
         raise HTTPException(status_code=500, detail=resultado.get("message"))
+
+@app.get("/buscar_profesionales")
+async def buscar_profesionales(nombre: str):
+    return obtener_profesionales_busqueda(nombre)
+
+@app.get("/api/comparar_jugadores")
+async def api_comparar(id_canterano: int, nombre_profesional: str, temporada: str = "2025/26"):
+    try:
+        datos = obtener_datos_comparativa(id_canterano, nombre_profesional, temporada)
+        return datos
+    except Exception as e:
+        print(f"Error en el servidor: {e}")
+        return {"error": str(e)}
+
+# --- ENDPOINTS INFORMES ---
+
+@app.post("/guardar_informe")
+async def guardar_informe(data: InformeData, id_equipo: int):
+    return guardar_informe_logic(id_equipo, data.dict())
+
+@app.get("/listar_informes")
+async def listar_informes(id_equipo: int):
+    return listar_informes_logic(id_equipo)
+
+@app.delete("/borrar_informe/{id_informe}")
+async def borrar_informe(id_informe: int, id_equipo: int):
+    return borrar_informe_logic(id_informe, id_equipo)
 
 if __name__ == "__main__":
     import uvicorn

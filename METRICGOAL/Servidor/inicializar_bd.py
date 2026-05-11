@@ -59,17 +59,28 @@ def preparar_base_de_datos():
             )
         """)
 
+        # --- TABLA INFORMES (DuckDB: sequence propia, sin AUTOINCREMENT) ---
+        con.execute("CREATE SEQUENCE IF NOT EXISTS seq_informes_id START 1")
+        con.execute("""
+            CREATE TABLE IF NOT EXISTS informes (
+                id_informe  INTEGER DEFAULT nextval('seq_informes_id') PRIMARY KEY,
+                id_equipo   INTEGER NOT NULL,
+                fecha       VARCHAR NOT NULL,
+                temporada   VARCHAR NOT NULL,
+                canterano   VARCHAR NOT NULL,
+                profesional VARCHAR NOT NULL,
+                datos_json  VARCHAR NOT NULL,
+                FOREIGN KEY (id_equipo) REFERENCES equipo(id_equipo)
+            )
+        """)
+
         # --- SECCIÓN NUEVA: TABLA PROFESIONALES ---
-        # Comprobamos si la tabla existe
         res = con.execute("SELECT count(*) FROM information_schema.tables WHERE table_name = 'profesionales'").fetchone()
         
         if res[0] == 0:
             print("📦 La tabla 'profesionales' no existe. Iniciando importación desde CSV...")
             
-            # Buscamos el CSV (usamos una ruta relativa robusta para Render)
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            # Asegúrate de que esta ruta coincida con donde está el CSV en GitHub
-            # Si el CSV está en la raíz, quita "Scripts"
             ruta_csv = os.path.join(base_dir, "Scripts", "BD_METRICGOAL - Hoja 1.csv")
 
             if os.path.exists(ruta_csv):

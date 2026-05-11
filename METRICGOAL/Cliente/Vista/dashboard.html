@@ -1,533 +1,422 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard - METRICGOAL</title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - METRICGOAL</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="dashboard-page">
 
-    <body class="dashboard-page">
+    <header>
+        <div class="logo">MG</div>
+        <div class="header-sep"></div>
+        <nav>
+            <a href="/dashboard" class="active">Mi Equipo</a>
+            <a href="/informes">Informes</a>
+            <a href="/comparar_jugadores">Comparar Jugadores</a>
+        </nav>
+        <div class="header-right">
+            <span class="badge-temporada" id="badgeTemporada">2025/26</span>
+            <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
+        </div>
+    </header>
 
-        <header>
-            <div class="logo">MG</div>
-            <div class="header-sep"></div>
-            <nav>
-                <a href="/dashboard" class="active">Mi Equipo</a>
-                <a href="/informes">Informes</a>
-                <a href="/comparar_jugadores">Comparar Jugadores</a>
-            </nav>
-            <div class="header-right">
-                <span class="badge-temporada">2025/26</span>
-                <button class="btn-salir" onclick="logout()">Cerrar Sesión</button>
-            </div>
-        </header>
+    <div class="container">
+        <p class="club-label" id="clubDisplay">Cargando Club...</p>
+        <h1 class="titulo-equipo" id="coachDisplay">Cargando...</h1>
+        <button class="btn-añadir" onclick="abrirModal()">+ Añadir Jugador</button>
 
-        <div class="container">
-            <p class="club-label" id="clubDisplay">Cargando Club...</p>
-            
-            <h1 class="titulo-equipo" id="coachDisplay">Cargando...</h1>
-
-            <button class="btn-añadir" onclick="abrirModal()">+ AÑADIR JUGADOR</button>
-
-            <div class="seccion">
-                <h3>Delanteros</h3>
-                <div class="fila-jugadores" id="fila-Delantero">
-                    <span class="flecha flecha-izq" onclick="moverCarrusel('Delantero', -1)">←</span>
-                    <div class="carrusel-viewport">
-                        <div class="carrusel-track" id="track-Delantero"></div>
-                    </div>
-                    <span class="flecha flecha-der" onclick="moverCarrusel('Delantero', 1)">→</span>
+        <div class="seccion">
+            <h3>Delanteros</h3>
+            <div class="fila-jugadores" id="fila-Delantero">
+                <span class="flecha flecha-izq" onclick="moverCarrusel('Delantero', -1)">←</span>
+                <div class="carrusel-viewport">
+                    <div class="carrusel-track" id="track-Delantero"></div>
                 </div>
-                <div class="carrusel-dots" id="dots-Delantero"></div>
+                <span class="flecha flecha-der" onclick="moverCarrusel('Delantero', 1)">→</span>
             </div>
-
-            <div class="seccion">
-                <h3>Mediocentros</h3>
-                <div class="fila-jugadores" id="fila-Mediocentro">
-                    <span class="flecha flecha-izq" onclick="moverCarrusel('Mediocentro', -1)">←</span>
-                    <div class="carrusel-viewport">
-                        <div class="carrusel-track" id="track-Mediocentro"></div>
-                    </div>
-                    <span class="flecha flecha-der" onclick="moverCarrusel('Mediocentro', 1)">→</span>
-                </div>
-                <div class="carrusel-dots" id="dots-Mediocentro"></div>
-            </div>
-
-            <div class="seccion">
-                <h3>Defensas</h3>
-                <div class="fila-jugadores" id="fila-Defensa">
-                    <span class="flecha flecha-izq" onclick="moverCarrusel('Defensa', -1)">←</span>
-                    <div class="carrusel-viewport">
-                        <div class="carrusel-track" id="track-Defensa"></div>
-                    </div>
-                    <span class="flecha flecha-der" onclick="moverCarrusel('Defensa', 1)">→</span>
-                </div>
-                <div class="carrusel-dots" id="dots-Defensa"></div>
-            </div>
-
-            <div class="seccion">
-                <h3>Porteros</h3>
-                <div class="fila-jugadores" id="fila-Portero">
-                    <span class="flecha flecha-izq" onclick="moverCarrusel('Portero', -1)">←</span>
-                    <div class="carrusel-viewport">
-                        <div class="carrusel-track" id="track-Portero"></div>
-                    </div>
-                    <span class="flecha flecha-der" onclick="moverCarrusel('Portero', 1)">→</span>
-                </div>
-                <div class="carrusel-dots" id="dots-Portero"></div>
-            </div>
-
-            <div id="modalJugador" class="modal-overlay">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Registrar Canterano</h2>
-                        <span class="close-modal" onclick="cerrarModal()">&times;</span>
-                    </div>
-                    <form id="formJugador">
-                        <div class="modal-grid">
-                            <div class="input-group">
-                                <label>Nombre</label>
-                                <input type="text" id="nombreJ" placeholder="Ej: Juan" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Apellidos</label>
-                                <input type="text" id="apellidoJ" placeholder="Ej: García" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Edad</label>
-                                <input type="number" id="edadJ" placeholder="18" min="0" required>
-                            </div>
-                            <div class="input-group">
-                                <label>Posición</label>
-                                <select id="posicionJ">
-                                    <option value="Delantero">Delantero</option>
-                                    <option value="Mediocentro">Mediocentro</option>
-                                    <option value="Defensa">Defensa</option>
-                                    <option value="Portero">Portero</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-guardar">GUARDAR JUGADOR</button>
-                    </form>
-                </div>
-            </div>
+            <div class="carrusel-dots" id="dots-Delantero"></div>
         </div>
 
-        <div id="modalEstadisticas" class="modal-overlay">
+        <div class="seccion">
+            <h3>Mediocentros</h3>
+            <div class="fila-jugadores" id="fila-Mediocentro">
+                <span class="flecha flecha-izq" onclick="moverCarrusel('Mediocentro', -1)">←</span>
+                <div class="carrusel-viewport">
+                    <div class="carrusel-track" id="track-Mediocentro"></div>
+                </div>
+                <span class="flecha flecha-der" onclick="moverCarrusel('Mediocentro', 1)">→</span>
+            </div>
+            <div class="carrusel-dots" id="dots-Mediocentro"></div>
+        </div>
+
+        <div class="seccion">
+            <h3>Defensas</h3>
+            <div class="fila-jugadores" id="fila-Defensa">
+                <span class="flecha flecha-izq" onclick="moverCarrusel('Defensa', -1)">←</span>
+                <div class="carrusel-viewport">
+                    <div class="carrusel-track" id="track-Defensa"></div>
+                </div>
+                <span class="flecha flecha-der" onclick="moverCarrusel('Defensa', 1)">→</span>
+            </div>
+            <div class="carrusel-dots" id="dots-Defensa"></div>
+        </div>
+
+        <div class="seccion">
+            <h3>Porteros</h3>
+            <div class="fila-jugadores" id="fila-Portero">
+                <span class="flecha flecha-izq" onclick="moverCarrusel('Portero', -1)">←</span>
+                <div class="carrusel-viewport">
+                    <div class="carrusel-track" id="track-Portero"></div>
+                </div>
+                <span class="flecha flecha-der" onclick="moverCarrusel('Portero', 1)">→</span>
+            </div>
+            <div class="carrusel-dots" id="dots-Portero"></div>
+        </div>
+
+        <!-- Modal añadir jugador -->
+        <div id="modalJugador" class="modal-overlay">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 id="statsTitulo">Estadísticas: Nombre Jugador</h2>
-                    <span class="close-modal" onclick="cerrarModalStats()">&times;</span>
+                    <h2>Registrar Canterano</h2>
+                    <span class="close-modal" onclick="cerrarModal()">&times;</span>
                 </div>
-                <form id="formEstadisticas">
-                    <input type="hidden" id="idJugadorStats">
+                <form id="formJugador">
                     <div class="modal-grid">
                         <div class="input-group">
-                            <label>Temporada</label>
-                            <select id="temporada" onchange="consultarStats()">
-                                <option value="2023/24">2023/24</option>
-                                <option value="2024/25">2024/25</option>
-                                <option value="2025/26" selected>2025/26</option>
+                            <label>Nombre</label>
+                            <input type="text" id="nombreJ" placeholder="Ej: Juan" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Apellidos</label>
+                            <input type="text" id="apellidoJ" placeholder="Ej: García" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Edad</label>
+                            <input type="number" id="edadJ" placeholder="18" min="0" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Posición</label>
+                            <select id="posicionJ">
+                                <option value="Delantero">Delantero</option>
+                                <option value="Mediocentro">Mediocentro</option>
+                                <option value="Defensa">Defensa</option>
+                                <option value="Portero">Portero</option>
                             </select>
                         </div>
-                        <div class="input-group">
-                            <label>Partidos Jugados</label>
-                            <input type="number" id="pj" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 10" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Minutos Jugados</label>
-                            <input type="number" id="min" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 900" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Goles</label>
-                            <input type="number" id="goles" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Asistencias</label>
-                            <input type="number" id="asist" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Pases Clave</label>
-                            <input type="number" id="pases" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Tarj. Amarillas</label>
-                            <input type="number" id="amarillas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
-                        </div>
-                        <div class="input-group">
-                            <label>Tarj. Rojas</label>
-                            <input type="number" id="rojas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
-                        </div>
                     </div>
-                    <button type="submit" class="btn-guardar">GUARDAR ESTADÍSTICAS</button>
+                    <button type="submit" class="btn-guardar">GUARDAR JUGADOR</button>
                 </form>
             </div>
         </div>
+    </div>
 
-        <script>
-            window.onload = function() {
-                const nombre = localStorage.getItem('usuarioNombre');
-                if (!nombre) { window.location.href = '/'; return; }
-                
-                document.getElementById('clubDisplay').textContent = localStorage.getItem('usuarioClub')?.toUpperCase() || "CLUB NO ASIGNADO";
-                document.getElementById('coachDisplay').textContent = nombre.replace("Bienvenido, ", "") + " - " + (localStorage.getItem('usuarioEquipo') || "Sin equipo");
-                
-                cargarJugadores();
-            };
-
-            // ── Estado de los carruseles ──
-            const carruseles = {
-                Delantero:   { jugadores: [], pagina: 0 },
-                Mediocentro: { jugadores: [], pagina: 0 },
-                Defensa:     { jugadores: [], pagina: 0 },
-                Portero:     { jugadores: [], pagina: 0 }
-            };
-            const getPorPagina = () => window.innerWidth <= 768 ? 2 : 3;
-
-            async function cargarJugadores() {
-                try {
-                    const idEquipo = localStorage.getItem('idEquipo');
-                    if (!idEquipo || idEquipo === "null") { console.error("No se encontró el ID del equipo."); return; }
-
-                    const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
-                    const jugadores = await response.json();
-
-                    // Resetear listas
-                    Object.keys(carruseles).forEach(pos => { carruseles[pos].jugadores = []; carruseles[pos].pagina = 0; });
-
-                    jugadores.forEach(j => {
-                        const pos = j.posicion;
-                        if (carruseles[pos]) carruseles[pos].jugadores.push(j);
-                    });
-
-                    Object.keys(carruseles).forEach(pos => renderCarrusel(pos));
-                } catch (error) {
-                    console.error("Error cargando jugadores:", error);
-                }
-            }
-
-            function crearCajaJugador(j) {
-                const caja = document.createElement('div');
-                caja.className = 'caja-jugador';
-                caja.style.position = 'relative';
-                caja.style.cursor = 'pointer';
-                caja.innerHTML = `
-                    <div class="menu-jugador">
-                        <button class="btn-menu" onclick="toggleMenu(event, this)">⋮</button>
-                        <div class="menu-dropdown">
-                            <button onclick="confirmarEliminarJugador(event, ${j.id_jugador})">
-                                <span>🗑️</span> Eliminar
-                            </button>
-                        </div>
+    <!-- Modal estadísticas -->
+    <div id="modalEstadisticas" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="statsTitulo">Estadísticas</h2>
+                <span class="close-modal" onclick="cerrarModalStats()">&times;</span>
+            </div>
+            <form id="formEstadisticas">
+                <input type="hidden" id="idJugadorStats">
+                <div class="modal-grid">
+                    <div class="input-group">
+                        <label>Temporada</label>
+                        <select id="temporada" onchange="consultarStats()">
+                            <option value="2023/24">2023/24</option>
+                            <option value="2024/25">2024/25</option>
+                            <option value="2025/26" selected>2025/26</option>
+                        </select>
                     </div>
-                    <div style="margin-top: 10px;">
-                        <strong>${j.nombre} ${j.apellidos || j.apellido}</strong>
+                    <div class="input-group">
+                        <label>Partidos Jugados</label>
+                        <input type="number" id="pj" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 10" required>
                     </div>
-                `;
-                caja.onclick = (e) => {
-                    if (!e.target.classList.contains('btn-menu')) {
-                        abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
-                    }
-                };
-                return caja;
-            }
-
-            function renderCarrusel(pos, direccion = null) {
-                const estado = carruseles[pos];
-                const track = document.getElementById(`track-${pos}`);
-                const dotsContainer = document.getElementById(`dots-${pos}`);
-                const fila = document.getElementById(`fila-${pos}`);
-
-                const totalPaginas = Math.ceil(estado.jugadores.length / getPorPagina()) || 1;
-                const inicio = estado.pagina * getPorPagina();
-                const slice = estado.jugadores.slice(inicio, inicio + getPorPagina());
-
-                // Animación de dirección
-                track.classList.remove('slide-right', 'slide-left');
-                void track.offsetWidth; // fuerza reflow
-                if (direccion === 1)  track.classList.add('slide-right');
-                if (direccion === -1) track.classList.add('slide-left');
-
-                // Renderizar tarjetas
-                track.innerHTML = '';
-                slice.forEach(j => track.appendChild(crearCajaJugador(j)));
-
-                // Dots
-                dotsContainer.innerHTML = '';
-                if (totalPaginas > 1) {
-                    for (let i = 0; i < totalPaginas; i++) {
-                        const dot = document.createElement('span');
-                        dot.className = 'dot' + (i === estado.pagina ? ' active' : '');
-                        dot.onclick = () => irAPagina(pos, i);
-                        dotsContainer.appendChild(dot);
-                    }
-                }
-
-                // Estado flechas
-                const flechaIzq = fila.querySelector('.flecha-izq');
-                const flechaDer = fila.querySelector('.flecha-der');
-                flechaIzq.classList.toggle('flecha-disabled', estado.pagina === 0);
-                flechaDer.classList.toggle('flecha-disabled', estado.pagina >= totalPaginas - 1);
-            }
-
-            function moverCarrusel(pos, dir) {
-                const estado = carruseles[pos];
-                const totalPaginas = Math.ceil(estado.jugadores.length / getPorPagina()) || 1;
-                const nuevaPagina = estado.pagina + dir;
-                if (nuevaPagina < 0 || nuevaPagina >= totalPaginas) return;
-                estado.pagina = nuevaPagina;
-                renderCarrusel(pos, dir);
-            }
-
-            function irAPagina(pos, pagina) {
-                const dir = pagina > carruseles[pos].pagina ? 1 : -1;
-                carruseles[pos].pagina = pagina;
-                renderCarrusel(pos, dir);
-            }
-
-            // Re-renderizar al girar el móvil o cambiar tamaño
-            window.addEventListener('resize', () => {
-                Object.keys(carruseles).forEach(pos => {
-                    carruseles[pos].pagina = 0; // Reset a página 0 para evitar páginas fuera de rango
-                    renderCarrusel(pos);
-                });
-            });
-
-            document.getElementById('formJugador').onsubmit = async function(e) {
-                e.preventDefault();
-                
-                const idEquipo = localStorage.getItem('idEquipo');
-                
-                const datosJugador = {
-                    nombre: document.getElementById('nombreJ').value,
-                    apellidos: document.getElementById('apellidoJ').value, // Verifica si tu Pydantic usa "apellidos" o "apellido"
-                    edad: parseInt(document.getElementById('edadJ').value),
-                    posicion: document.getElementById('posicionJ').value
-                };
-
-                // ENVIAMOS EL id_equipo como parámetro de consulta (query param)
-                try {
-                    const response = await fetch(`/registrar_jugador?id_equipo=${idEquipo}`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(datosJugador)
-                    });
-
-                    if (response.ok) {
-                        cerrarModal();
-                        cargarJugadores(); 
-                    } else {
-                        const errorData = await response.json();
-                        alert("Error al registrar: " + (errorData.detail || "Error desconocido"));
-                    }
-                } catch (err) {
-                    alert("Error de conexión con el servidor");
-                }
-            };
-
-            function abrirModal() { document.getElementById('modalJugador').style.display = 'flex'; }
-
-            function cerrarModal() { document.getElementById('modalJugador').style.display = 'none'; document.getElementById('formJugador').reset(); }
-
-            function logout() { localStorage.clear(); window.location.href = '/'; }
-
-            function abrirModalStats(id, nombreCompleto) {
-                document.getElementById('idJugadorStats').value = id;
-                document.getElementById('statsTitulo').textContent = `Estadísticas: ${nombreCompleto}`;
-                
-                // Mostramos el modal
-                document.getElementById('modalEstadisticas').style.display = 'flex';
-                
-                // Lanzamos la búsqueda automática nada más abrir
-                consultarStats();
-            }
-
-            function cerrarModalStats() {
-                document.getElementById('modalEstadisticas').style.display = 'none';
-                document.getElementById('formEstadisticas').reset();
-            }
-
-            async function consultarStats() {
-                const idJugador = document.getElementById('idJugadorStats').value;
-                const temp = document.getElementById('temporada').value;
-
-                try {
-                    const response = await fetch(`/obtener_stats?id_jugador=${idJugador}&temporada=${temp}`);
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-
-                        if (data) {
-                            // Rellenamos con lo que hay en la DB
-                            document.getElementById('goles').value = data.goles;
-                            document.getElementById('asist').value = data.asistencias;
-                            document.getElementById('amarillas').value = data.tarj_amarillas;
-                            document.getElementById('rojas').value = data.tarj_rojas;
-                            document.getElementById('pj').value = data.partidos_jugados;
-                            document.getElementById('min').value = data.minutos_jugados;
-                            document.getElementById('pases').value = data.pases_clave;
-                        } else {
-                            // Si no hay datos (data es null), reseteamos a 0
-                            resetearInputsStats();
-                        }
-                    }
-                } catch (err) {
-                    console.error("Error al consultar automáticamente:", err);
-                }
-            }
-
-            // Función para abrir/cerrar el menú de 3 puntos
-            function toggleMenu(event, element) {
-                event.stopPropagation(); // Evita que se abra el modal de stats
-                // Cerramos cualquier otro menú que esté abierto
-                document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
-                // Abrimos el de este jugador
-                element.nextElementSibling.classList.toggle('show-menu');
-            }
-
-            // Función para eliminar al jugador
-            let idJugadorAEliminar = null;
-
-            function confirmarEliminarJugador(event, id) {
-                event.stopPropagation();
-                idJugadorAEliminar = id; // Guardamos el ID
-                document.getElementById('modalConfirmar').style.display = 'flex'; // Abrimos el modal pro
-            }
-
-            function cerrarConfirmar() {
-                document.getElementById('modalConfirmar').style.display = 'none';
-                idJugadorAEliminar = null;
-            }
-
-            // Usamos delegación de eventos para que no falle nunca
-            document.addEventListener('click', async (e) => {
-                if (e.target && e.target.id === 'btnConfirmarEliminar') {
-                    if (!idJugadorAEliminar) return;
-
-                    try {
-                        const response = await fetch(`/eliminar_jugador/${idJugadorAEliminar}`, { 
-                            method: 'DELETE' 
-                        });
-                        
-                        if (response.ok) {
-                            cerrarConfirmar();
-                            mostrarNotificacion("🗑️ Jugador y estadísticas eliminados");
-                            
-                            setTimeout(() => {
-                                cargarJugadores(); 
-                            }, 300); 
-
-                        } else {
-                            mostrarNotificacion("❌ Error al eliminar");
-                        }
-                    } catch (error) {
-                        console.error("Error:", error);
-                        mostrarNotificacion("❌ Error de conexión");
-                    }
-                }
-            });
-
-            // Si haces clic en cualquier parte de la pantalla, se cierran los menús de 3 puntos
-            window.addEventListener('click', () => {
-                document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
-            });
-
-            function resetearInputsStats() {
-                const campos = ['goles', 'asist', 'amarillas', 'rojas', 'pj', 'min', 'pases'];
-                // Cambiamos el 0 por '' para que el campo quede limpio
-                campos.forEach(id => {
-                    const input = document.getElementById(id);
-                    if (input) {
-                        input.value = ''; 
-                    }
-                });
-            }
-
-            document.getElementById('formEstadisticas').onsubmit = async function(e) {
-                e.preventDefault();
-                
-                // 1. Bloqueamos el botón para evitar que el usuario pulse mil veces mientras guarda
-                const btnGuardar = e.target.querySelector('.btn-guardar');
-                const textoOriginal = btnGuardar.textContent;
-                btnGuardar.textContent = "Guardando...";
-                btnGuardar.disabled = true;
-
-                const idJugador = document.getElementById('idJugadorStats').value;
-                
-                const stats = {
-                    temporada: document.getElementById('temporada').value,
-                    goles: parseInt(document.getElementById('goles').value),
-                    asistencias: parseInt(document.getElementById('asist').value),
-                    tarj_amarillas: parseInt(document.getElementById('amarillas').value),
-                    tarj_rojas: parseInt(document.getElementById('rojas').value),
-                    partidos_jugados: parseInt(document.getElementById('pj').value),
-                    minutos_jugados: parseInt(document.getElementById('min').value),
-                    pases_clave: parseInt(document.getElementById('pases').value)
-                };
-
-                try {
-                    const response = await fetch(`/registrar_estadisticas?id_jugador=${idJugador}`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify(stats)
-                    });
-
-                    if (response.ok) {
-                        cerrarModalStats();
-                        // Mensaje pro en lugar del alert cutre
-                        mostrarNotificacion("✅ Estadísticas actualizadas correctamente"); 
-                    } else {
-                        mostrarNotificacion("❌ Error al actualizar las estadísticas");
-                    }
-                } catch (err) {
-                    alert("❌ Error de conexión: " + err);
-                } finally {
-                    // C) Restauramos el botón
-                    btnGuardar.textContent = textoOriginal;
-                    btnGuardar.disabled = false;
-                }
-            };
-
-            function mostrarNotificacion(mensaje) {
-                const toast = document.getElementById('toast');
-                if (!toast) return;
-
-                toast.textContent = mensaje;
-                
-                // Mostramos el elemento
-                toast.style.display = 'block';
-                
-                // Le damos un milisegundo para que el navegador note el display:block 
-                // y luego activamos la animación con la clase CSS
-                setTimeout(() => {
-                    toast.classList.add('toast-active');
-                }, 10);
-
-                // Lo quitamos tras 3 segundos
-                setTimeout(() => {
-                    toast.classList.remove('toast-active');
-                    // Esperamos a que termine la animación de bajada para ocultarlo del todo
-                    setTimeout(() => {
-                        toast.style.display = 'none';
-                    }, 500);
-                }, 3000);
-            }
-        </script>
-
-        <div id="toast" class="toast-container"></div>
-
-        <div id="modalConfirmar" class="modal-overlay">
-            <div class="modal-content" style="max-width: 350px; text-align: center;">
-                <div class="modal-header" style="justify-content: center; border-bottom: none;">
-                    <h2 style="color: #ff4d4d;">⚠️ ¿ESTÁS SEGURO?</h2>
+                    <div class="input-group">
+                        <label>Minutos Jugados</label>
+                        <input type="number" id="min" min="0" onkeypress="return event.charCode >= 48" placeholder="Ej: 900" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Goles</label>
+                        <input type="number" id="goles" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Asistencias</label>
+                        <input type="number" id="asist" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Pases Clave</label>
+                        <input type="number" id="pases" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Tarj. Amarillas</label>
+                        <input type="number" id="amarillas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Tarj. Rojas</label>
+                        <input type="number" id="rojas" min="0" onkeypress="return event.charCode >= 48" placeholder="0" required>
+                    </div>
                 </div>
-                <p style="color: white; margin: 20px 0;">Esta acción no se puede deshacer. El jugador y sus estadísticas se borrarán para siempre.</p>
-                <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button class="btn-guardar" style="background: #334155 !important;" onclick="cerrarConfirmar()">CANCELAR</button>
-                    <button id="btnConfirmarEliminar" class="btn-guardar" style="background: #ff4d4d !important;">ELIMINAR</button>
-                </div>
+                <button type="submit" class="btn-guardar">GUARDAR ESTADÍSTICAS</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal confirmar eliminar -->
+    <div id="modalConfirmar" class="modal-overlay">
+        <div class="modal-content" style="max-width: 360px; text-align: center;">
+            <div class="modal-header" style="justify-content: center; border-bottom: none; margin-bottom: 10px;">
+                <h2 style="color: #f87171; letter-spacing: 1px;">⚠️ ¿Estás seguro?</h2>
+            </div>
+            <p style="color: rgba(255,255,255,0.65); margin: 10px 0 24px; font-size: 0.9rem; line-height: 1.5;">Esta acción no se puede deshacer. El jugador y todas sus estadísticas se borrarán para siempre.</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button class="btn-guardar" style="background: rgba(51,65,85,0.8) !important; box-shadow: none;" onclick="cerrarConfirmar()">Cancelar</button>
+                <button id="btnConfirmarEliminar" class="btn-guardar" style="background: linear-gradient(135deg,#dc2626,#991b1b) !important;">Eliminar</button>
             </div>
         </div>
-    </body>
+    </div>
+
+    <div id="toast" class="toast-container"></div>
+
+    <script>
+        window.onload = function() {
+            const nombre = localStorage.getItem('usuarioNombre');
+            if (!nombre) { window.location.href = '/'; return; }
+            document.getElementById('clubDisplay').textContent = localStorage.getItem('usuarioClub')?.toUpperCase() || "CLUB NO ASIGNADO";
+            document.getElementById('coachDisplay').textContent = nombre.replace("Bienvenido, ", "") + " — " + (localStorage.getItem('usuarioEquipo') || "Sin equipo");
+            cargarJugadores();
+        };
+
+        const carruseles = {
+            Delantero:   { jugadores: [], pagina: 0 },
+            Mediocentro: { jugadores: [], pagina: 0 },
+            Defensa:     { jugadores: [], pagina: 0 },
+            Portero:     { jugadores: [], pagina: 0 }
+        };
+        const getPorPagina = () => window.innerWidth <= 768 ? 2 : 3;
+
+        async function cargarJugadores() {
+            try {
+                const idEquipo = localStorage.getItem('idEquipo');
+                if (!idEquipo || idEquipo === "null") return;
+                const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
+                const jugadores = await response.json();
+                Object.keys(carruseles).forEach(pos => { carruseles[pos].jugadores = []; carruseles[pos].pagina = 0; });
+                jugadores.forEach(j => { if (carruseles[j.posicion]) carruseles[j.posicion].jugadores.push(j); });
+                Object.keys(carruseles).forEach(pos => renderCarrusel(pos));
+            } catch (error) { console.error("Error cargando jugadores:", error); }
+        }
+
+        function crearCajaJugador(j) {
+            const caja = document.createElement('div');
+            caja.className = 'caja-jugador';
+            caja.innerHTML = `
+                <div class="menu-jugador">
+                    <button class="btn-menu" onclick="toggleMenu(event, this)">⋮</button>
+                    <div class="menu-dropdown">
+                        <button onclick="confirmarEliminarJugador(event, ${j.id_jugador})">
+                            <span>🗑️</span> Eliminar
+                        </button>
+                    </div>
+                </div>
+                <strong>${j.nombre} ${j.apellidos || j.apellido}</strong>
+            `;
+            caja.onclick = (e) => {
+                if (!e.target.classList.contains('btn-menu')) {
+                    abrirModalStats(j.id_jugador, `${j.nombre} ${j.apellidos || j.apellido}`);
+                }
+            };
+            return caja;
+        }
+
+        function renderCarrusel(pos, direccion = null) {
+            const estado = carruseles[pos];
+            const track = document.getElementById(`track-${pos}`);
+            const dotsContainer = document.getElementById(`dots-${pos}`);
+            const fila = document.getElementById(`fila-${pos}`);
+            const pp = getPorPagina();
+            const totalPaginas = Math.ceil(estado.jugadores.length / pp) || 1;
+            const inicio = estado.pagina * pp;
+            const slice = estado.jugadores.slice(inicio, inicio + pp);
+
+            track.classList.remove('slide-right', 'slide-left');
+            void track.offsetWidth;
+            if (direccion === 1)  track.classList.add('slide-right');
+            if (direccion === -1) track.classList.add('slide-left');
+
+            track.innerHTML = '';
+            slice.forEach(j => track.appendChild(crearCajaJugador(j)));
+
+            dotsContainer.innerHTML = '';
+            if (totalPaginas > 1) {
+                for (let i = 0; i < totalPaginas; i++) {
+                    const dot = document.createElement('span');
+                    dot.className = 'dot' + (i === estado.pagina ? ' active' : '');
+                    dot.onclick = () => irAPagina(pos, i);
+                    dotsContainer.appendChild(dot);
+                }
+            }
+
+            const flechaIzq = fila.querySelector('.flecha-izq');
+            const flechaDer = fila.querySelector('.flecha-der');
+            flechaIzq.classList.toggle('flecha-disabled', estado.pagina === 0);
+            flechaDer.classList.toggle('flecha-disabled', estado.pagina >= totalPaginas - 1);
+        }
+
+        function moverCarrusel(pos, dir) {
+            const estado = carruseles[pos];
+            const totalPaginas = Math.ceil(estado.jugadores.length / getPorPagina()) || 1;
+            const nuevaPagina = estado.pagina + dir;
+            if (nuevaPagina < 0 || nuevaPagina >= totalPaginas) return;
+            estado.pagina = nuevaPagina;
+            renderCarrusel(pos, dir);
+        }
+
+        function irAPagina(pos, pagina) {
+            const dir = pagina > carruseles[pos].pagina ? 1 : -1;
+            carruseles[pos].pagina = pagina;
+            renderCarrusel(pos, dir);
+        }
+
+        window.addEventListener('resize', () => {
+            Object.keys(carruseles).forEach(pos => { carruseles[pos].pagina = 0; renderCarrusel(pos); });
+        });
+
+        document.getElementById('formJugador').onsubmit = async function(e) {
+            e.preventDefault();
+            const idEquipo = localStorage.getItem('idEquipo');
+            const datosJugador = {
+                nombre: document.getElementById('nombreJ').value,
+                apellidos: document.getElementById('apellidoJ').value,
+                edad: parseInt(document.getElementById('edadJ').value),
+                posicion: document.getElementById('posicionJ').value
+            };
+            try {
+                const response = await fetch(`/registrar_jugador?id_equipo=${idEquipo}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(datosJugador)
+                });
+                if (response.ok) { cerrarModal(); cargarJugadores(); }
+                else { const err = await response.json(); alert("Error: " + (err.detail || "Error desconocido")); }
+            } catch (err) { alert("Error de conexión"); }
+        };
+
+        function abrirModal() { document.getElementById('modalJugador').style.display = 'flex'; }
+        function cerrarModal() { document.getElementById('modalJugador').style.display = 'none'; document.getElementById('formJugador').reset(); }
+        function logout() { localStorage.clear(); window.location.href = '/'; }
+
+        function abrirModalStats(id, nombreCompleto) {
+            document.getElementById('idJugadorStats').value = id;
+            document.getElementById('statsTitulo').textContent = `Estadísticas: ${nombreCompleto}`;
+            document.getElementById('modalEstadisticas').style.display = 'flex';
+            consultarStats();
+        }
+
+        function cerrarModalStats() {
+            document.getElementById('modalEstadisticas').style.display = 'none';
+            document.getElementById('formEstadisticas').reset();
+        }
+
+        async function consultarStats() {
+            const idJugador = document.getElementById('idJugadorStats').value;
+            const temp = document.getElementById('temporada').value;
+            try {
+                const response = await fetch(`/obtener_stats?id_jugador=${idJugador}&temporada=${temp}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data) {
+                        document.getElementById('goles').value = data.goles;
+                        document.getElementById('asist').value = data.asistencias;
+                        document.getElementById('amarillas').value = data.tarj_amarillas;
+                        document.getElementById('rojas').value = data.tarj_rojas;
+                        document.getElementById('pj').value = data.partidos_jugados;
+                        document.getElementById('min').value = data.minutos_jugados;
+                        document.getElementById('pases').value = data.pases_clave;
+                    } else { resetearInputsStats(); }
+                }
+            } catch (err) { console.error("Error al consultar stats:", err); }
+        }
+
+        function toggleMenu(event, element) {
+            event.stopPropagation();
+            document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
+            element.nextElementSibling.classList.toggle('show-menu');
+        }
+
+        let idJugadorAEliminar = null;
+        function confirmarEliminarJugador(event, id) {
+            event.stopPropagation();
+            idJugadorAEliminar = id;
+            document.getElementById('modalConfirmar').style.display = 'flex';
+        }
+        function cerrarConfirmar() {
+            document.getElementById('modalConfirmar').style.display = 'none';
+            idJugadorAEliminar = null;
+        }
+
+        document.addEventListener('click', async (e) => {
+            if (e.target && e.target.id === 'btnConfirmarEliminar') {
+                if (!idJugadorAEliminar) return;
+                try {
+                    const response = await fetch(`/eliminar_jugador/${idJugadorAEliminar}`, { method: 'DELETE' });
+                    if (response.ok) {
+                        cerrarConfirmar();
+                        mostrarNotificacion("🗑️ Jugador eliminado");
+                        setTimeout(() => cargarJugadores(), 300);
+                    } else { mostrarNotificacion("❌ Error al eliminar"); }
+                } catch (error) { mostrarNotificacion("❌ Error de conexión"); }
+            }
+        });
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.menu-dropdown').forEach(m => m.classList.remove('show-menu'));
+        });
+
+        function resetearInputsStats() {
+            ['goles','asist','amarillas','rojas','pj','min','pases'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+        }
+
+        document.getElementById('formEstadisticas').onsubmit = async function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-guardar');
+            const orig = btn.textContent;
+            btn.textContent = "Guardando..."; btn.disabled = true;
+            const idJugador = document.getElementById('idJugadorStats').value;
+            const stats = {
+                temporada: document.getElementById('temporada').value,
+                goles: parseInt(document.getElementById('goles').value),
+                asistencias: parseInt(document.getElementById('asist').value),
+                tarj_amarillas: parseInt(document.getElementById('amarillas').value),
+                tarj_rojas: parseInt(document.getElementById('rojas').value),
+                partidos_jugados: parseInt(document.getElementById('pj').value),
+                minutos_jugados: parseInt(document.getElementById('min').value),
+                pases_clave: parseInt(document.getElementById('pases').value)
+            };
+            try {
+                const response = await fetch(`/registrar_estadisticas?id_jugador=${idJugador}`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(stats)
+                });
+                if (response.ok) { cerrarModalStats(); mostrarNotificacion("✅ Estadísticas actualizadas"); }
+                else { mostrarNotificacion("❌ Error al actualizar"); }
+            } catch (err) { alert("❌ Error de conexión: " + err); }
+            finally { btn.textContent = orig; btn.disabled = false; }
+        };
+
+        function mostrarNotificacion(mensaje) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.textContent = mensaje;
+            toast.style.display = 'block';
+            setTimeout(() => toast.classList.add('toast-active'), 10);
+            setTimeout(() => {
+                toast.classList.remove('toast-active');
+                setTimeout(() => toast.style.display = 'none', 500);
+            }, 3000);
+        }
+    </script>
+</body>
 </html>

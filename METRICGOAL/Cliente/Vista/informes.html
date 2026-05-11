@@ -252,7 +252,7 @@
     </header>
 
     <main class="container">
-        
+
         <!-- Destacados del equipo -->
         <section class="destacados-section">
             <div class="tarjeta-destacado" id="card-goleador">
@@ -289,239 +289,354 @@
     <script>
         function logout() { localStorage.clear(); window.location.href = '/'; }
 
-        // ── Cargar y renderizar informes guardados ──
-        function cargarInformesGuardados() {
-            const grid = document.getElementById('grid-informes-guardados');
-            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
+        const API_BASE = '';
 
-            if (informes.length === 0) {
+        function obtenerIdEquipo() {
+            const fromWindow = window.ID_EQUIPO ?? window.idEquipo ?? (window.usuario && window.usuario.id_equipo);
+            const fromDataset = document.body?.dataset?.idEquipo;
+            const id = fromWindow ?? fromDataset;
+            return id !== undefined && id !== null && String(id).trim() !== '' ? id : null;
+        }
+
+        async function apiJson(url, options = {}) {
+            const res = await fetch(url, {
+                headers: {
+                    'Accept': 'application/json',
+                    ...(options.headers || {})
+                },
+                ...options
+            });
+
+            const contentType = res.headers.get('content-type') || '';
+            const isJson = contentType.includes('application/json');
+            const data = isJson ? await res.json().catch(() => null) : await res.text().catch(() => '');
+
+            if (!res.ok) {
+                const msg = (data && (data.detail || data.message || data.error)) || `Error ${res.status}`;
+                throw new Error(msg);
+            }
+
+            return data;
+        }
+
+        function normalizarInformes(payload) {
+            if (Array.isArray(payload)) return payload;
+            if (payload && Array.isArray(payload.informes)) return payload.informes;
+            if (payload && Array.isArray(payload.data)) return payload.data;
+            return [];
+        }
+
+        function formatearFecha(fecha, options) {
+            const d = new Date(fecha);
+            if (Number.isNaN(d.getTime())) return '—';
+            return d.toLocaleDateString('es-ES', options);
+        }
+
+        function calcularResumenInforme(inf) {
+            const labels = Array.isArray(inf.labels) ? inf.labels : [];
+            const can = inf.canterano?.valores || [];
+            const pro = inf.profesional?.valores || [];
+            const totalMetricas = labels.length;
+            const ganadas = labels.filter((_, i) => (can[i] ?? 0) > (pro[i] ?? 0)).length;
+            const pct = totalMetricas > 0 ? Math.round((ganadas / totalMetricas) * 100) : 0;
+            return { totalMetricas, ganadas, pct };
+        }
+
+        // ── Cargar y renderizar informes guardados ──
+        async function cargarInformesGuardados() {
+            const grid = document.getElementById('grid-informes-guardados');
+            const idEquipo = obtenerIdEquipo();
+
+            if (!idEquipo) {
                 grid.innerHTML = `
                     <div class="informes-vacio" style="grid-column: 1/-1;">
-                        <div class="vacio-icono">📊</div>
-                        <p>No hay informes guardados todavía</p>
-                        <small>Compara jugadores y guarda el análisis desde la sección <strong style="color:#ffd700">Comparar Jugadores</strong></small>
+                        <div class="vacio-icono">⚠️</div>
+                        <p>No se pudo identificar el equipo activo</p>
+                        <small>La página necesita <strong>id_equipo</strong> para consultar los informes</small>
                     </div>
                 `;
                 return;
             }
 
-            grid.innerHTML = '';
+            try {
+                const payload = await apiJson(`${API_BASE}/listar_informes?id_equipo=${encodeURIComponent(idEquipo)}`);
+                const informes = normalizarInformes(payload);
 
-            informes.forEach(inf => {
-                const fecha = new Date(inf.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
-                const totalMetricas = inf.labels ? inf.labels.length : 0;
-                const ganadas = inf.labels ? inf.labels.filter((_, i) => inf.canterano.valores[i] > inf.profesional.valores[i]).length : 0;
-                const pct = totalMetricas > 0 ? Math.round((ganadas / totalMetricas) * 100) : 0;
+                if (informes.length === 0) {
+                    grid.innerHTML = `
+                        <div class="informes-vacio" style="grid-column: 1/-1;">
+                            <div class="vacio-icono">📊</div>
+                            <p>No hay informes guardados todavía</p>
+                            <small>Compara jugadores y guarda el análisis desde la sección <strong style="color:#ffd700">Comparar Jugadores</strong></small>
+                        </div>
+                    `;
+                    return;
+                }
 
-                const card = document.createElement('div');
-                card.className = 'tarjeta-informe';
-                card.innerHTML = `
-                    <div class="informe-tipo">⚽ Comparación</div>
-                    <div class="informe-nombres">
-                        <div class="informe-nombre-can">${inf.canterano.nombre}</div>
-                        <div class="informe-vs">vs</div>
-                        <div class="informe-nombre-pro">${inf.profesional.nombre}</div>
-                    </div>
-                    <div class="informe-meta">
-                        <div class="informe-badge">
-                            <span class="informe-badge-label">Temporada</span>
-                            <span class="informe-badge-valor">${inf.temporada || '—'}</span>
+                grid.innerHTML = '';
+
+                informes.forEach(inf => {
+                    const { totalMetricas, ganadas, pct } = calcularResumenInforme(inf);
+                    const fecha = formatearFecha(inf.fecha, { day: '2-digit', month: 'short', year: 'numeric' });
+
+                    const nombreCan = inf.canterano?.nombre || 'Canterano';
+                    const nombrePro = inf.profesional?.nombre || 'Profesional';
+                    const primerNombre = nombreCan.split(' ')[0] || nombreCan;
+
+                    const card = document.createElement('div');
+                    card.className = 'tarjeta-informe';
+                    card.innerHTML = `
+                        <div class="informe-tipo">⚽ Comparación</div>
+                        <div class="informe-nombres">
+                            <div class="informe-nombre-can">${nombreCan}</div>
+                            <div class="informe-vs">vs</div>
+                            <div class="informe-nombre-pro">${nombrePro}</div>
                         </div>
-                        <div class="informe-badge">
-                            <span class="informe-badge-label">Fecha</span>
-                            <span class="informe-badge-valor">${fecha}</span>
+                        <div class="informe-meta">
+                            <div class="informe-badge">
+                                <span class="informe-badge-label">Temporada</span>
+                                <span class="informe-badge-valor">${inf.temporada || '—'}</span>
+                            </div>
+                            <div class="informe-badge">
+                                <span class="informe-badge-label">Fecha</span>
+                                <span class="informe-badge-valor">${fecha}</span>
+                            </div>
+                            <div class="informe-badge">
+                                <span class="informe-badge-label">Resultado</span>
+                                <span class="informe-badge-valor">${ganadas}/${totalMetricas} ✓</span>
+                            </div>
                         </div>
-                        <div class="informe-badge">
-                            <span class="informe-badge-label">Resultado</span>
-                            <span class="informe-badge-valor">${ganadas}/${totalMetricas} ✓</span>
+                        <div class="informe-barra-wrap">
+                            <div class="informe-barra-label">
+                                <span>${primerNombre}</span>
+                                <span>${pct}%</span>
+                            </div>
+                            <div class="informe-barra">
+                                <div class="informe-barra-fill" style="width: ${pct}%"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="informe-barra-wrap">
-                        <div class="informe-barra-label">
-                            <span>${inf.canterano.nombre.split(' ')[0]}</span>
-                            <span>${pct}%</span>
+                        <div class="informe-acciones">
+                            <button class="btn-informe-accion btn-inf-pdf" data-id="${inf.id}">
+                                ⬇️ PDF
+                            </button>
+                            <button class="btn-informe-accion btn-inf-eliminar" data-id="${inf.id}">
+                                🗑️ Eliminar
+                            </button>
                         </div>
-                        <div class="informe-barra">
-                            <div class="informe-barra-fill" style="width: ${pct}%"></div>
-                        </div>
-                    </div>
-                    <div class="informe-acciones">
-                        <button class="btn-informe-accion btn-inf-pdf" onclick="exportarInformePDF(${inf.id})">
-                            ⬇️ PDF
-                        </button>
-                        <button class="btn-informe-accion btn-inf-eliminar" onclick="eliminarInforme(${inf.id})">
-                            🗑️ Eliminar
-                        </button>
+                    `;
+
+                    card.querySelector('.btn-inf-pdf')?.addEventListener('click', () => exportarInformePDF(inf.id));
+                    card.querySelector('.btn-inf-eliminar')?.addEventListener('click', () => eliminarInforme(inf.id));
+
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Error cargando informes:', err);
+                grid.innerHTML = `
+                    <div class="informes-vacio" style="grid-column: 1/-1;">
+                        <div class="vacio-icono">❌</div>
+                        <p>No se pudieron cargar los informes</p>
+                        <small>${err.message}</small>
                     </div>
                 `;
-                grid.appendChild(card);
-            });
+            }
         }
 
-        function eliminarInforme(id) {
-            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
-            const filtrados = informes.filter(i => i.id !== id);
-            localStorage.setItem('mg_informes', JSON.stringify(filtrados));
-            cargarInformesGuardados();
-            mostrarToast('🗑️ Informe eliminado');
+        async function eliminarInforme(id) {
+            const idEquipo = obtenerIdEquipo();
+
+            if (!idEquipo) {
+                mostrarToast('⚠️ No se pudo identificar el equipo');
+                return;
+            }
+
+            try {
+                await apiJson(`${API_BASE}/borrar_informe/${encodeURIComponent(id)}?id_equipo=${encodeURIComponent(idEquipo)}`, {
+                    method: 'DELETE'
+                });
+
+                await cargarInformesGuardados();
+                mostrarToast('🗑️ Informe eliminado');
+            } catch (err) {
+                console.error('Error eliminando informe:', err);
+                mostrarToast(`❌ ${err.message}`);
+            }
         }
 
         async function exportarInformePDF(id) {
-            const informes = JSON.parse(localStorage.getItem('mg_informes') || '[]');
-            const inf = informes.find(i => i.id === id);
-            if (!inf) return;
+            const idEquipo = obtenerIdEquipo();
 
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const W = 210, H = 297, M = 14, CW = W - M * 2;
-            const fecha = new Date(inf.fecha).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
-            const club = (inf.club || localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
-            const data = inf;
+            if (!idEquipo) {
+                mostrarToast('⚠️ No se pudo identificar el equipo');
+                return;
+            }
 
-            // Fondo
-            pdf.setFillColor(8, 12, 30);
-            pdf.rect(0, 0, W, H, 'F');
+            try {
+                const payload = await apiJson(`${API_BASE}/listar_informes?id_equipo=${encodeURIComponent(idEquipo)}`);
+                const informes = normalizarInformes(payload);
+                const inf = informes.find(i => Number(i.id) === Number(id));
 
-            // Cabecera
-            pdf.setFillColor(100, 0, 25);
-            pdf.rect(0, 0, W, 42, 'F');
-            pdf.setFillColor(128, 0, 32);
-            pdf.rect(0, 0, W * 0.5, 42, 'F');
-            pdf.setFillColor(255, 215, 0);
-            pdf.rect(0, 42, W, 1.5, 'F');
+                if (!inf) {
+                    mostrarToast('⚠️ Informe no encontrado');
+                    return;
+                }
 
-            // Logo
-            pdf.setFillColor(165, 0, 68);
-            pdf.circle(M + 11, 21, 9, 'F');
-            pdf.setDrawColor(255, 215, 0);
-            pdf.setLineWidth(0.8);
-            pdf.circle(M + 11, 21, 9, 'S');
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(10);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('MG', M + 11, 24, { align: 'center' });
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const W = 210, H = 297, M = 14, CW = W - M * 2;
+                const fecha = formatearFecha(inf.fecha, { day: '2-digit', month: 'long', year: 'numeric' });
+                const club = (inf.club || window.usuarioClub || 'Club').toUpperCase();
+                const data = inf;
 
-            pdf.setTextColor(255, 255, 255);
-            pdf.setFontSize(18);
-            pdf.text('METRICGOAL', M + 25, 18);
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(7);
-            pdf.setFont('helvetica', 'normal');
-            pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
+                // Fondo
+                pdf.setFillColor(8, 12, 30);
+                pdf.rect(0, 0, W, H, 'F');
 
-            pdf.setTextColor(200, 200, 220);
-            pdf.setFontSize(7.5);
-            pdf.text(fecha, W - M, 16, { align: 'right' });
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(8.5);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text(club, W - M, 26, { align: 'right' });
-            pdf.setTextColor(180, 180, 200);
-            pdf.setFontSize(6.5);
-            pdf.setFont('helvetica', 'normal');
-            pdf.text(`Temporada ${inf.temporada || '—'}`, W - M, 34, { align: 'right' });
+                // Cabecera
+                pdf.setFillColor(100, 0, 25);
+                pdf.rect(0, 0, W, 42, 'F');
+                pdf.setFillColor(128, 0, 32);
+                pdf.rect(0, 0, W * 0.5, 42, 'F');
+                pdf.setFillColor(255, 215, 0);
+                pdf.rect(0, 42, W, 1.5, 'F');
 
-            let y = 58;
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(7.5);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('▸ INFORME COMPARATIVO', M, y);
+                // Logo
+                pdf.setFillColor(165, 0, 68);
+                pdf.circle(M + 11, 21, 9, 'F');
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.8);
+                pdf.circle(M + 11, 21, 9, 'S');
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(10);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('MG', M + 11, 24, { align: 'center' });
 
-            y += 9;
-            pdf.setTextColor(100, 160, 255);
-            pdf.setFontSize(18);
-            const w1 = pdf.getTextWidth(data.canterano.nombre);
-            pdf.text(data.canterano.nombre, M, y);
-            pdf.setTextColor(120, 120, 150);
-            pdf.setFontSize(11);
-            pdf.setFont('helvetica', 'normal');
-            pdf.text(' vs ', M + w1 + 1, y);
-            const wVs = pdf.getTextWidth(' vs ');
-            pdf.setTextColor(220, 80, 110);
-            pdf.setFontSize(18);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text(data.profesional.nombre, M + w1 + wVs + 1, y);
-
-            y += 4;
-            pdf.setDrawColor(255, 215, 0);
-            pdf.setLineWidth(0.5);
-            pdf.line(M, y, W - M, y);
-
-            // Tabla métricas
-            y += 14;
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(8);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
-            y += 6;
-
-            const colW = [52, 34, 28, 34, 34];
-            const cols = ['MÉTRICA', data.canterano.nombre.substring(0,16).toUpperCase(), 'DIFER.', data.profesional.nombre.substring(0,16).toUpperCase(), 'VENTAJA'];
-            pdf.setFillColor(128, 0, 32);
-            pdf.roundedRect(M, y, CW, 9, 2, 2, 'F');
-            pdf.setTextColor(255, 215, 0);
-            pdf.setFontSize(6.5);
-            let cx = M + 3;
-            cols.forEach((col, i) => { pdf.text(col, cx, y + 6); cx += colW[i]; });
-            y += 9;
-
-            data.labels.forEach((label, i) => {
-                const vC = data.canterano.valores[i];
-                const vP = data.profesional.valores[i];
-                const diff = vC - vP;
-                const diffAbs = Math.abs(diff);
-                if (i % 2 === 0) { pdf.setFillColor(14, 20, 46); pdf.rect(M, y, CW, 8, 'F'); }
-                cx = M + 3;
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFontSize(18);
+                pdf.text('METRICGOAL', M + 25, 18);
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(7);
                 pdf.setFont('helvetica', 'normal');
-                pdf.setTextColor(180, 190, 210); pdf.setFontSize(7);
-                pdf.text(label, cx, y + 5.5); cx += colW[0];
-                pdf.setTextColor(diff > 0 ? 100 : 180, diff > 0 ? 170 : 200, diff > 0 ? 255 : 220);
-                if (diff > 0) pdf.setFont('helvetica', 'bold');
-                pdf.text(`${vC}`, cx, y + 5.5); cx += colW[1];
+                pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
+
+                pdf.setTextColor(200, 200, 220);
+                pdf.setFontSize(7.5);
+                pdf.text(fecha, W - M, 16, { align: 'right' });
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8.5);
                 pdf.setFont('helvetica', 'bold');
-                if (diff === 0) { pdf.setTextColor(120,130,160); pdf.text('=', cx, y + 5.5); }
-                else if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text(`+${diffAbs}`, cx, y + 5.5); }
-                else { pdf.setTextColor(210,70,90); pdf.text(`-${diffAbs}`, cx, y + 5.5); }
-                cx += colW[2];
-                pdf.setFont(diff < 0 ? 'bold' : 'normal', 'normal');
-                pdf.setTextColor(diff < 0 ? 220 : 180, diff < 0 ? 80 : 200, diff < 0 ? 100 : 220);
-                pdf.text(`${vP}`, cx, y + 5.5); cx += colW[3];
+                pdf.text(club, W - M, 26, { align: 'right' });
+                pdf.setTextColor(180, 180, 200);
+                pdf.setFontSize(6.5);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(`Temporada ${inf.temporada || '—'}`, W - M, 34, { align: 'right' });
+
+                let y = 58;
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(7.5);
                 pdf.setFont('helvetica', 'bold');
-                if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5); }
-                else if (diff < 0) { pdf.setTextColor(210,70,90); pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5); }
-                else { pdf.setTextColor(120,130,160); pdf.text('Empate', cx, y + 5.5); }
-                y += 8;
-            });
+                pdf.text('▸ INFORME COMPARATIVO', M, y);
 
-            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
-            pdf.line(M, y, W - M, y);
+                y += 9;
+                pdf.setTextColor(100, 160, 255);
+                pdf.setFontSize(18);
+                const w1 = pdf.getTextWidth(data.canterano.nombre);
+                pdf.text(data.canterano.nombre, M, y);
+                pdf.setTextColor(120, 120, 150);
+                pdf.setFontSize(11);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(' vs ', M + w1 + 1, y);
+                const wVs = pdf.getTextWidth(' vs ');
+                pdf.setTextColor(220, 80, 110);
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(data.profesional.nombre, M + w1 + wVs + 1, y);
 
-            // Conclusión
-            y += 12;
-            const ganadas = data.labels.filter((_, i) => data.canterano.valores[i] > data.profesional.valores[i]).length;
-            const perdidas = data.labels.filter((_, i) => data.canterano.valores[i] < data.profesional.valores[i]).length;
-            const pct = Math.round((ganadas / data.labels.length) * 100);
+                y += 4;
+                pdf.setDrawColor(255, 215, 0);
+                pdf.setLineWidth(0.5);
+                pdf.line(M, y, W - M, y);
 
-            pdf.setFillColor(12, 18, 42);
-            pdf.roundedRect(M, y, CW, 36, 4, 4, 'F');
-            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.35);
-            pdf.roundedRect(M, y, CW, 36, 4, 4, 'S');
-            pdf.setFillColor(255, 215, 0);
-            pdf.roundedRect(M, y, 3, 36, 2, 2, 'F');
-            pdf.setTextColor(255, 215, 0); pdf.setFontSize(8); pdf.setFont('helvetica', 'bold');
-            pdf.text('CONCLUSIÓN DEL ANÁLISIS', M + 8, y + 10);
-            pdf.setTextColor(180, 190, 215); pdf.setFontSize(7); pdf.setFont('helvetica', 'normal');
-            const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadas} de ${data.labels.length} métricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
-            pdf.text(pdf.splitTextToSize(txt, CW - 16), M + 8, y + 19);
+                // Tabla métricas
+                y += 14;
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(8);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
+                y += 6;
 
-            // Footer
-            pdf.setFillColor(15, 10, 30); pdf.rect(0, H - 14, W, 14, 'F');
-            pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
-            pdf.line(M, H - 14, W - M, H - 14);
-            pdf.setTextColor(100, 110, 140); pdf.setFontSize(6.5); pdf.setFont('helvetica', 'normal');
-            pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
+                const colW = [52, 34, 28, 34, 34];
+                const cols = ['MÉTRICA', data.canterano.nombre.substring(0,16).toUpperCase(), 'DIFER.', data.profesional.nombre.substring(0,16).toUpperCase(), 'VENTAJA'];
+                pdf.setFillColor(128, 0, 32);
+                pdf.roundedRect(M, y, CW, 9, 2, 2, 'F');
+                pdf.setTextColor(255, 215, 0);
+                pdf.setFontSize(6.5);
+                let cx = M + 3;
+                cols.forEach((col, i) => { pdf.text(col, cx, y + 6); cx += colW[i]; });
+                y += 9;
 
-            pdf.save(`MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}.pdf`);
+                (data.labels || []).forEach((label, i) => {
+                    const vC = data.canterano.valores[i];
+                    const vP = data.profesional.valores[i];
+                    const diff = vC - vP;
+                    const diffAbs = Math.abs(diff);
+                    if (i % 2 === 0) { pdf.setFillColor(14, 20, 46); pdf.rect(M, y, CW, 8, 'F'); }
+                    cx = M + 3;
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.setTextColor(180, 190, 210); pdf.setFontSize(7);
+                    pdf.text(label, cx, y + 5.5); cx += colW[0];
+                    pdf.setTextColor(diff > 0 ? 100 : 180, diff > 0 ? 170 : 200, diff > 0 ? 255 : 220);
+                    if (diff > 0) pdf.setFont('helvetica', 'bold');
+                    pdf.text(`${vC}`, cx, y + 5.5); cx += colW[1];
+                    pdf.setFont('helvetica', 'bold');
+                    if (diff === 0) { pdf.setTextColor(120,130,160); pdf.text('=', cx, y + 5.5); }
+                    else if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text(`+${diffAbs}`, cx, y + 5.5); }
+                    else { pdf.setTextColor(210,70,90); pdf.text(`-${diffAbs}`, cx, y + 5.5); }
+                    cx += colW[2];
+                    pdf.setFont(diff < 0 ? 'bold' : 'normal', 'normal');
+                    pdf.setTextColor(diff < 0 ? 220 : 180, diff < 0 ? 80 : 200, diff < 0 ? 100 : 220);
+                    pdf.text(`${vP}`, cx, y + 5.5); cx += colW[3];
+                    pdf.setFont('helvetica', 'bold');
+                    if (diff > 0) { pdf.setTextColor(80,150,255); pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5); }
+                    else if (diff < 0) { pdf.setTextColor(210,70,90); pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5); }
+                    else { pdf.setTextColor(120,130,160); pdf.text('Empate', cx, y + 5.5); }
+                    y += 8;
+                });
+
+                pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
+                pdf.line(M, y, W - M, y);
+
+                // Conclusión
+                y += 12;
+                const labels = Array.isArray(data.labels) ? data.labels : [];
+                const ganadas = labels.filter((_, i) => (data.canterano.valores[i] ?? 0) > (data.profesional.valores[i] ?? 0)).length;
+                const perdidas = labels.filter((_, i) => (data.canterano.valores[i] ?? 0) < (data.profesional.valores[i] ?? 0)).length;
+                const pct = labels.length > 0 ? Math.round((ganadas / labels.length) * 100) : 0;
+
+                pdf.setFillColor(12, 18, 42);
+                pdf.roundedRect(M, y, CW, 36, 4, 4, 'F');
+                pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.35);
+                pdf.roundedRect(M, y, CW, 36, 4, 4, 'S');
+                pdf.setFillColor(255, 215, 0);
+                pdf.roundedRect(M, y, 3, 36, 2, 2, 'F');
+                pdf.setTextColor(255, 215, 0); pdf.setFontSize(8); pdf.setFont('helvetica', 'bold');
+                pdf.text('CONCLUSIÓN DEL ANÁLISIS', M + 8, y + 10);
+                pdf.setTextColor(180, 190, 215); pdf.setFontSize(7); pdf.setFont('helvetica', 'normal');
+                const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadas} de ${labels.length} métricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
+                pdf.text(pdf.splitTextToSize(txt, CW - 16), M + 8, y + 19);
+
+                // Footer
+                pdf.setFillColor(15, 10, 30); pdf.rect(0, H - 14, W, 14, 'F');
+                pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3);
+                pdf.line(M, H - 14, W - M, H - 14);
+                pdf.setTextColor(100, 110, 140); pdf.setFontSize(6.5); pdf.setFont('helvetica', 'normal');
+                pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
+
+                pdf.save(`MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}.pdf`);
+            } catch (err) {
+                console.error('Error exportando PDF:', err);
+                mostrarToast(`❌ ${err.message}`);
+            }
         }
 
         function mostrarToast(msg) {

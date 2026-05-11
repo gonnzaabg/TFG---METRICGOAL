@@ -184,6 +184,17 @@
         let temporadaSeleccionada = null;
         let datosComparacion = null;
 
+        function obtenerIdEquipo() {
+            const raw = window.ID_EQUIPO
+                ?? window.usuario?.id_equipo
+                ?? localStorage.getItem('idEquipo')
+                ?? localStorage.getItem('id_equipo')
+                ?? localStorage.getItem('usuarioIdEquipo');
+
+            const id = Number(raw);
+            return Number.isInteger(id) && id > 0 ? id : null;
+        }
+
         document.addEventListener('DOMContentLoaded', async () => {
             buscador = new TomSelect("#select-canterano", {
                 create: false,
@@ -197,13 +208,22 @@
         });
 
         async function cargarJugadoresSelect() {
-            const idEquipo = localStorage.getItem('idEquipo');
-            if (!idEquipo) return;
+            const idEquipo = obtenerIdEquipo();
+            if (!idEquipo) {
+                console.warn('No se pudo obtener id_equipo');
+                return;
+            }
+
             try {
                 const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
                 const jugadores = await response.json();
-                jugadores.forEach(j => buscador.addOption({ value: j.id_jugador, text: `${j.nombre} ${j.apellidos || ''} (${j.posicion})` }));
-            } catch (error) { console.error("Error al cargar jugadores:", error); }
+                jugadores.forEach(j => buscador.addOption({
+                    value: j.id_jugador,
+                    text: `${j.nombre} ${j.apellidos || ''} (${j.posicion})`
+                }));
+            } catch (error) {
+                console.error("Error al cargar jugadores:", error);
+            }
         }
 
         async function cargarTemporadasCanterano(idJugador) {
@@ -300,7 +320,7 @@
                 const W = 210, H = 297, M = 14, CW = W - M * 2;
                 const data = datosComparacion;
                 const fecha = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
-                const club = (localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
+                const club = (window.usuarioClub || localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
 
                 // ─── PÁGINA 1 ───────────────────────────────
                 // Fondo oscuro
@@ -607,25 +627,47 @@
         // ══════════════════════════════════════
         //  GUARDAR EN INFORMES
         // ══════════════════════════════════════
-        function guardarEnInformes() {
+        async function guardarEnInformes() {
             if (!datosComparacion) return;
-            const data = datosComparacion;
-            const informe = {
-                id: Date.now(),
-                tipo: 'comparacion',
-                fecha: new Date().toISOString(),
-                temporada: temporadaSeleccionada,
-                club: localStorage.getItem('usuarioClub') || '',
-                equipo: localStorage.getItem('usuarioEquipo') || '',
-                canterano: { nombre: data.canterano.nombre, valores: data.canterano.valores },
-                profesional: { nombre: data.profesional.nombre, valores: data.profesional.valores },
-                labels: data.labels
-            };
-            const guardados = JSON.parse(localStorage.getItem('mg_informes') || '[]');
-            guardados.unshift(informe);
-            if (guardados.length > 20) guardados.splice(20);
-            localStorage.setItem('mg_informes', JSON.stringify(guardados));
-            mostrarToast('✅ Informe guardado en Informes');
+
+            const idEquipo = obtenerIdEquipo();
+            const btn = document.querySelector('.btn-guardar-informe');
+
+            if (!idEquipo) {
+                mostrarToast('❌ No se pudo identificar el equipo');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="icono">⏳</span> Guardando...';
+
+            try {
+                const response = await fetch(`/guardar_informe?id_equipo=${idEquipo}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fecha: new Date().toISOString(),
+                        temporada: temporadaSeleccionada,
+                        canterano: datosComparacion.canterano.nombre,
+                        profesional: datosComparacion.profesional.nombre,
+                        datos: datosComparacion
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    mostrarToast('✅ Informe guardado correctamente');
+                } else {
+                    mostrarToast(`❌ ${result.detail || result.message || 'Error al guardar el informe'}`);
+                }
+            } catch (e) {
+                console.error('Error guardando informe:', e);
+                mostrarToast('❌ Error de conexión');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="icono">📁</span> Guardar en Informes';
+            }
         }
 
         function mostrarToast(msg) {
