@@ -80,9 +80,7 @@
             margin-bottom: 14px;
         }
 
-        .informe-nombres {
-            margin-bottom: 14px;
-        }
+        .informe-nombres { margin-bottom: 14px; }
 
         .informe-nombre-can {
             font-size: 1.04rem;
@@ -134,10 +132,7 @@
             font-weight: 700;
         }
 
-        /* Mini barra de victorias */
-        .informe-barra-wrap {
-            margin-bottom: 18px;
-        }
+        .informe-barra-wrap { margin-bottom: 18px; }
 
         .informe-barra-label {
             display: flex;
@@ -163,10 +158,7 @@
             transition: width 0.8s ease;
         }
 
-        .informe-acciones {
-            display: flex;
-            gap: 8px;
-        }
+        .informe-acciones { display: flex; gap: 8px; }
 
         .btn-informe-accion {
             flex: 1;
@@ -185,9 +177,7 @@
             gap: 5px;
         }
 
-        .btn-informe-accion:hover {
-            transform: translateY(-1px);
-        }
+        .btn-informe-accion:hover { transform: translateY(-1px); }
 
         .btn-inf-pdf {
             background: linear-gradient(135deg, #a50044, #7a0033);
@@ -203,7 +193,6 @@
         }
         .btn-inf-eliminar:hover { background: rgba(255,80,80,0.12); color: #ff6060; border-color: rgba(255,80,80,0.42) !important; }
 
-        /* Estado vacío */
         .informes-vacio {
             text-align: center;
             padding: 72px 20px;
@@ -217,7 +206,6 @@
         .informes-vacio p { font-size: 0.92rem; margin-bottom: 6px; }
         .informes-vacio small { font-size: 0.78rem; opacity: 0.6; }
 
-        /* Toast */
         #toast-informes {
             position: fixed; bottom: 30px; right: 30px;
             background: linear-gradient(135deg, #1a7a3a, #27ae60);
@@ -253,7 +241,6 @@
 
     <main class="container">
 
-        <!-- Destacados del equipo -->
         <section class="destacados-section">
             <div class="tarjeta-destacado" id="card-goleador">
                 <h3>Máximo Goleador</h3>
@@ -271,12 +258,9 @@
             </div>
         </section>
 
-        <!-- Informes guardados -->
         <section class="seccion-informes-guardados">
             <h2>📁 Informes Guardados</h2>
-            <div class="grid-informes-guardados" id="grid-informes-guardados">
-                <!-- Se rellena dinámicamente -->
-            </div>
+            <div class="grid-informes-guardados" id="grid-informes-guardados"></div>
         </section>
 
     </main>
@@ -289,33 +273,32 @@
     <script>
         function logout() { localStorage.clear(); window.location.href = '/'; }
 
-        const API_BASE = '';
-
+        // ── Lee el id_equipo desde localStorage (guardado en login como 'idEquipo') ──
         function obtenerIdEquipo() {
-            const fromWindow = window.ID_EQUIPO ?? window.idEquipo ?? (window.usuario && window.usuario.id_equipo);
-            const fromDataset = document.body?.dataset?.idEquipo;
-            const id = fromWindow ?? fromDataset;
-            return id !== undefined && id !== null && String(id).trim() !== '' ? id : null;
+            const claves = ['idEquipo', 'id_equipo', 'usuarioIdEquipo', 'ID_EQUIPO'];
+            for (const clave of claves) {
+                const val = localStorage.getItem(clave);
+                if (val !== null && val !== '') {
+                    const num = Number(val);
+                    if (Number.isInteger(num) && num > 0) return num;
+                }
+            }
+            return null;
         }
 
         async function apiJson(url, options = {}) {
             const res = await fetch(url, {
-                headers: {
-                    'Accept': 'application/json',
-                    ...(options.headers || {})
-                },
+                headers: { 'Accept': 'application/json', ...(options.headers || {}) },
                 ...options
             });
-
             const contentType = res.headers.get('content-type') || '';
-            const isJson = contentType.includes('application/json');
-            const data = isJson ? await res.json().catch(() => null) : await res.text().catch(() => '');
-
+            const data = contentType.includes('application/json')
+                ? await res.json().catch(() => null)
+                : await res.text().catch(() => '');
             if (!res.ok) {
                 const msg = (data && (data.detail || data.message || data.error)) || `Error ${res.status}`;
                 throw new Error(msg);
             }
-
             return data;
         }
 
@@ -342,34 +325,31 @@
             return { totalMetricas, ganadas, pct };
         }
 
-        // ── Cargar y renderizar informes guardados ──
         async function cargarInformesGuardados() {
             const grid = document.getElementById('grid-informes-guardados');
             const idEquipo = obtenerIdEquipo();
 
             if (!idEquipo) {
                 grid.innerHTML = `
-                    <div class="informes-vacio" style="grid-column: 1/-1;">
+                    <div class="informes-vacio" style="grid-column:1/-1;">
                         <div class="vacio-icono">⚠️</div>
-                        <p>No se pudo identificar el equipo activo</p>
-                        <small>La página necesita <strong>id_equipo</strong> para consultar los informes</small>
-                    </div>
-                `;
+                        <p>Sesión no encontrada</p>
+                        <small>Vuelve a <a href="/" style="color:#ffd700">iniciar sesión</a></small>
+                    </div>`;
                 return;
             }
 
             try {
-                const payload = await apiJson(`${API_BASE}/listar_informes?id_equipo=${encodeURIComponent(idEquipo)}`);
+                const payload = await apiJson(`/listar_informes?id_equipo=${idEquipo}`);
                 const informes = normalizarInformes(payload);
 
                 if (informes.length === 0) {
                     grid.innerHTML = `
-                        <div class="informes-vacio" style="grid-column: 1/-1;">
+                        <div class="informes-vacio" style="grid-column:1/-1;">
                             <div class="vacio-icono">📊</div>
                             <p>No hay informes guardados todavía</p>
-                            <small>Compara jugadores y guarda el análisis desde la sección <strong style="color:#ffd700">Comparar Jugadores</strong></small>
-                        </div>
-                    `;
+                            <small>Compara jugadores y guarda el análisis desde <strong style="color:#ffd700">Comparar Jugadores</strong></small>
+                        </div>`;
                     return;
                 }
 
@@ -378,10 +358,9 @@
                 informes.forEach(inf => {
                     const { totalMetricas, ganadas, pct } = calcularResumenInforme(inf);
                     const fecha = formatearFecha(inf.fecha, { day: '2-digit', month: 'short', year: 'numeric' });
-
-                    const nombreCan = inf.canterano?.nombre || 'Canterano';
-                    const nombrePro = inf.profesional?.nombre || 'Profesional';
-                    const primerNombre = nombreCan.split(' ')[0] || nombreCan;
+                    const nombreCan = inf.canterano?.nombre || '—';
+                    const nombrePro = inf.profesional?.nombre || '—';
+                    const primerNombre = nombreCan.split(' ')[0];
 
                     const card = document.createElement('div');
                     card.className = 'tarjeta-informe';
@@ -412,80 +391,50 @@
                                 <span>${pct}%</span>
                             </div>
                             <div class="informe-barra">
-                                <div class="informe-barra-fill" style="width: ${pct}%"></div>
+                                <div class="informe-barra-fill" style="width:${pct}%"></div>
                             </div>
                         </div>
                         <div class="informe-acciones">
-                            <button class="btn-informe-accion btn-inf-pdf" data-id="${inf.id}">
-                                ⬇️ PDF
-                            </button>
-                            <button class="btn-informe-accion btn-inf-eliminar" data-id="${inf.id}">
-                                🗑️ Eliminar
-                            </button>
-                        </div>
-                    `;
+                            <button class="btn-informe-accion btn-inf-pdf">⬇️ PDF</button>
+                            <button class="btn-informe-accion btn-inf-eliminar">🗑️ Eliminar</button>
+                        </div>`;
 
-                    card.querySelector('.btn-inf-pdf')?.addEventListener('click', () => exportarInformePDF(inf.id));
-                    card.querySelector('.btn-inf-eliminar')?.addEventListener('click', () => eliminarInforme(inf.id));
+                    card.querySelector('.btn-inf-pdf').addEventListener('click', () => exportarInformePDF(inf));
+                    card.querySelector('.btn-inf-eliminar').addEventListener('click', () => eliminarInforme(inf.id));
 
                     grid.appendChild(card);
                 });
             } catch (err) {
                 console.error('Error cargando informes:', err);
                 grid.innerHTML = `
-                    <div class="informes-vacio" style="grid-column: 1/-1;">
+                    <div class="informes-vacio" style="grid-column:1/-1;">
                         <div class="vacio-icono">❌</div>
                         <p>No se pudieron cargar los informes</p>
                         <small>${err.message}</small>
-                    </div>
-                `;
+                    </div>`;
             }
         }
 
         async function eliminarInforme(id) {
             const idEquipo = obtenerIdEquipo();
-
-            if (!idEquipo) {
-                mostrarToast('⚠️ No se pudo identificar el equipo');
-                return;
-            }
-
+            if (!idEquipo) { mostrarToast('⚠️ No se pudo identificar el equipo'); return; }
             try {
-                await apiJson(`${API_BASE}/borrar_informe/${encodeURIComponent(id)}?id_equipo=${encodeURIComponent(idEquipo)}`, {
-                    method: 'DELETE'
-                });
-
+                await apiJson(`/borrar_informe/${encodeURIComponent(id)}?id_equipo=${idEquipo}`, { method: 'DELETE' });
                 await cargarInformesGuardados();
                 mostrarToast('🗑️ Informe eliminado');
             } catch (err) {
-                console.error('Error eliminando informe:', err);
                 mostrarToast(`❌ ${err.message}`);
             }
         }
 
-        async function exportarInformePDF(id) {
-            const idEquipo = obtenerIdEquipo();
-
-            if (!idEquipo) {
-                mostrarToast('⚠️ No se pudo identificar el equipo');
-                return;
-            }
-
+        // Recibe el objeto informe directamente (ya normalizado), sin volver a hacer fetch
+        function exportarInformePDF(inf) {
             try {
-                const payload = await apiJson(`${API_BASE}/listar_informes?id_equipo=${encodeURIComponent(idEquipo)}`);
-                const informes = normalizarInformes(payload);
-                const inf = informes.find(i => Number(i.id) === Number(id));
-
-                if (!inf) {
-                    mostrarToast('⚠️ Informe no encontrado');
-                    return;
-                }
-
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const W = 210, H = 297, M = 14, CW = W - M * 2;
                 const fecha = formatearFecha(inf.fecha, { day: '2-digit', month: 'long', year: 'numeric' });
-                const club = (inf.club || window.usuarioClub || 'Club').toUpperCase();
+                const club = (localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
                 const data = inf;
 
                 // Fondo
@@ -635,7 +584,7 @@
                 pdf.save(`MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}.pdf`);
             } catch (err) {
                 console.error('Error exportando PDF:', err);
-                mostrarToast(`❌ ${err.message}`);
+                mostrarToast(`❌ Error al generar PDF: ${err.message}`);
             }
         }
 
@@ -647,7 +596,6 @@
             setTimeout(() => { t.classList.remove('activo'); setTimeout(() => t.style.display = 'none', 400); }, 3000);
         }
 
-        // Inicializar
         window.onload = () => cargarInformesGuardados();
     </script>
 

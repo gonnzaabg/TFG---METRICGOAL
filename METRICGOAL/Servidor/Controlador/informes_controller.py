@@ -8,19 +8,23 @@ def guardar_informe_logic(id_equipo, informe):
             INSERT INTO informes (id_equipo, fecha, temporada, canterano, profesional, datos_json)
             VALUES (?, ?, ?, ?, ?, ?)
         """
+        # canterano y profesional son strings (nombres) para búsquedas rápidas en BD
+        # datos contiene el objeto completo {canterano:{nombre,valores}, profesional:{nombre,valores}, labels:[]}
+        canterano_nombre = informe['datos'].get('canterano', {}).get('nombre', informe.get('canterano', ''))
+        profesional_nombre = informe['datos'].get('profesional', {}).get('nombre', informe.get('profesional', ''))
+
         params = (
             id_equipo,
             informe['fecha'],
             informe['temporada'],
-            informe['canterano'],
-            informe['profesional'],
+            canterano_nombre,
+            profesional_nombre,
             json.dumps(informe['datos'])
         )
-        print(f"🔍 Intentando guardar informe: id_equipo={id_equipo}, canterano={informe['canterano']}")
+        print(f"🔍 Intentando guardar informe: id_equipo={id_equipo}, canterano={canterano_nombre}")
         resultado = ejecutar_consulta(query, params)
         print(f"🔍 Resultado del INSERT: {resultado}")
 
-        # Verificamos que realmente se guardó
         check = ejecutar_consulta("SELECT COUNT(*) as total FROM informes WHERE id_equipo = ?", (id_equipo,))
         print(f"🔍 Informes en BD tras insertar: {check}")
 
@@ -44,13 +48,16 @@ def listar_informes_logic(id_equipo):
         if df is not None and not df.empty:
             informes = []
             for _, row in df.iterrows():
+                datos = json.loads(row['datos_json'])
                 informes.append({
                     "id": row['id_informe'],
                     "fecha": row['fecha'],
                     "temporada": row['temporada'],
-                    "canterano": row['canterano'],
-                    "profesional": row['profesional'],
-                    "datos": json.loads(row['datos_json'])
+                    # El front accede a inf.canterano.nombre, inf.profesional.nombre, inf.labels
+                    # así que aplanamos datos directamente aquí:
+                    "canterano": datos.get("canterano"),    # {nombre, valores}
+                    "profesional": datos.get("profesional"), # {nombre, valores}
+                    "labels": datos.get("labels"),           # ["Goles", "Asistencias", ...]
                 })
             return informes
         return []
@@ -61,7 +68,6 @@ def listar_informes_logic(id_equipo):
 
 def borrar_informe_logic(id_informe, id_equipo):
     try:
-        # El id_equipo evita que un usuario borre informes de otro
         query = "DELETE FROM informes WHERE id_informe = ? AND id_equipo = ?"
         ejecutar_consulta(query, (id_informe, id_equipo))
         return {"status": "success"}

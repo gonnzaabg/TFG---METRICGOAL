@@ -17,7 +17,6 @@
         .ts-dropdown { background-color: #1e293b !important; color: white !important; }
         .ts-dropdown .active { background-color: #800020 !important; color: white !important; }
 
-        /* ── Barra de exportar ── */
         #barra-exportar {
             display: none;
             width: 100%; max-width: 900px;
@@ -74,7 +73,6 @@
 
         .btn-accion:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
 
-        /* Toast */
         #toast-informe {
             position: fixed; bottom: 30px; right: 30px;
             background: linear-gradient(135deg, #1a7a3a, #27ae60);
@@ -128,7 +126,6 @@
 
         <section class="metricas-grid" id="seccion-metricas" style="display:none; flex-direction:column; align-items:center; gap:30px;">
 
-            <!-- BARRA DE EXPORTAR -->
             <div id="barra-exportar">
                 <div class="barra-info">
                     <span class="barra-titulo">📊 Análisis completado</span>
@@ -184,15 +181,17 @@
         let temporadaSeleccionada = null;
         let datosComparacion = null;
 
+        // ── Lee el id_equipo desde localStorage (guardado en login como 'idEquipo') ──
         function obtenerIdEquipo() {
-            const raw = window.ID_EQUIPO
-                ?? window.usuario?.id_equipo
-                ?? localStorage.getItem('idEquipo')
-                ?? localStorage.getItem('id_equipo')
-                ?? localStorage.getItem('usuarioIdEquipo');
-
-            const id = Number(raw);
-            return Number.isInteger(id) && id > 0 ? id : null;
+            const claves = ['idEquipo', 'id_equipo', 'usuarioIdEquipo', 'ID_EQUIPO'];
+            for (const clave of claves) {
+                const val = localStorage.getItem(clave);
+                if (val !== null && val !== '') {
+                    const num = Number(val);
+                    if (Number.isInteger(num) && num > 0) return num;
+                }
+            }
+            return null;
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -200,7 +199,11 @@
                 create: false,
                 sortField: { field: "text", direction: "asc" },
                 onChange: async function(value) {
-                    if (!value) { document.getElementById('selector-temporada-wrapper').style.display = 'none'; temporadaSeleccionada = null; return; }
+                    if (!value) {
+                        document.getElementById('selector-temporada-wrapper').style.display = 'none';
+                        temporadaSeleccionada = null;
+                        return;
+                    }
                     await cargarTemporadasCanterano(value);
                 }
             });
@@ -210,10 +213,9 @@
         async function cargarJugadoresSelect() {
             const idEquipo = obtenerIdEquipo();
             if (!idEquipo) {
-                console.warn('No se pudo obtener id_equipo');
+                console.warn('No se pudo obtener id_equipo desde localStorage');
                 return;
             }
-
             try {
                 const response = await fetch(`/obtener_jugadores?id_equipo=${idEquipo}`);
                 const jugadores = await response.json();
@@ -245,7 +247,11 @@
                 const btn = document.createElement('button');
                 btn.className = 'tab-temporada' + (temp === temporadaSeleccionada ? ' tab-activa' : '');
                 btn.textContent = temp;
-                btn.onclick = () => { temporadaSeleccionada = temp; document.querySelectorAll('.tab-temporada').forEach(b => b.classList.remove('tab-activa')); btn.classList.add('tab-activa'); };
+                btn.onclick = () => {
+                    temporadaSeleccionada = temp;
+                    document.querySelectorAll('.tab-temporada').forEach(b => b.classList.remove('tab-activa'));
+                    btn.classList.add('tab-activa');
+                };
                 tabsContainer.appendChild(btn);
             });
             wrapper.style.display = 'block';
@@ -320,25 +326,20 @@
                 const W = 210, H = 297, M = 14, CW = W - M * 2;
                 const data = datosComparacion;
                 const fecha = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
-                const club = (window.usuarioClub || localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
+                const club = (localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
 
                 // ─── PÁGINA 1 ───────────────────────────────
-                // Fondo oscuro
                 pdf.setFillColor(8, 12, 30);
                 pdf.rect(0, 0, W, H, 'F');
 
-                // Cabecera granate
                 pdf.setFillColor(100, 0, 25);
                 pdf.rect(0, 0, W, 42, 'F');
-                // Degradado simulado (capas semitransparentes)
                 pdf.setFillColor(128, 0, 32);
                 pdf.rect(0, 0, W * 0.5, 42, 'F');
 
-                // Línea dorada bajo cabecera
                 pdf.setFillColor(255, 215, 0);
                 pdf.rect(0, 42, W, 1.5, 'F');
 
-                // Logo MG (círculo)
                 pdf.setFillColor(165, 0, 68);
                 pdf.circle(M + 11, 21, 9, 'F');
                 pdf.setDrawColor(255, 215, 0);
@@ -349,7 +350,6 @@
                 pdf.setFont('helvetica', 'bold');
                 pdf.text('MG', M + 11, 24, { align: 'center' });
 
-                // Nombre app
                 pdf.setTextColor(255, 255, 255);
                 pdf.setFontSize(18);
                 pdf.setFont('helvetica', 'bold');
@@ -359,7 +359,6 @@
                 pdf.setFont('helvetica', 'normal');
                 pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
 
-                // Info derecha
                 pdf.setTextColor(200, 200, 220);
                 pdf.setFontSize(7.5);
                 pdf.text(fecha, W - M, 16, { align: 'right' });
@@ -372,7 +371,6 @@
                 pdf.setFont('helvetica', 'normal');
                 pdf.text(`Temporada ${temporadaSeleccionada}`, W - M, 34, { align: 'right' });
 
-                // ─ Título comparación
                 let y = 58;
                 pdf.setTextColor(255, 215, 0);
                 pdf.setFontSize(7.5);
@@ -380,21 +378,16 @@
                 pdf.text('▸ INFORME COMPARATIVO', M, y);
 
                 y += 9;
-                // Nombre canterano (azul)
                 pdf.setTextColor(100, 160, 255);
                 pdf.setFontSize(18);
                 pdf.setFont('helvetica', 'bold');
                 const w1 = pdf.getTextWidth(data.canterano.nombre);
                 pdf.text(data.canterano.nombre, M, y);
-
-                // "vs"
                 pdf.setTextColor(120, 120, 150);
                 pdf.setFontSize(11);
                 pdf.setFont('helvetica', 'normal');
                 pdf.text(' vs ', M + w1 + 1, y);
                 const wVs = pdf.getTextWidth(' vs ');
-
-                // Nombre profesional (granate)
                 pdf.setTextColor(220, 80, 110);
                 pdf.setFontSize(18);
                 pdf.setFont('helvetica', 'bold');
@@ -405,7 +398,6 @@
                 pdf.setLineWidth(0.5);
                 pdf.line(M, y, W - M, y);
 
-                // ─ Tarjetas resumen (3 cards)
                 y += 10;
                 const cW = (CW - 10) / 3;
 
@@ -426,11 +418,10 @@
                 };
 
                 const ganadasCan = data.labels.filter((_, i) => data.canterano.valores[i] > data.profesional.valores[i]).length;
-                drawCard(M,             y, 'TEMPORADA',          temporadaSeleccionada || '—',           [255, 215, 0]);
-                drawCard(M + cW + 5,    y, 'MÉTRICAS ANALIZADAS', `${data.labels.length}`,               [200, 220, 255]);
-                drawCard(M + (cW+5)*2,  y, 'GANADAS (CANTERANO)', `${ganadasCan} / ${data.labels.length}`, [100, 200, 120]);
+                drawCard(M,            y, 'TEMPORADA',           temporadaSeleccionada || '—',            [255, 215, 0]);
+                drawCard(M + cW + 5,   y, 'MÉTRICAS ANALIZADAS', `${data.labels.length}`,                [200, 220, 255]);
+                drawCard(M+(cW+5)*2,   y, 'GANADAS (CANTERANO)', `${ganadasCan} / ${data.labels.length}`, [100, 200, 120]);
 
-                // ─ Tabla comparativa
                 y += 34;
                 pdf.setTextColor(255, 215, 0);
                 pdf.setFontSize(8);
@@ -438,7 +429,6 @@
                 pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
                 y += 6;
 
-                // Cabecera tabla
                 const colW = [52, 34, 28, 34, 34];
                 const nomCan = data.canterano.nombre.substring(0, 16).toUpperCase();
                 const nomPro = data.profesional.nombre.substring(0, 16).toUpperCase();
@@ -463,30 +453,24 @@
 
                     cx = M + 3;
                     pdf.setFont('helvetica', 'normal');
-
-                    // Métrica
                     pdf.setTextColor(180, 190, 210);
                     pdf.setFontSize(7);
                     pdf.text(label, cx, y + 5.5); cx += colW[0];
 
-                    // Canterano
                     pdf.setTextColor(diff > 0 ? 100 : 180, diff > 0 ? 170 : 200, diff > 0 ? 255 : 220);
                     if (diff > 0) pdf.setFont('helvetica', 'bold');
                     pdf.text(`${vC}`, cx, y + 5.5); cx += colW[1];
 
-                    // Diferencia
                     pdf.setFont('helvetica', 'bold');
                     if (diff === 0) { pdf.setTextColor(120, 130, 160); pdf.text('=', cx, y + 5.5); }
                     else if (diff > 0) { pdf.setTextColor(80, 150, 255); pdf.text(`+${diffAbs}`, cx, y + 5.5); }
                     else { pdf.setTextColor(210, 70, 90); pdf.text(`-${diffAbs}`, cx, y + 5.5); }
                     cx += colW[2];
 
-                    // Profesional
                     pdf.setFont(diff < 0 ? 'bold' : 'normal', 'normal');
                     pdf.setTextColor(diff < 0 ? 220 : 180, diff < 0 ? 80 : 200, diff < 0 ? 100 : 220);
                     pdf.text(`${vP}`, cx, y + 5.5); cx += colW[3];
 
-                    // Ventaja
                     pdf.setFont('helvetica', 'bold');
                     if (diff > 0) { pdf.setTextColor(80, 150, 255); pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5); }
                     else if (diff < 0) { pdf.setTextColor(210, 70, 90); pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5); }
@@ -517,7 +501,6 @@
                 pdf.setFillColor(8, 12, 30);
                 pdf.rect(0, 0, W, H, 'F');
 
-                // Mini cabecera
                 pdf.setFillColor(100, 0, 25);
                 pdf.rect(0, 0, W, 20, 'F');
                 pdf.setFillColor(255, 215, 0);
@@ -546,7 +529,6 @@
 
                 y = 30;
 
-                // Radar
                 pdf.setTextColor(255, 215, 0);
                 pdf.setFontSize(8);
                 pdf.setFont('helvetica', 'bold');
@@ -560,7 +542,6 @@
                 pdf.addImage(radarImg, 'PNG', M, y, CW, rH);
                 y += rH + 12;
 
-                // Barras
                 pdf.setTextColor(255, 215, 0);
                 pdf.setFontSize(8);
                 pdf.text('▸ COMPARATIVA POR MÉTRICA', M, y);
@@ -573,7 +554,6 @@
                 pdf.addImage(barrasImg, 'PNG', M, y, CW, bH);
                 y += bH + 12;
 
-                // Bloque conclusión
                 if (y < H - 55) {
                     const perdidas = data.labels.filter((_, i) => data.canterano.valores[i] < data.profesional.valores[i]).length;
                     const pct = Math.round((ganadasCan / data.labels.length) * 100);
@@ -583,7 +563,6 @@
                     pdf.setDrawColor(255, 215, 0);
                     pdf.setLineWidth(0.35);
                     pdf.roundedRect(M, y, CW, 38, 4, 4, 'S');
-                    // Acento lateral izquierdo
                     pdf.setFillColor(255, 215, 0);
                     pdf.roundedRect(M, y, 3, 38, 2, 2, 'F');
 
@@ -611,7 +590,6 @@
                 pdf.setFont('helvetica', 'normal');
                 pdf.text(`METRICGOAL · Sistema de Análisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
 
-                // Guardar archivo
                 const fname = `MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}_${(temporadaSeleccionada||'').replace('/','_')}.pdf`;
                 pdf.save(fname);
 
