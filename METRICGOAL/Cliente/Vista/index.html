@@ -42,43 +42,6 @@
         </form>
     </div>
 
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const errorDisplay = document.getElementById('errorMessage');
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            errorDisplay.style.display = 'none';
-            errorDisplay.textContent = '';
-
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('usuarioNombre', result.nombre);
-                    localStorage.setItem('usuarioClub', result.club);
-                    localStorage.setItem('usuarioEquipo', result.equipo);
-                    localStorage.setItem('idEquipo', result.id_equipo);
-                    window.location.href = '/dashboard';
-                } else {
-                    errorDisplay.textContent = result.detail || "Credenciales incorrectas";
-                    errorDisplay.style.display = 'block';
-                }
-            } catch (error) {
-                errorDisplay.textContent = "🔌 Error: El servidor no responde.";
-                errorDisplay.style.display = 'block';
-            }
-        });
-    </script>
+    <script type="module" src="/static/js/index.js"></script>
 </body>
 </html>

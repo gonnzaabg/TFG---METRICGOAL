@@ -36,7 +36,8 @@ VISTA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "Cliente", "Vista"))
 print(f"DEBUG: Buscando HTML en: {VISTA_DIR}")
 
 # 4. CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS
-app.mount("/static", StaticFiles(directory=VISTA_DIR), name="static")
+STATIC_DIR = os.path.join(VISTA_DIR, "static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # --- MODELOS DE DATOS (Pydantic) ---
 
