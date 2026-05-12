@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Electron binaries
+*.exe
+*.dmg
+*.AppImage
+*.deb
+*.rpm
