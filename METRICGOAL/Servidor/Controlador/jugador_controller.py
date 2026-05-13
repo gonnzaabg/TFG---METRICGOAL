@@ -22,7 +22,9 @@ def listar_jugadores_logic(id_equipo):
     df = ejecutar_consulta(query, (id_equipo,))
     
     if df is not None and not df.empty:
-        return df.to_dict(orient='records')
+        resultado = df.to_dict(orient='records')
+        print(f"DEBUG jugadores: {resultado}")  # ← añade esto
+        return resultado
     return []
 
 def obtener_stats_jugador_temporada(id_jugador, temporada):

@@ -32,10 +32,9 @@ class Canterano(Jugador):
 
     @staticmethod
     def guardar_en_db(id_equipo, nombre, apellidos, edad, posicion):
-        # IMPORTANTE: Solo 5 columnas, el id_jugador se llena solo por el DEFAULT de arriba
         sql = """
-            INSERT INTO jugadores (id_equipo, nombre, apellidos, edad, posicion) 
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO jugadores (id_jugador, id_equipo, nombre, apellidos, edad, posicion) 
+            VALUES (nextval('seq_jugadores_id'), ?, ?, ?, ?, ?)
         """
         params = (id_equipo, nombre, apellidos, edad, posicion)
         return ejecutar_consulta(sql, params)
