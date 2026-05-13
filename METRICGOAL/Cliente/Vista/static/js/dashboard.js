@@ -67,10 +67,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (estado.jugadores.length === 0) {
             track.innerHTML = `
                 <div style="
-                    width: 100%; min-height: 110px;
-                    display: flex; flex-direction: column;
-                    align-items: center; justify-content: center;
+                    width: 100%;
+                    min-height: 110px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
                     gap: 8px;
+                    text-align: center;
+                    flex: 1;
                 ">
                     <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; 
                         letter-spacing: 1.2px; color: rgba(255,255,255,0.2);">
@@ -83,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         text-shadow: 0 0 8px rgba(255,215,0,0.6), 0 0 16px rgba(255,215,0,0.3);
                         animation: pulseGold 2s ease-in-out infinite;
                     " onclick="abrirModal()">
-                        + Añadir jugador
+                        Añadir jugador
                     </div>
                 </div>`;
             dotsContainer.innerHTML = '';

@@ -335,8 +335,13 @@ color: #ffd700; letter-spacing: 0.16em; text-transform: uppercase;
 }
 
 body.dashboard-page .seccion h3::after {
-content: ''; width: 46px; height: 1px;
-background: linear-gradient(90deg, rgba(255,215,0,0.9), transparent);
+    content: ''; width: 46px; height: 1px;
+    background: linear-gradient(90deg, rgba(255,215,0,0.9), transparent);
+}
+
+body.dashboard-page .seccion h3::before {
+    content: ''; width: 46px; height: 1px;
+    background: linear-gradient(270deg, rgba(255,215,0,0.9), transparent);
 }
 
 /* Carrusel */
