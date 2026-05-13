@@ -18,12 +18,12 @@ def gestionar_registro_canterano(datos_validados, id_equipo):
         return {"status": "error", "message": str(e)}
 
 def listar_jugadores_logic(id_equipo):
-    query = "SELECT id_jugador, nombre, apellidos, posicion FROM jugadores WHERE id_equipo = ?"
+    query = "SELECT id_jugador, nombre, apellidos, edad, posicion FROM jugadores WHERE id_equipo = ?"
     df = ejecutar_consulta(query, (id_equipo,))
     
     if df is not None and not df.empty:
         resultado = df.to_dict(orient='records')
-        print(f"DEBUG jugadores: {resultado}")  # ← añade esto
+        print(f"DEBUG jugadores: {resultado}")
         return resultado
     return []
 
@@ -135,5 +135,47 @@ def obtener_datos_comparativa(id_canterano, nombre_profesional, temporada="2025/
     except Exception as e:
         print(f"Error en comparativa totales: {e}")
         return {"error": str(e)}
+
+def obtener_stats_destacados(id_equipo):
+    goleador = ejecutar_consulta("""
+        SELECT j.nombre, j.apellidos, MAX(e.goles) as goles
+        FROM jugadores j
+        JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
+        WHERE j.id_equipo = ?
+        GROUP BY j.nombre, j.apellidos
+        ORDER BY goles DESC
+        LIMIT 1
+    """, (id_equipo,))
+    
+    asistente = ejecutar_consulta("""
+        SELECT j.nombre, j.apellidos, MAX(e.asistencias) as asistencias
+        FROM jugadores j
+        JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
+        WHERE j.id_equipo = ?
+        GROUP BY j.nombre, j.apellidos
+        ORDER BY asistencias DESC
+        LIMIT 1
+    """, (id_equipo,))
+    
+    return {
+        "goleador": goleador.to_dict(orient='records')[0] if goleador is not None and not goleador.empty else None,
+        "asistente": asistente.to_dict(orient='records')[0] if asistente is not None and not asistente.empty else None
+    }
+
+def obtener_stats_equipo(id_equipo):
+    result = ejecutar_consulta("""
+        SELECT 
+            COUNT(DISTINCT j.id_jugador) as total_jugadores,
+            COALESCE(SUM(e.goles), 0) as total_goles,
+            COALESCE(SUM(e.asistencias), 0) as total_asistencias,
+            COALESCE(SUM(e.partidos_jugados), 0) as total_partidos,
+            COALESCE(SUM(e.pases_clave), 0) as total_pases_clave
+        FROM jugadores j
+        LEFT JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
+        WHERE j.id_equipo = ?
+    """, (id_equipo,))
+    if result is not None and not result.empty:
+        return result.to_dict(orient='records')[0]
+    return {"total_jugadores": 0, "total_goles": 0, "total_asistencias": 0, "total_partidos": 0, "total_pases_clave": 0}
 
     

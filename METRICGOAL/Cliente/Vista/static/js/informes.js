@@ -761,11 +761,22 @@ function dibujarRadarModal(labels, valCan, valPro, nombreCan, nombrePro) {
         document.head.appendChild(s);
     }
 }
+
+async function cargarStatsEquipo() {
+    const idEquipo = obtenerIdEquipo();
+    if (!idEquipo) return;
+    try {
+        const data = await apiJson(`/stats_equipo?id_equipo=${idEquipo}`);
+        document.getElementById('stat-jugadores').querySelector('.stat-global-valor').textContent = data.total_jugadores ?? '—';
+        document.getElementById('stat-partidos').querySelector('.stat-global-valor').textContent = data.total_partidos ?? '—';
+        document.getElementById('stat-goles').querySelector('.stat-global-valor').textContent = data.total_goles ?? '—';
+        document.getElementById('stat-asistencias').querySelector('.stat-global-valor').textContent = data.total_asistencias ?? '—';
+        document.getElementById('stat-pases').querySelector('.stat-global-valor').textContent = data.total_pases_clave ?? '—';
+    } catch (err) {
+        console.error('Error cargando stats globales:', err);
+    }
+}
  
-/* ══════════════════════════════════════════
-   REEMPLAZA cargarInformesGuardados()
-   (solo cambia el forEach para usar crearTarjetaInforme)
-   ══════════════════════════════════════════ */
 async function cargarInformesGuardados() {
     const grid = document.getElementById('grid-informes-guardados');
     const idEquipo = obtenerIdEquipo();
@@ -807,4 +818,44 @@ async function cargarInformesGuardados() {
             </div>`;
     }
 }
+
+async function cargarDestacados() {
+    const idEquipo = obtenerIdEquipo();
+    if (!idEquipo) return;
+
+    try {
+        const data = await apiJson(`/stats_destacados?id_equipo=${idEquipo}`);
+
+        const cardGoleador = document.getElementById('card-goleador');
+        if (data.goleador) {
+            cardGoleador.querySelector('.nombre-jugador').textContent = 
+                `${data.goleador.nombre} ${data.goleador.apellidos}`;
+            cardGoleador.querySelector('.dato-estadistico').textContent = 
+                `${data.goleador.goles} goles`;
+        } else {
+            cardGoleador.querySelector('.nombre-jugador').textContent = 'Sin datos';
+            cardGoleador.querySelector('.dato-estadistico').textContent = '—';
+        }
+
+        const cardAsistente = document.getElementById('card-asistente');
+        if (data.asistente) {
+            cardAsistente.querySelector('.nombre-jugador').textContent = 
+                `${data.asistente.nombre} ${data.asistente.apellidos}`;
+            cardAsistente.querySelector('.dato-estadistico').textContent = 
+                `${data.asistente.asistencias} asistencias`;
+        } else {
+            cardAsistente.querySelector('.nombre-jugador').textContent = 'Sin datos';
+            cardAsistente.querySelector('.dato-estadistico').textContent = '—';
+        }
+
+    } catch (err) {
+        console.error('Error cargando destacados:', err);
+    }
+}
+
+window.onload = () => {
+    cargarInformesGuardados();
+    cargarDestacados();
+    cargarStatsEquipo();
+};
 });

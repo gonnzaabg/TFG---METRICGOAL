@@ -16,6 +16,7 @@ from Controlador.jugador_controller import eliminar_jugador_logic
 from Controlador.jugador_controller import obtener_profesionales_busqueda
 from Controlador.jugador_controller import obtener_datos_comparativa
 from Controlador.informes_controller import guardar_informe_logic, listar_informes_logic, borrar_informe_logic
+from Controlador.jugador_controller import obtener_stats_destacados
 
 app = FastAPI()
 
@@ -93,6 +94,15 @@ async def read_comparar():
     path = os.path.join(VISTA_DIR, "comparar_jugadores.html")
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
+
+@app.get("/stats_destacados")
+async def stats_destacados(id_equipo: int):
+    return obtener_stats_destacados(id_equipo)
+
+@app.get("/stats_equipo")
+async def stats_equipo(id_equipo: int):
+    from Controlador.jugador_controller import obtener_stats_equipo
+    return obtener_stats_equipo(id_equipo)
 
 # --- ENDPOINTS API ---
 

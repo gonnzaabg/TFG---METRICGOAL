@@ -145,7 +145,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!temporadaSeleccionada) {
-            alert("Este canterano no tiene estadísticas registradas.");
+            const t = document.getElementById('toast-sin-stats');
+            t.textContent = '⚠️ Aún no has introducido estadísticas para este jugador. Ve a Mi Equipo y selecciona al jugador para introducirlas.';
+            t.style.display = 'block';
+            setTimeout(() => t.classList.add('activo'), 17);
+            setTimeout(() => {
+                t.classList.remove('activo');
+                setTimeout(() => t.style.display = 'none', 700);
+            }, 4000);
             return;
         }
 
@@ -156,7 +163,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             const data = await response.json();
 
             if (data.error) {
-                alert("Error: " + data.error);
+                const t = document.getElementById('toast-sin-stats');
+                t.textContent = '⚠️ Aún no has introducido estadísticas para este jugador. Ve a Mi Equipo y selecciona al jugador para introducirlas.';
+                t.style.display = 'block';
+                setTimeout(() => t.classList.add('activo'), 17);
+                setTimeout(() => {
+                    t.classList.remove('activo');
+                    setTimeout(() => t.style.display = 'none', 700);
+                }, 4000);
                 return;
             }
 

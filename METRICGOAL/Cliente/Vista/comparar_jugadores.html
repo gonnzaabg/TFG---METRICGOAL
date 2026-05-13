@@ -27,6 +27,28 @@
 
     <main class="container">
 
+        <div class="comparar-hero">
+            <div class="comparar-hero-badge">Análisis comparativo</div>
+            <h1 class="comparar-hero-titulo">Compara tu canterano<br>con cualquier profesional</h1>
+            <p class="comparar-hero-sub">Selecciona un jugador de tu equipo y búscale un referente profesional. Obtén un análisis completo con radar, métricas y conclusiones exportables.</p>
+            <div class="comparar-pasos">
+                <div class="comparar-paso">
+                    <div class="paso-num">01</div>
+                    <div class="paso-texto">Selecciona tu canterano</div>
+                </div>
+                <div class="comparar-paso-sep">→</div>
+                <div class="comparar-paso">
+                    <div class="paso-num">02</div>
+                    <div class="paso-texto">Busca un profesional</div>
+                </div>
+                <div class="comparar-paso-sep">→</div>
+                <div class="comparar-paso">
+                    <div class="paso-num">03</div>
+                    <div class="paso-texto">Analiza y exporta</div>
+                </div>
+            </div>
+        </div>
+
         <section class="controles-comparacion">
             <div class="control-grupo">
                 <label for="select-canterano">Selecciona al canterano</label>
@@ -45,7 +67,11 @@
             <div class="temporada-tabs" id="temporada-tabs"></div>
         </div>
 
-        <button class="btn-exportar" onclick="realizarComparacion()">Comparar Jugadores</button>
+        <div style="text-align: center; margin-bottom: 36px;">
+            <button class="btn-exportar" style="width: auto; padding: 16px 48px; border-radius: 999px;" onclick="realizarComparacion()">
+                Comparar Jugadores
+            </button>
+        </div>
 
         <section class="metricas-grid" id="seccion-metricas" style="display:none; flex-direction:column; align-items:center; gap:30px;">
 
@@ -104,5 +130,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="/static/js/comparar_jugadores.js" defer></script>
+
+
+    <div id="toast-sin-stats"></div>
 </body>
 </html>
