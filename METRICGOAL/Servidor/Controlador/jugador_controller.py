@@ -18,17 +18,6 @@ def gestionar_registro_canterano(datos_validados, id_equipo):
         return {"status": "error", "message": str(e)}
 
 def listar_jugadores_logic(id_equipo):
-    ejecutar_consulta("""
-        CREATE TABLE IF NOT EXISTS jugadores (
-            id_jugador INTEGER DEFAULT nextval('seq_jugadores_id') PRIMARY KEY,
-            id_equipo INTEGER,
-            nombre VARCHAR,
-            apellidos VARCHAR,
-            edad INTEGER,
-            posicion VARCHAR
-        )
-    """)
-    
     query = "SELECT id_jugador, nombre, apellidos, posicion FROM jugadores WHERE id_equipo = ?"
     df = ejecutar_consulta(query, (id_equipo,))
     
