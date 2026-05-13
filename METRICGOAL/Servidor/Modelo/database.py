@@ -8,7 +8,7 @@ def obtener_conexion():
     if token:
         print("🚀 CONECTADO A MOTHERDUCK")
         try:
-            con = duckdb.connect(f"md:metricgoal?motherduck_token={token}")
+            con = duckdb.connect(f"md:metricgoal_md?motherduck_token={token}")
             con.execute("CREATE DATABASE IF NOT EXISTS metricgoal")
             con.execute("USE metricgoal")
             return con
