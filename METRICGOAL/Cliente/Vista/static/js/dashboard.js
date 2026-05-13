@@ -141,6 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
         async function consultarStats() {
             const idJugador = document.getElementById('idJugadorStats').value;
             const temp = document.getElementById('temporada').value;
+
+            if (!idJugador || !temp) {
+                console.warn("Faltan parámetros:", { idJugador, temp });
+                return; // ← no hace la petición si faltan datos
+            }
+
             try {
                 const response = await fetch(`/obtener_stats?id_jugador=${idJugador}&temporada=${temp}`);
                 if (response.ok) {
@@ -219,8 +225,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch(`/registrar_estadisticas?id_jugador=${idJugador}`, {
                     method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(stats)
                 });
-                if (response.ok) { cerrarModalStats(); mostrarNotificacion("✅ Estadísticas actualizadas"); }
-                else { mostrarNotificacion("❌ Error al actualizar"); }
+                if (response.ok) { 
+                    cerrarModalStats(); 
+                    mostrarNotificacion("✅ Estadísticas actualizadas"); 
+                } else { 
+                    const errorData = await response.json();
+                    console.error("❌ Error del servidor:", errorData); // ← te dirá exactamente qué falla
+                    mostrarNotificacion("❌ Error al actualizar: " + (errorData.detail || "Error desconocido")); 
+                }
             } catch (err) { alert("❌ Error de conexión: " + err); }
             finally { btn.textContent = orig; btn.disabled = false; }
         };
