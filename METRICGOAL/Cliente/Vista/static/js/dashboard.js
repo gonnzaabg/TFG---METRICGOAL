@@ -135,7 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function cerrarModalStats() {
             document.getElementById('modalEstadisticas').style.display = 'none';
-            document.getElementById('formEstadisticas').reset();
+            // En lugar de reset() del form entero, limpia solo los campos que quieres
+            ['goles','asist','amarillas','rojas','pj','min','pases'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+            document.getElementById('idJugadorStats').value = '';
         }
 
         async function consultarStats() {
