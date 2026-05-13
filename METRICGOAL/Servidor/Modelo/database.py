@@ -9,8 +9,6 @@ def obtener_conexion():
         print("🚀 CONECTADO A MOTHERDUCK")
         try:
             con = duckdb.connect(f"md:metricgoal_md?motherduck_token={token}")
-            con.execute("CREATE DATABASE IF NOT EXISTS metricgoal")
-            con.execute("USE metricgoal")
             return con
         except Exception as e:
             print(f"❌ Error en MotherDuck: {e}")
