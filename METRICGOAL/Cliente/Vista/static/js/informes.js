@@ -858,4 +858,7 @@ window.onload = () => {
     cargarDestacados();
     cargarStatsEquipo();
 };
+
+window.logout = logout;
+
 });
