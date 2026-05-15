@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pdf.setTextColor(255, 215, 0);
             pdf.setFontSize(7);
             pdf.setFont('helvetica', 'normal');
-            pdf.text('PLATAFORMA DE ANÁLISIS DE CANTERA PROFESIONAL', M + 25, 25);
+            pdf.text('PLATAFORMA DE ANALISIS DE CANTERA PROFESIONAL', M + 25, 25);
 
             pdf.setTextColor(200, 200, 220);
             pdf.setFontSize(7.5);
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pdf.setTextColor(255, 215, 0);
             pdf.setFontSize(7.5);
             pdf.setFont('helvetica', 'bold');
-            pdf.text('▸ INFORME COMPARATIVO', M, y);
+            pdf.text('> INFORME COMPARATIVO', M, y);
 
             y += 9;
             pdf.setTextColor(100, 160, 255);
@@ -434,13 +434,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             pdf.setTextColor(255, 215, 0);
             pdf.setFontSize(8);
             pdf.setFont('helvetica', 'bold');
-            pdf.text('▸ TABLA COMPARATIVA DE MÉTRICAS', M, y);
+            pdf.text('> TABLA COMPARATIVA DE MÉTRICAS', M, y);
             y += 6;
 
             const colW = [52, 34, 28, 34, 34];
             const nomCan = data.canterano.nombre.substring(0, 16).toUpperCase();
             const nomPro = data.profesional.nombre.substring(0, 16).toUpperCase();
-            const cols = ['MÉTRICA', nomCan, 'DIFER.', nomPro, 'VENTAJA'];
+            const cols = ['METRICA', nomCan, 'DIFER.', nomPro, 'VENTAJA'];
 
             pdf.setFillColor(128, 0, 32);
             pdf.roundedRect(M, y, CW, 9, 2, 2, 'F');
@@ -498,10 +498,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 pdf.setFont('helvetica', 'bold');
                 if (diff > 0) {
                     pdf.setTextColor(80, 150, 255);
-                    pdf.text('◆ ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5);
+                    pdf.text('>> ' + data.canterano.nombre.split(' ')[0], cx, y + 5.5);
                 } else if (diff < 0) {
                     pdf.setTextColor(210, 70, 90);
-                    pdf.text('◆ ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5);
+                    pdf.text('>> ' + data.profesional.nombre.split(' ')[0], cx, y + 5.5);
                 } else {
                     pdf.setTextColor(120, 130, 160);
                     pdf.text('Empate', cx, y + 5.5);
@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pdf.setTextColor(255, 215, 0);
             pdf.setFontSize(8);
             pdf.setFont('helvetica', 'bold');
-            pdf.text('▸ ANÁLISIS RADAR MULTIDIMENSIONAL', M, y2);
+            pdf.text('> ANALISIS RADAR MULTIDIMENSIONAL', M, y2);
             y2 += 4;
 
             const radarEl = document.getElementById('grafico-radar');
@@ -571,7 +571,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             pdf.setTextColor(255, 215, 0);
             pdf.setFontSize(8);
-            pdf.text('▸ COMPARATIVA POR MÉTRICA', M, y2);
+            pdf.text('> COMPARATIVA POR MÉTRICA', M, y2);
             y2 += 4;
 
             const barrasEl = document.getElementById('grafico-barras');
@@ -596,12 +596,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 pdf.setTextColor(255, 215, 0);
                 pdf.setFontSize(8);
                 pdf.setFont('helvetica', 'bold');
-                pdf.text('CONCLUSIÓN DEL ANÁLISIS', M + 8, y2 + 10);
+                pdf.text('CONCLUSION DEL ANÁLISIS', M + 8, y2 + 10);
 
                 pdf.setTextColor(180, 190, 215);
                 pdf.setFontSize(7);
                 pdf.setFont('helvetica', 'normal');
-                const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadasCan} de ${data.labels.length} métricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
+                const txt = `${data.canterano.nombre} supera a ${data.profesional.nombre} en ${ganadasCan} de ${data.labels.length} metricas (${pct}%). El profesional de referencia aventaja en ${perdidas} categorías. Este informe ha sido generado automáticamente por METRICGOAL para el seguimiento y desarrollo de la cantera del ${club}.`;
                 const lines = pdf.splitTextToSize(txt, CW - 16);
                 pdf.text(lines, M + 8, y2 + 19);
             }
