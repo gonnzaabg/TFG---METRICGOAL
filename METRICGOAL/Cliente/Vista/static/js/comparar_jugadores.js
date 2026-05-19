@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             y2 += 4;
 
             const radarEl = document.getElementById('grafico-radar');
-            const radarCanvas = await html2canvas(radarEl, { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+            const radarCanvas = await html2canvas(radarEl, { backgroundColor: '#0f172a', scale: window.devicePixelRatio > 1 ? 1 : 2, useCORS: true, logging: false });
             const radarImg = radarCanvas.toDataURL('image/png');
             const rH = Math.min((radarCanvas.height / radarCanvas.width) * CW, 105);
             pdf.addImage(radarImg, 'PNG', M, y2, CW, rH);
@@ -575,7 +575,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             y2 += 4;
 
             const barrasEl = document.getElementById('grafico-barras');
-            const barrasCanvas = await html2canvas(barrasEl, { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+            const barrasCanvas = await html2canvas(barrasEl, { backgroundColor: '#0f172a', scale: window.devicePixelRatio > 1 ? 1 : 2, useCORS: true, logging: false });
             const barrasImg = barrasCanvas.toDataURL('image/png');
             const bH = Math.min((barrasCanvas.height / barrasCanvas.width) * CW, 95);
             pdf.addImage(barrasImg, 'PNG', M, y2, CW, bH);

@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 pdf.text('> ANALISIS RADAR MULTIDIMENSIONAL', M, y);
                 y += 4;
 
-                const radarCanvas = await html2canvas(document.getElementById('_pdf-radar'), { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+                const radarCanvas = await html2canvas(document.getElementById('_pdf-radar'), { backgroundColor: '#0f172a', scale: window.devicePixelRatio > 1 ? 1 : 2, useCORS: true, logging: false });
                 const radarImg = radarCanvas.toDataURL('image/png');
                 const rH = Math.min((radarCanvas.height / radarCanvas.width) * CW, 105);
                 pdf.addImage(radarImg, 'PNG', M, y, CW, rH);
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 pdf.text('> COMPARATIVA POR METRICA', M, y);
                 y += 4;
 
-                const barrasCanvas = await html2canvas(document.getElementById('_pdf-barras'), { backgroundColor: '#0f172a', scale: 2, useCORS: true, logging: false });
+                const barrasCanvas = await html2canvas(document.getElementById('_pdf-barras'), { backgroundColor: '#0f172a', scale: window.devicePixelRatio > 1 ? 1 : 2, useCORS: true, logging: false });
                 const barrasImg = barrasCanvas.toDataURL('image/png');
                 const bH = Math.min((barrasCanvas.height / barrasCanvas.width) * CW, 95);
                 pdf.addImage(barrasImg, 'PNG', M, y, CW, bH);
