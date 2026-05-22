@@ -1,5 +1,12 @@
+duckdb==1.5.2
 fastapi
 uvicorn
-pydantic
-duckdb
 pandas
+numpy
+sqlalchemy
+python-multipart
+jinja2
+requests
+aiofiles
+openpyxl
+duckdb==1.5.2
