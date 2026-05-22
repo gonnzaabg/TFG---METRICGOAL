@@ -3,7 +3,7 @@ import { createUser } from './userModel.js'
 export class LoginController {
     async login(email, password, errorDisplay) {
         try {
-            const response = await fetch('/login', {  // Ruta relativa, más limpio
+            const response = await fetch('/login', {  
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

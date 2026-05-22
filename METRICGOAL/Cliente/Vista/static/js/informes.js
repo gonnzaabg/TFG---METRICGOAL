@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
         function logout() { localStorage.clear(); window.location.href = '/'; }
 
-        // ── Lee el id_equipo desde localStorage (guardado en login como 'idEquipo') ──
         function obtenerIdEquipo() {
             const claves = ['idEquipo', 'id_equipo', 'usuarioIdEquipo', 'ID_EQUIPO'];
             for (const clave of claves) {
@@ -156,7 +155,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // Recibe el objeto informe directamente (ya normalizado), sin volver a hacer fetch
         async function exportarInformePDF(inf) {
             try {
                 const { jsPDF } = window.jspdf;
@@ -167,7 +165,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const club = (localStorage.getItem('usuarioClub') || 'Club').toUpperCase();
                 const temporadaSeleccionada = inf.temporada || '—';
 
-                // ── Render gráficos ocultos en el DOM ──
                 let contenedor = document.getElementById('_pdf-graficos-temp');
                 if (!contenedor) {
                     contenedor = document.createElement('div');
@@ -198,10 +195,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     { type: 'bar', orientation: 'h', name: data.profesional.nombre, x: data.profesional.valores, y: data.labels, marker: { color: 'rgba(128,0,32,0.85)' } }
                 ], { barmode: 'group', paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: 'white', size: 12 }, xaxis: { gridcolor: 'rgba(255,255,255,0.08)', color: 'white', zeroline: false }, yaxis: { color: 'white', automargin: true, tickfont: { size: 13 } }, legend: { orientation: 'h', y: -0.18, x: 0.5, xanchor: 'center' }, margin: { t: 20, b: 60, l: 140, r: 30 } }, { staticPlot: true });
 
-                // Espera a que Plotly renderice
                 await new Promise(r => setTimeout(r, 600));
 
-                // ─── PÁGINA 1 ───────────────────────────────
                 pdf.setFillColor(8, 12, 30); pdf.rect(0, 0, W, H, 'F');
                 pdf.setFillColor(100, 0, 25); pdf.rect(0, 0, W, 42, 'F');
                 pdf.setFillColor(128, 0, 32); pdf.rect(0, 0, W * 0.5, 42, 'F');
@@ -299,14 +294,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3); pdf.line(M, y, W - M, y);
 
-                // Footer pág 1
                 pdf.setFillColor(15, 10, 30); pdf.rect(0, H - 14, W, 14, 'F');
                 pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3); pdf.line(M, H - 14, W - M, H - 14);
                 pdf.setTextColor(100, 110, 140); pdf.setFontSize(6.5); pdf.setFont('helvetica', 'normal');
                 pdf.text(`METRICGOAL · Sistema de Analisis de Cantera · ${new Date().getFullYear()}`, W / 2, H - 6, { align: 'center' });
                 pdf.setTextColor(255, 215, 0); pdf.text('1', W - M, H - 6, { align: 'right' });
 
-                // ─── PÁGINA 2: Gráficos ────────────────────
                 pdf.addPage();
                 pdf.setFillColor(8, 12, 30); pdf.rect(0, 0, W, H, 'F');
                 pdf.setFillColor(100, 0, 25); pdf.rect(0, 0, W, 20, 'F');
@@ -357,7 +350,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     pdf.text(pdf.splitTextToSize(txt, CW - 16), M + 8, y + 19);
                 }
 
-                // Footer pág 2
                 pdf.setFillColor(15, 10, 30); pdf.rect(0, H - 14, W, 14, 'F');
                 pdf.setDrawColor(255, 215, 0); pdf.setLineWidth(0.3); pdf.line(M, H - 14, W - M, H - 14);
                 pdf.setTextColor(100, 110, 140); pdf.setFontSize(6.5); pdf.setFont('helvetica', 'normal');
@@ -366,7 +358,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const fname = `MG_${data.canterano.nombre.replace(/\s+/g,'_')}_vs_${data.profesional.nombre.replace(/\s+/g,'_')}_${temporadaSeleccionada.replace('/','_')}.pdf`;
                 pdf.save(fname);
 
-                // Limpieza
                 contenedor.innerHTML = '';
 
             } catch (err) {
@@ -385,14 +376,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         window.onload = () => cargarInformesGuardados();
 
-        /* ── Cierra dropdowns al hacer click fuera ── */
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.tarjeta-informe')) {
         document.querySelectorAll('.informe-dropdown.abierto').forEach(d => d.classList.remove('abierto'));
     }
 });
  
-/* ── Genera la tarjeta DOM ── */
 function crearTarjetaInforme(inf) {
     const { totalMetricas, ganadas, pct } = calcularResumenInforme(inf);
     const fecha = formatearFecha(inf.fecha, { day: '2-digit', month: 'short', year: 'numeric' });
@@ -466,13 +455,11 @@ function crearTarjetaInforme(inf) {
         </button>
     `;
  
-    /* Eventos */
     const menuBtn = card.querySelector('.btn-informe-menu');
     const dropdown = card.querySelector('.informe-dropdown');
  
     menuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        /* Cierra otros */
         document.querySelectorAll('.informe-dropdown.abierto').forEach(d => {
             if (d !== dropdown) d.classList.remove('abierto');
         });
@@ -497,10 +484,7 @@ function crearTarjetaInforme(inf) {
  
     return card;
 }
- 
-/* ══════════════════════════════════════════
-   MODAL — abrir
-   ══════════════════════════════════════════ */
+
 function abrirModalInforme(inf) {
     const modal = document.getElementById('modal-informe');
     const panel = document.getElementById('modal-panel-inner');
@@ -517,7 +501,6 @@ function abrirModalInforme(inf) {
     const pct      = labels.length > 0 ? Math.round((ganadas / labels.length) * 100) : 0;
     const fecha    = formatearFecha(inf.fecha, { day: '2-digit', month: 'long', year: 'numeric' });
  
-    /* ── Filas de tabla ── */
     const filas = labels.map((label, i) => {
         const vC = valCan[i] ?? 0;
         const vP = valPro[i] ?? 0;
@@ -557,7 +540,6 @@ function abrirModalInforme(inf) {
         </tr>`;
     }).join('');
  
-    /* ── Color KPI victorias ── */
     const kpiColor = pct >= 60 ? '#4ade80' : pct >= 40 ? '#fbbf24' : '#f87171';
  
     panel.innerHTML = `
@@ -664,7 +646,6 @@ function abrirModalInforme(inf) {
     modal.classList.add('visible');
     document.body.style.overflow = 'hidden';
  
-    /* Dibuja radar con Chart.js */
     requestAnimationFrame(() => {
         dibujarRadarModal(labels, valCan, valPro, nombreCan, nombrePro);
     });
@@ -682,22 +663,18 @@ function cerrarModalInforme() {
 
 window.cerrarModalInforme = cerrarModalInforme;
  
-/* Cierra al click fuera del panel */
 document.getElementById('modal-informe').addEventListener('click', (e) => {
     if (e.target === document.getElementById('modal-informe')) cerrarModalInforme();
 });
  
-/* Cierra con Escape */
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') cerrarModalInforme();
 });
  
-/* ── Radar con Chart.js (CDN) ── */
 function dibujarRadarModal(labels, valCan, valPro, nombreCan, nombrePro) {
     const canvas = document.getElementById('modal-radar-canvas');
     if (!canvas) return;
  
-    /* Normaliza a 0-100 */
     const normalized = (arr) => labels.map((_, i) => {
         const maxV = Math.max(valCan[i] ?? 0, valPro[i] ?? 0);
         return maxV > 0 ? Math.round(((arr[i] ?? 0) / maxV) * 100) : 0;

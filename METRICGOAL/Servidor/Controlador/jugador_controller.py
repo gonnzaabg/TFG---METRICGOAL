@@ -2,8 +2,13 @@ from Modelo.Canterano import Canterano
 from Modelo.database import ejecutar_consulta
 from Modelo.EstadisticasTemporada import EstadisticasTemporada
 
-# Le cambiamos el nombre a la función para que sea único
+
 def gestionar_registro_canterano(datos_validados, id_equipo):
+    """
+    Registra un nuevo canterano en la base de datos.
+    Delega el guardado al modelo Canterano y devuelve
+    el resultado de la operación.
+    """
     try:
         Canterano.guardar_en_db(
             id_equipo,
@@ -17,7 +22,11 @@ def gestionar_registro_canterano(datos_validados, id_equipo):
         print(f"Error en controlador: {e}")
         return {"status": "error", "message": str(e)}
 
+
 def listar_jugadores_logic(id_equipo):
+    """
+    Devuelve la lista de jugadores pertenecientes a un equipo.
+    """
     query = "SELECT id_jugador, nombre, apellidos, edad, posicion FROM jugadores WHERE id_equipo = ?"
     df = ejecutar_consulta(query, (id_equipo,))
     
@@ -27,7 +36,12 @@ def listar_jugadores_logic(id_equipo):
         return resultado
     return []
 
+
 def obtener_stats_jugador_temporada(id_jugador, temporada):
+    """
+    Devuelve las estadísticas de un jugador en una temporada concreta.
+    Retorna la primera fila encontrada o None si no existe registro.
+    """
     query = """
         SELECT goles, asistencias, tarj_amarillas, tarj_rojas, 
                partidos_jugados, minutos_jugados, pases_clave 
@@ -37,11 +51,15 @@ def obtener_stats_jugador_temporada(id_jugador, temporada):
     df = ejecutar_consulta(query, (id_jugador, temporada))
     
     if df is not None and not df.empty:
-        return df.to_dict(orient='records')[0] # Devolvemos la primera fila encontrada
-    return None # Si no hay nada, devolvemos None
+        return df.to_dict(orient='records')[0]
+    return None
 
 
 def gestionar_registro_stats(datos_validados, id_jugador):
+    """
+    Guarda o actualiza las estadísticas de un jugador.
+    Delega el guardado al modelo EstadisticasTemporada.
+    """
     try:
         EstadisticasTemporada.guardar_estadisticas(id_jugador, datos_validados.dict())
         return {"status": "success"}
@@ -49,23 +67,26 @@ def gestionar_registro_stats(datos_validados, id_jugador):
         print(f"Error en controlador stats: {e}")
         return {"status": "error", "message": str(e)}
 
+
 def eliminar_jugador_logic(id_jugador):
+    """
+    Elimina un jugador y todas sus estadísticas asociadas.
+    Primero borra las estadísticas vinculadas para respetar
+    la integridad referencial, y luego elimina al jugador.
+    """
     try:
-        # 1. Borrar estadísticas vinculadas al jugador
-        # Usamos tu función ejecutar_consulta pasando los parámetros en una tupla (id,)
         ejecutar_consulta("DELETE FROM estadisticas_temporada WHERE id_jugador = ?", (id_jugador,))
-        
-        # 2. Borrar al jugador de la tabla principal
         ejecutar_consulta("DELETE FROM jugadores WHERE id_jugador = ?", (id_jugador,))
-        
         return {"status": "success"}
     except Exception as e:
         print(f"Error en lógica de eliminación: {e}")
         return {"status": "error", "message": str(e)}
 
+
 def obtener_profesionales_busqueda(nombre: str):
     """
-    Busca los profesionales que coincidan con el nombre proporcionado.
+    Busca jugadores profesionales cuyo nombre coincida parcialmente
+    con el texto proporcionado. Devuelve hasta 10 resultados.
     """
     query = """
         SELECT player, team, league 
@@ -74,18 +95,21 @@ def obtener_profesionales_busqueda(nombre: str):
         LIMIT 10
     """
     params = (f"%{nombre}%",)
-    
-    # Llamamos a la base de datos
     df = ejecutar_consulta(query, params)
     
-    # Si hay resultados, devolvemos los records, si no, lista vacía
     if df is not None and not df.empty:
         return df.to_dict(orient='records')
     return []
 
+
 def obtener_datos_comparativa(id_canterano, nombre_profesional, temporada="2025/26"):
+    """
+    Genera la comparativa entre un canterano y un jugador profesional.
+    Recupera las estadísticas de ambos jugadores, las normaliza bajo
+    las mismas métricas y devuelve los datos listos para renderizar
+    en los gráficos del frontend.
+    """
     try:
-        # 1. CANTERANO — filtramos por la temporada seleccionada
         query_can = """
             SELECT j.nombre, e.goles, e.asistencias, e.pases_clave, 
                    e.tarj_amarillas, e.tarj_rojas
@@ -95,7 +119,6 @@ def obtener_datos_comparativa(id_canterano, nombre_profesional, temporada="2025/
         """
         df_can = ejecutar_consulta(query_can, (id_canterano, temporada))
         
-        # 2. PROFESIONAL
         query_pro = """
             SELECT player, goals, assists, key_passes, yellow_cards, red_cards 
             FROM profesionales WHERE player = ?
@@ -136,7 +159,12 @@ def obtener_datos_comparativa(id_canterano, nombre_profesional, temporada="2025/
         print(f"Error en comparativa totales: {e}")
         return {"error": str(e)}
 
+
 def obtener_stats_destacados(id_equipo):
+    """
+    Devuelve el máximo goleador y el máximo asistente del equipo
+    en cualquier temporada registrada.
+    """
     goleador = ejecutar_consulta("""
         SELECT j.nombre, j.apellidos, MAX(e.goles) as goles
         FROM jugadores j
@@ -162,7 +190,13 @@ def obtener_stats_destacados(id_equipo):
         "asistente": asistente.to_dict(orient='records')[0] if asistente is not None and not asistente.empty else None
     }
 
+
 def obtener_stats_equipo(id_equipo):
+    """
+    Devuelve las estadísticas globales acumuladas del equipo:
+    total de jugadores, goles, asistencias, partidos y pases clave.
+    Si no hay datos devuelve todos los valores a cero.
+    """
     result = ejecutar_consulta("""
         SELECT 
             COUNT(DISTINCT j.id_jugador) as total_jugadores,
@@ -174,8 +208,7 @@ def obtener_stats_equipo(id_equipo):
         LEFT JOIN estadisticas_temporada e ON j.id_jugador = e.id_jugador
         WHERE j.id_equipo = ?
     """, (id_equipo,))
+
     if result is not None and not result.empty:
         return result.to_dict(orient='records')[0]
     return {"total_jugadores": 0, "total_goles": 0, "total_asistencias": 0, "total_partidos": 0, "total_pases_clave": 0}
-
-    

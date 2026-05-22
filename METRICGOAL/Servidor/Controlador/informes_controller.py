@@ -3,13 +3,16 @@ from Modelo.database import ejecutar_consulta
 
 
 def guardar_informe_logic(id_equipo, informe):
+    """
+    Guarda un informe comparativo en la base de datos asociado a un equipo.
+    Extrae el nombre del canterano y profesional del objeto datos para
+    facilitar búsquedas rápidas, y serializa el objeto completo en datos_json.
+    """
     try:
         query = """
             INSERT INTO informes (id_equipo, fecha, temporada, canterano, profesional, datos_json)
             VALUES (?, ?, ?, ?, ?, ?)
         """
-        # canterano y profesional son strings (nombres) para búsquedas rápidas en BD
-        # datos contiene el objeto completo {canterano:{nombre,valores}, profesional:{nombre,valores}, labels:[]}
         canterano_nombre = informe['datos'].get('canterano', {}).get('nombre', informe.get('canterano', ''))
         profesional_nombre = informe['datos'].get('profesional', {}).get('nombre', informe.get('profesional', ''))
 
@@ -35,6 +38,11 @@ def guardar_informe_logic(id_equipo, informe):
 
 
 def listar_informes_logic(id_equipo):
+    """
+    Devuelve los últimos 20 informes guardados de un equipo.
+    Deserializa el JSON de cada informe y aplana los datos para que
+    el frontend pueda acceder directamente a canterano, profesional y labels.
+    """
     try:
         query = """
             SELECT id_informe, fecha, temporada, canterano, profesional, datos_json
@@ -53,11 +61,9 @@ def listar_informes_logic(id_equipo):
                     "id": row['id_informe'],
                     "fecha": row['fecha'],
                     "temporada": row['temporada'],
-                    # El front accede a inf.canterano.nombre, inf.profesional.nombre, inf.labels
-                    # así que aplanamos datos directamente aquí:
-                    "canterano": datos.get("canterano"),    # {nombre, valores}
-                    "profesional": datos.get("profesional"), # {nombre, valores}
-                    "labels": datos.get("labels"),           # ["Goles", "Asistencias", ...]
+                    "canterano": datos.get("canterano"),
+                    "profesional": datos.get("profesional"),
+                    "labels": datos.get("labels"),
                 })
             return informes
         return []
@@ -67,6 +73,11 @@ def listar_informes_logic(id_equipo):
 
 
 def borrar_informe_logic(id_informe, id_equipo):
+    """
+    Elimina un informe de la base de datos.
+    Usa el id_equipo como medida de seguridad para evitar
+    que un usuario borre informes de otro equipo.
+    """
     try:
         query = "DELETE FROM informes WHERE id_informe = ? AND id_equipo = ?"
         ejecutar_consulta(query, (id_informe, id_equipo))

@@ -1,7 +1,12 @@
 import pandas as pd
 from Modelo.database import ejecutar_consulta
 
-def verificar_credenciales(email, password_input): # <--- Aquí se llama password_input
+def verificar_credenciales(email, password_input):
+    """
+    Verifica las credenciales de un miembro del cuerpo técnico.
+    Busca en la BD un usuario con el email y password proporcionados
+    y devuelve sus datos si existe, o None si las credenciales son incorrectas.
+    """
     query = """
         SELECT 
             ct.nombre, 
@@ -14,7 +19,6 @@ def verificar_credenciales(email, password_input): # <--- Aquí se llama passwor
         WHERE ct.email = ? AND ct.password = ?
     """
     
-    # CAMBIO AQUÍ: Usamos password_input, que es como se llama tu variable
     df = ejecutar_consulta(query, (email, password_input)) 
     
     if df is not None and not df.empty:

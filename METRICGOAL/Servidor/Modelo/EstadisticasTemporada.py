@@ -1,7 +1,15 @@
 from Modelo.database import ejecutar_consulta
 
+
 class EstadisticasTemporada:
+    """
+    Representa las estadísticas de un jugador en una temporada concreta.
+    """
+
     def __init__(self, id_jugador, temporada, goles, asistencias, amarillas, rojas, partidos, minutos, pases_clave):
+        """
+        Inicializa un registro de estadísticas con todos los datos de la temporada.
+        """
         self.id_jugador = id_jugador
         self.temporada = temporada
         self.goles = goles
@@ -14,7 +22,10 @@ class EstadisticasTemporada:
 
     @staticmethod
     def guardar_estadisticas(id_jugador, d):
-        # 'd' es el diccionario con los datos
+        """
+        Inserta o actualiza las estadísticas de un jugador para una temporada.
+        Si ya existe un registro para ese jugador y temporada, sobreescribe los valores.
+        """
         sql = """
             INSERT INTO estadisticas_temporada 
             (id_jugador, temporada, goles, asistencias, tarj_amarillas, tarj_rojas, partidos_jugados, minutos_jugados, pases_clave)
